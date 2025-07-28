@@ -109,7 +109,7 @@ const allStyles = layer
   }))
   .toResultArray();
 
-// Result: Array of all text formatting in the layer
+// Result: Array of all text formatting in the layer 
 ```
 
 #### 3. Layer Bounds - Modern PS with Direct Width/Height

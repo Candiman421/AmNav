@@ -139,6 +139,62 @@ declare global {
 }
 
 /**
+ * Exported interface versions of global ActionManager classes
+ * for import compatibility with development code
+ */
+export interface ActionDescriptor {
+    count: number;
+    hasKey(key: number): boolean;
+    getObjectValue(key: number): ActionDescriptor;
+    getList(key: number): ActionList;
+    getString(key: number): string;
+    getDouble(key: number): number;
+    getInteger(key: number): number;
+    getBoolean(key: number): boolean;
+    getEnumerationValue(key: number): number;
+    getEnumerationType(key: number): number;
+    getReference(key: number): ActionReference;
+    getClass(key: number): number;
+    getPath(key: number): File;
+    getData(key: number): string;
+    getType(key: number): number;
+    getUnitDoubleType(key: number): number;
+    getUnitDoubleValue(key: number): number;
+    getLargeInteger(key: number): number;
+    getObjectType(key: number): number;
+}
+
+export interface ActionReference {
+    putEnumerated(classID: number, typeID: number, enumID: number): void;
+    putIndex(classID: number, index: number): void;
+    putProperty(classID: number, propertyID: number): void;
+    putName(classID: number, name: string): void;
+    putIdentifier(classID: number, identifier: number): void;
+    putOffset(classID: number, offset: number): void;
+}
+
+export interface ActionList {
+    count: number;
+    getObjectValue(index: number): ActionDescriptor;
+    getString(index: number): string;
+    getDouble(index: number): number;
+    getInteger(index: number): number;
+    getBoolean(index: number): boolean;
+    getEnumerationValue(index: number): number;
+    getReference(index: number): ActionReference;
+    getClass(index: number): number;
+    getList(index: number): ActionList;
+    getType(index: number): number;
+    getData(index: number): string;
+    getPath(index: number): File;
+    getUnitDoubleType(index: number): number;
+    getUnitDoubleValue(index: number): number;
+    getLargeInteger(index: number): number;
+    getObjectType(index: number): number;
+    getEnumerationType(index: number): number;
+}
+
+/**
  * Valid ActionManager value types for property extraction
  * 
  * @example Best - Type-safe property access

@@ -1,0 +1,431 @@
+<?xml  version="1.0" encoding="iso-8859-1"  ?>
+<PhotoshopInfo>
+<ActionDescriptor count="61">
+  <Enumerated symname="Mode" sym="Md  " enumeratedTypeString="ColorSpace" enumeratedType="ClrS" enumeratedValueString="RGBColor" enumeratedValue="RGBC"/>
+  <Integer symname="BigNudgeH" sym="BgNH" integer="655360"/>
+  <Integer symname="BigNudgeV" sym="BgNV" integer="655360"/>
+  <Integer symname="RulerOriginH" sym="RlrH" integer="0"/>
+  <Integer symname="RulerOriginV" sym="RlrV" integer="0"/>
+  <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="800"/>
+  <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="600"/>
+  <UnitDouble symname="Resolution" sym="Rslt" unitDoubleTypeString="Density" unitDoubleType="#Rsl" unitDoubleValue="72"/>
+  <String symname="Title" sym="Ttl " string="simple-title_updated01.psd"/>
+  <Object symname="FileInfo" sym="FlIn" objectTypeString="FileInfo" objectType="FlIn" count="0"/>
+  <Integer symname="NumberOfPaths" sym="NmbP" integer="0"/>
+  <Integer symname="NumberOfChannels" sym="NmbO" integer="3"/>
+  <Integer symname="NumberOfLevels" sym="NmbL" integer="1"/>
+  <Integer symname="TargetPathIndex" sym="TrgP" integer="-1"/>
+  <Integer symname="WorkPathIndex" sym="WrkP" integer="-1"/>
+  <Object symname="ClippingPathInfo" sym="Clpg" objectTypeString="ClippingInfo" objectType="Clpo" count="2">
+    <Integer symname="ClippingPathIndex" sym="ClpI" integer="-1"/>
+    <Integer symname="ClippingPathFlatness" sym="ClpF" integer="0"/>
+  </Object>
+  <Integer symname="Depth" sym="Dpth" integer="8"/>
+  <Alias symname="FileReference" sym="FilR" path="/c/Utilities/DocInspector/FluentExtractorV4.1/tests/assets/simple-title_updated01.psd"/>
+  <Integer symname="DocumentID" sym="DocI" integer="84"/>
+  <Boolean symname="Copyright" sym="Cpyr" boolean="false"/>
+  <Boolean symname="Watermark" sym="watr" boolean="false"/>
+  <Boolean symname="IsDirty" sym="IsDr" boolean="false"/>
+  <Integer symname="Count" sym="Cnt " integer="1"/>
+  <Integer symname="ItemIndex" sym="ItmI" integer="1"/>
+  <Enumerated symname="manage" sym="manage" enumeratedTypeString="manage" enumeratedType="manage" enumeratedValueString="None" enumeratedValue="None"/>
+  <String symname="Format" sym="Fmt " string="Photoshop"/>
+  <List symname="Extension" sym="Extn" count="3">
+    <String string="PSD"/>
+    <String string="PDD"/>
+    <String string="PSDT"/>
+  </List>
+  <String symname="mimeType" sym="mimeType" string="application/vnd.adobe.photoshop"/>
+  <Boolean symname="QuickMask" sym="QucM" boolean="false"/>
+  <List symname="Histogram" sym="Hstg" count="256">
+    <Integer integer="5451"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="0"/>
+    <Integer integer="474549"/>
+  </List>
+  <String symname="EXIF" sym="EXIF" string="EXIF tag 100274 Normal&#xD;EXIF tag 100282 72.0&#xD;EXIF tag 100283 72.0&#xD;EXIF tag 100296 Inches&#xD;EXIF tag 100305 Adobe Photoshop 26.8 (Windows)&#xD;EXIF tag 100306 2025:07:27 21:05:54&#xD;EXIF tag 140961 Uncalibrated&#xD;EXIF tag 140962 800&#xD;EXIF tag 140963 600&#xD;"/>
+  <UnitDouble symname="pixelScaleFactor" sym="pixelScaleFactor" unitDoubleTypeString="None" unitDoubleType="#Nne" unitDoubleValue="1"/>
+  <String symname="XMPMetadataAsUTF8" sym="XMPMetadataAsUTF8" string="&lt;?xpacket begin=&quot;﻿&quot; id=&quot;W5M0MpCehiHzreSzNTczkc9d&quot;?>&#xA;&lt;x:xmpmeta xmlns:x=&quot;adobe:ns:meta/&quot; x:xmptk=&quot;Adobe XMP Core 9.1-c003 79.9690a87, 2025/03/06-19:12:03        &quot;>&#xA;   &lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;>&#xA;      &lt;rdf:Description rdf:about=&quot;&quot;&#xA;            xmlns:xmp=&quot;http://ns.adobe.com/xap/1.0/&quot;&#xA;            xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;&#xA;            xmlns:photoshop=&quot;http://ns.adobe.com/photoshop/1.0/&quot;&#xA;            xmlns:xmpMM=&quot;http://ns.adobe.com/xap/1.0/mm/&quot;&#xA;            xmlns:stEvt=&quot;http://ns.adobe.com/xap/1.0/sType/ResourceEvent#&quot;&#xA;            xmlns:tiff=&quot;http://ns.adobe.com/tiff/1.0/&quot;&#xA;            xmlns:exif=&quot;http://ns.adobe.com/exif/1.0/&quot;>&#xA;         &lt;xmp:CreatorTool>Adobe Photoshop 26.8 (Windows)&lt;/xmp:CreatorTool>&#xA;         &lt;xmp:CreateDate>2025-07-27T21:03:40-05:00&lt;/xmp:CreateDate>&#xA;         &lt;xmp:ModifyDate>2025-07-27T21:05:54-05:00&lt;/xmp:ModifyDate>&#xA;         &lt;xmp:MetadataDate>2025-07-27T21:05:54-05:00&lt;/xmp:MetadataDate>&#xA;         &lt;dc:format>application/vnd.adobe.photoshop&lt;/dc:format>&#xA;         &lt;photoshop:ColorMode>3&lt;/photoshop:ColorMode>&#xA;         &lt;photoshop:TextLayers>&#xA;            &lt;rdf:Bag>&#xA;               &lt;rdf:li rdf:parseType=&quot;Resource&quot;>&#xA;                  &lt;photoshop:LayerName>Sample Title&lt;/photoshop:LayerName>&#xA;                  &lt;photoshop:LayerText>Hello World&lt;/photoshop:LayerText>&#xA;               &lt;/rdf:li>&#xA;            &lt;/rdf:Bag>&#xA;         &lt;/photoshop:TextLayers>&#xA;         &lt;xmpMM:InstanceID>xmp.iid:3a2b56d8-04f6-7448-a7f3-028e5f8ab184&lt;/xmpMM:InstanceID>&#xA;         &lt;xmpMM:DocumentID>adobe:docid:photoshop:c910df34-434e-014f-b7a5-f0496e7ff96c&lt;/xmpMM:DocumentID>&#xA;         &lt;xmpMM:OriginalDocumentID>xmp.did:758cd7cc-3ac2-c24a-a680-691ad0080015&lt;/xmpMM:OriginalDocumentID>&#xA;         &lt;xmpMM:History>&#xA;            &lt;rdf:Seq>&#xA;               &lt;rdf:li rdf:parseType=&quot;Resource&quot;>&#xA;                  &lt;stEvt:action>created&lt;/stEvt:action>&#xA;                  &lt;stEvt:instanceID>xmp.iid:758cd7cc-3ac2-c24a-a680-691ad0080015&lt;/stEvt:instanceID>&#xA;                  &lt;stEvt:when>2025-07-27T21:03:40-05:00&lt;/stEvt:when>&#xA;                  &lt;stEvt:softwareAgent>Adobe Photoshop 26.8 (Windows)&lt;/stEvt:softwareAgent>&#xA;               &lt;/rdf:li>&#xA;               &lt;rdf:li rdf:parseType=&quot;Resource&quot;>&#xA;                  &lt;stEvt:action>saved&lt;/stEvt:action>&#xA;                  &lt;stEvt:instanceID>xmp.iid:3a2b56d8-04f6-7448-a7f3-028e5f8ab184&lt;/stEvt:instanceID>&#xA;                  &lt;stEvt:when>2025-07-27T21:05:54-05:00&lt;/stEvt:when>&#xA;                  &lt;stEvt:softwareAgent>Adobe Photoshop 26.8 (Windows)&lt;/stEvt:softwareAgent>&#xA;                  &lt;stEvt:changed>/&lt;/stEvt:changed>&#xA;               &lt;/rdf:li>&#xA;            &lt;/rdf:Seq>&#xA;         &lt;/xmpMM:History>&#xA;         &lt;tiff:Orientation>1&lt;/tiff:Orientation>&#xA;         &lt;tiff:XResolution>720000/10000&lt;/tiff:XResolution>&#xA;         &lt;tiff:YResolution>720000/10000&lt;/tiff:YResolution>&#xA;         &lt;tiff:ResolutionUnit>2&lt;/tiff:ResolutionUnit>&#xA;         &lt;exif:ColorSpace>65535&lt;/exif:ColorSpace>&#xA;         &lt;exif:PixelXDimension>800&lt;/exif:PixelXDimension>&#xA;         &lt;exif:PixelYDimension>600&lt;/exif:PixelYDimension>&#xA;      &lt;/rdf:Description>&#xA;   &lt;/rdf:RDF>&#xA;&lt;/x:xmpmeta>&#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                                                                                                    &#xA;                            &#xA;&lt;?xpacket end=&quot;w&quot;?>"/>
+  <Object symname="measurementScale" sym="measurementScale" objectTypeString="measurementScale" objectType="measurementScale" count="2">
+    <Reference symname="Target" sym="null" count="2">
+      <Property symname="Property" sym="Prpr" desiredClassString="Property" desiredClass="Prpr" propertyName="measurementScale" propertySym="measurementScale"/>
+      <Enumerated symname="Document" sym="Dcmn" desiredClassString="Document" desiredClass="Dcmn" enumeratedTypeString="Ordinal" enumeratedType="Ordn" enumeratedValueString="Target" enumeratedValue="Trgt"/>
+    </Reference>
+    <Object symname="To" sym="T   " objectTypeString="measurementScale" objectType="measurementScale" count="3">
+      <Integer symname="pixelLength" sym="pixelLength" integer="1"/>
+      <Double symname="logicalLength" sym="logicalLength" double="1"/>
+      <String symname="logicalUnits" sym="logicalUnits" string="pixels"/>
+    </Object>
+  </Object>
+  <List symname="targetLayers" sym="targetLayers" count="1">
+    <Reference count="1">
+      <Index symname="Layer" sym="Lyr " desiredClassString="Layer" desiredClass="Lyr " index="0"/>
+    </Reference>
+  </List>
+  <List symname="targetLayersIDs" sym="targetLayersIDs" count="1">
+    <Reference count="1">
+      <Identifier symname="Layer" sym="Lyr " desiredClassString="Layer" desiredClass="Lyr " identifier="2"/>
+    </Reference>
+  </List>
+  <List symname="targetLayersIndexes" sym="targetLayersIndexes" count="1">
+    <Reference count="1">
+      <Index symname="Layer" sym="Lyr " desiredClassString="Layer" desiredClass="Lyr " index="0"/>
+    </Reference>
+  </List>
+  <UnitDouble symname="Zoom" sym="Zm  " unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="1"/>
+  <Integer symname="printCopies" sym="printCopies" integer="1"/>
+  <String symname="printCurrentPrinter" sym="printCurrentPrinter" string="Microsoft Print to PDF"/>
+  <List symname="printerList" sym="printerList" count="3">
+    <String string="OneNote (Desktop) - Protected"/>
+    <String string="OneNote (Desktop)"/>
+    <String string="Microsoft Print to PDF"/>
+  </List>
+  <Enumerated symname="printColorHandling" sym="printColorHandling" enumeratedTypeString="printColorHandling" enumeratedType="printColorHandling" enumeratedValueString="printerManaged" enumeratedValue="printerManaged"/>
+  <Object symname="printOutputOptions" sym="printOutputOptions" objectTypeString="printOutputOptions" objectType="printOutputOptions" count="23">
+    <Boolean symname="Caption" sym="Cptn" boolean="false"/>
+    <Boolean symname="CalibrationBars" sym="Clbr" boolean="false"/>
+    <Boolean symname="RegistrationMarks" sym="RgsM" boolean="false"/>
+    <Boolean symname="CornerCropMarks" sym="CrnC" boolean="false"/>
+    <Boolean symname="CenterCropMarks" sym="CntC" boolean="false"/>
+    <Boolean symname="Labels" sym="Lbls" boolean="false"/>
+    <Boolean symname="Negative" sym="Ngtv" boolean="false"/>
+    <Boolean symname="EmulsionDown" sym="EmlD" boolean="false"/>
+    <Boolean symname="Interpolation" sym="Intr" boolean="false"/>
+    <Object symname="Background" sym="Bckg" objectTypeString="RGBColor" objectType="RGBC" count="3">
+      <Double symname="Red" sym="Rd  " double="255"/>
+      <Double symname="Green" sym="Grn " double="255"/>
+      <Double symname="Blue" sym="Bl  " double="255"/>
+    </Object>
+    <UnitDouble symname="BorderThickness" sym="BrdT" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="0"/>
+    <UnitDouble symname="Bleed" sym="Bld " unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="0"/>
+    <UnitDouble symname="Resolution" sym="Rslt" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="72"/>
+    <Boolean symname="vectorData" sym="vectorData" boolean="true"/>
+    <Enumerated symname="PagePosition" sym="PgPs" enumeratedTypeString="PagePosition" enumeratedType="PgPs" enumeratedValueString="PagePosCentered" enumeratedValue="PgPC"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="0"/>
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="0"/>
+    <UnitDouble symname="Scale" sym="Scl " unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="100"/>
+    <Boolean symname="cropWhenPrinting" sym="cropWhenPrinting" boolean="false"/>
+    <Integer symname="cropRectBottom" sym="cropRectBottom" integer="0"/>
+    <Integer symname="cropRectLeft" sym="cropRectLeft" integer="0"/>
+    <Integer symname="cropRectRight" sym="cropRectRight" integer="0"/>
+    <Integer symname="cropRectTop" sym="cropRectTop" integer="0"/>
+  </Object>
+  <Object symname="printOutput" sym="printOutput" objectTypeString="printOutput" objectType="printOutput" count="5">
+    <Boolean symname="PostScriptColor" sym="PstS" boolean="true"/>
+    <Enumerated symname="Intent" sym="Inte" enumeratedTypeString="Intent" enumeratedType="Inte" enumeratedValueString="Colorimetric" enumeratedValue="Clrm"/>
+    <Boolean symname="printSixteenBit" sym="printSixteenBit" boolean="false"/>
+    <String symname="printerName" sym="printerName" string=""/>
+    <Object symname="printProofSetup" sym="printProofSetup" objectTypeString="proofSetup" objectType="proofSetup" count="1">
+      <Enumerated symname="Builtin" sym="Bltn" enumeratedTypeString="builtinProof" enumeratedType="builtinProof" enumeratedValueString="proofCMYK" enumeratedValue="proofCMYK"/>
+    </Object>
+  </Object>
+  <Boolean symname="selectionEdgesVisible" sym="selectionEdgesVisible" boolean="false"/>
+  <Object symname="Contrast" sym="Cntr" objectTypeString="Point" objectType="Pnt " count="2">
+    <UnitDouble symname="Horizontal" sym="Hrzn" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="400"/>
+    <UnitDouble symname="Vertical" sym="Vrtc" unitDoubleTypeString="Distance" unitDoubleType="#Rlt" unitDoubleValue="300"/>
+  </Object>
+  <Boolean symname="hasBackgroundLayer" sym="hasBackgroundLayer" boolean="false"/>
+  <Object symname="generatorSettings" sym="generatorSettings" objectTypeString="generatorSettings" objectType="generatorSettings" count="0"/>
+  <Boolean symname="Visible" sym="Vsbl" boolean="true"/>
+  <Boolean symname="targetPathVisibility" sym="targetPathVisibility" boolean="true"/>
+  <Boolean symname="guidesVisibility" sym="guidesVisibility" boolean="true"/>
+  <Boolean symname="smartGuidesVisibility" sym="smartGuidesVisibility" boolean="true"/>
+  <Boolean symname="rulersVisibility" sym="rulersVisibility" boolean="false"/>
+  <Boolean symname="isCloudDoc" sym="isCloudDoc" boolean="false"/>
+  <Object symname="slices" sym="slices" objectTypeString="Null" objectType="null" count="2">
+    <Object symname="bounds" sym="bounds" objectTypeString="Rect16" objectType="Rct1" count="4">
+      <Integer symname="Top" sym="Top " integer="0"/>
+      <Integer symname="Left" sym="Left" integer="0"/>
+      <Integer symname="Bottom" sym="Btom" integer="600"/>
+      <Integer symname="Right" sym="Rght" integer="800"/>
+    </Object>
+    <List symname="slices" sym="slices" count="1">
+      <Object objectTypeString="slice" objectType="slice" count="18">
+        <Integer symname="sliceID" sym="sliceID" integer="0"/>
+        <Integer symname="groupID" sym="groupID" integer="0"/>
+        <Enumerated symname="origin" sym="origin" enumeratedTypeString="ESliceOrigin" enumeratedType="ESliceOrigin" enumeratedValueString="autoGenerated" enumeratedValue="autoGenerated"/>
+        <Enumerated symname="Type" sym="Type" enumeratedTypeString="ESliceType" enumeratedType="ESliceType" enumeratedValueString="Image" enumeratedValue="Img "/>
+        <Object symname="bounds" sym="bounds" objectTypeString="Rect16" objectType="Rct1" count="4">
+          <Integer symname="Top" sym="Top " integer="0"/>
+          <Integer symname="Left" sym="Left" integer="0"/>
+          <Integer symname="Bottom" sym="Btom" integer="600"/>
+          <Integer symname="Right" sym="Rght" integer="800"/>
+        </Object>
+        <String symname="url" sym="url" string=""/>
+        <String symname="Target" sym="null" string=""/>
+        <String symname="Message" sym="Msge" string=""/>
+        <String symname="altTag" sym="altTag" string=""/>
+        <Boolean symname="cellTextIsHTML" sym="cellTextIsHTML" boolean="true"/>
+        <String symname="cellText" sym="cellText" string=""/>
+        <Enumerated symname="horzAlign" sym="horzAlign" enumeratedTypeString="ESliceHorzAlign" enumeratedType="ESliceHorzAlign" enumeratedValueString="default" enumeratedValue="default"/>
+        <Enumerated symname="vertAlign" sym="vertAlign" enumeratedTypeString="ESliceVertAlign" enumeratedType="ESliceVertAlign" enumeratedValueString="default" enumeratedValue="default"/>
+        <Enumerated symname="bgColorType" sym="bgColorType" enumeratedTypeString="ESliceBGColorType" enumeratedType="ESliceBGColorType" enumeratedValueString="None" enumeratedValue="None"/>
+        <Integer symname="topOutset" sym="topOutset" integer="0"/>
+        <Integer symname="leftOutset" sym="leftOutset" integer="0"/>
+        <Integer symname="bottomOutset" sym="bottomOutset" integer="0"/>
+        <Integer symname="rightOutset" sym="rightOutset" integer="0"/>
+      </Object>
+    </List>
+  </Object>
+  <Boolean symname="patternPreviewMode" sym="patternPreviewMode" boolean="false"/>
+  <Integer symname="DuotoneInk" sym="DtnI" integer="0"/>
+  <Object symname="backgroundSaveInfo" sym="backgroundSaveInfo" objectTypeString="Null" objectType="null" count="1">
+    <Boolean symname="isPendingNormalSave" sym="isPendingNormalSave" boolean="false"/>
+  </Object>
+  <Boolean symname="contentCredentialsEnabled" sym="contentCredentialsEnabled" boolean="false"/>
+  <Boolean symname="isUsingGenTech" sym="isUsingGenTech" boolean="false"/>
+  <List symname="genTechModelsUsed" sym="genTechModelsUsed" count="0"/>
+</ActionDescriptor>
+</PhotoshopInfo>

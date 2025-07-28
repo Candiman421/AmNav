@@ -1,0 +1,967 @@
+<?xml  version="1.0" encoding="iso-8859-1"  ?>
+<PhotoshopInfo>
+<ActionDescriptor count="45">
+  <String symname="Name" sym="Nm  " string="Header Text"/>
+  <Enumerated symname="Color" sym="Clr " enumeratedTypeString="Color" enumeratedType="Clr " enumeratedValueString="None" enumeratedValue="None"/>
+  <Boolean symname="Visible" sym="Vsbl" boolean="true"/>
+  <Enumerated symname="Mode" sym="Md  " enumeratedTypeString="BlendMode" enumeratedType="BlnM" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+  <Integer symname="Opacity" sym="Opct" integer="255"/>
+  <Integer symname="LayerID" sym="LyrI" integer="2"/>
+  <Integer symname="ItemIndex" sym="ItmI" integer="1"/>
+  <Integer symname="Count" sym="Cnt " integer="3"/>
+  <Boolean symname="PreserveTransparency" sym="PrsT" boolean="false"/>
+  <Boolean symname="LayerFXVisible" sym="lfxv" boolean="false"/>
+  <Integer symname="GlobalAngle" sym="gblA" integer="30"/>
+  <Boolean symname="Background" sym="Bckg" boolean="false"/>
+  <Object symname="Text" sym="Txt " objectTypeString="TextLayer" objectType="TxLr" count="13">
+    <String symname="Text" sym="Txt " string="Header Title"/>
+    <Object symname="warp" sym="warp" objectTypeString="warp" objectType="warp" count="5">
+      <Enumerated symname="warpStyle" sym="warpStyle" enumeratedTypeString="warpStyle" enumeratedType="warpStyle" enumeratedValueString="warpNone" enumeratedValue="warpNone"/>
+      <Double symname="warpValue" sym="warpValue" double="0"/>
+      <Double symname="warpPerspective" sym="warpPerspective" double="0"/>
+      <Double symname="warpPerspectiveOther" sym="warpPerspectiveOther" double="0"/>
+      <Enumerated symname="warpRotate" sym="warpRotate" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    </Object>
+    <Object symname="TextureCoverage" sym="TxtC" objectTypeString="Point" objectType="Pnt " count="2">
+      <UnitDouble symname="Horizontal" sym="Hrzn" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="8.33333333333333"/>
+      <UnitDouble symname="Vertical" sym="Vrtc" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="12.5"/>
+    </Object>
+    <Enumerated symname="textGridding" sym="textGridding" enumeratedTypeString="textGridding" enumeratedType="textGridding" enumeratedValueString="None" enumeratedValue="None"/>
+    <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    <Enumerated symname="AntiAlias" sym="AntA" enumeratedTypeString="AntiAlias" enumeratedType="Annt" enumeratedValueString="antiAliasSharp" enumeratedValue="antiAliasSharp"/>
+    <Enumerated symname="TxMg" sym="TxMg" enumeratedTypeString="TxMg" enumeratedType="TxMg" enumeratedValueString="TxNM" enumeratedValue="TxNM"/>
+    <Object symname="bounds" sym="bounds" objectTypeString="bounds" objectType="bounds" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-61.787109375"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="388.1953125"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="23.37890625"/>
+    </Object>
+    <Object symname="boundingBox" sym="boundingBox" objectTypeString="boundingBox" objectType="boundingBox" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="6"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-52"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="385.15234375"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="1"/>
+    </Object>
+    <List symname="textShape" sym="textShape" count="1">
+      <Object objectTypeString="textShape" objectType="textShape" count="12">
+        <Enumerated symname="textType" sym="textType" enumeratedTypeString="textType" enumeratedType="textType" enumeratedValueString="Point" enumeratedValue="Pnt "/>
+        <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+        <Object symname="Transform" sym="Trnf" objectTypeString="Transform" objectType="Trnf" count="6">
+          <Double symname="xx" sym="xx" double="1"/>
+          <Double symname="xy" sym="xy" double="0"/>
+          <Double symname="yx" sym="yx" double="0"/>
+          <Double symname="yy" sym="yy" double="1"/>
+          <Double symname="tx" sym="tx" double="0"/>
+          <Double symname="ty" sym="ty" double="0"/>
+        </Object>
+        <Integer symname="rowCount" sym="rowCount" integer="1"/>
+        <Integer symname="columnCount" sym="columnCount" integer="1"/>
+        <Boolean symname="rowMajorOrder" sym="rowMajorOrder" boolean="true"/>
+        <UnitDouble symname="rowGutter" sym="rowGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="columnGutter" sym="columnGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="Spacing" sym="Spcn" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Enumerated symname="frameBaselineAlignment" sym="frameBaselineAlignment" enumeratedTypeString="frameBaselineAlignment" enumeratedType="frameBaselineAlignment" enumeratedValueString="alignByAscent" enumeratedValue="alignByAscent"/>
+        <UnitDouble symname="firstBaselineMinimum" sym="firstBaselineMinimum" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Object symname="base" sym="base" objectTypeString="Point" objectType="Pnt " count="2">
+          <Double symname="Horizontal" sym="Hrzn" double="0"/>
+          <Double symname="Vertical" sym="Vrtc" double="0"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="TextStyleRange" sym="Txtt" count="1">
+      <Object objectTypeString="TextStyleRange" objectType="Txtt" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="13"/>
+        <Object symname="TextStyle" sym="TxtS" objectTypeString="TextStyle" objectType="TxtS" count="13">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <String symname="fontPostScriptName" sym="fontPostScriptName" string="ArialMT"/>
+          <String symname="FontName" sym="FntN" string="Arial"/>
+          <String symname="FontStyleName" sym="FntS" string="Regular"/>
+          <Integer symname="FontScript" sym="Scrp" integer="0"/>
+          <Integer symname="FontTechnology" sym="FntT" integer="1"/>
+          <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+          <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="72"/>
+          <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="72"/>
+          <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+          <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+          <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+            <Double symname="Red" sym="Rd  " double="255"/>
+            <Double symname="Green" sym="Grn " double="255"/>
+            <Double symname="Blue" sym="Bl  " double="255"/>
+          </Object>
+          <Object symname="baseParentStyle" sym="baseParentStyle" objectTypeString="TextStyle" objectType="TxtS" count="80">
+            <String symname="fontPostScriptName" sym="fontPostScriptName" string="MyriadPro-Regular"/>
+            <String symname="FontName" sym="FntN" string="Myriad Pro"/>
+            <String symname="FontStyleName" sym="FntS" string="Regular"/>
+            <Integer symname="FontScript" sym="Scrp" integer="0"/>
+            <Integer symname="FontTechnology" sym="FntT" integer="0"/>
+            <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+            <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <Double symname="HorizontalScale" sym="HrzS" double="100"/>
+            <Double symname="VerticalScale" sym="VrtS" double="100"/>
+            <Boolean symname="syntheticBold" sym="syntheticBold" boolean="false"/>
+            <Boolean symname="syntheticItalic" sym="syntheticItalic" boolean="false"/>
+            <Boolean symname="autoLeading" sym="autoLeading" boolean="true"/>
+            <Integer symname="Tracking" sym="Trck" integer="0"/>
+            <UnitDouble symname="BaselineShift" sym="Bsln" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="impliedBaselineShift" sym="impliedBaselineShift" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Double symname="characterRotation" sym="characterRotation" double="0"/>
+            <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+            <Enumerated symname="fontCaps" sym="fontCaps" enumeratedTypeString="fontCaps" enumeratedType="fontCaps" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="digitSet" sym="digitSet" enumeratedTypeString="digitSet" enumeratedType="digitSet" enumeratedValueString="defaultDigits" enumeratedValue="defaultDigits"/>
+            <Enumerated symname="dirOverride" sym="dirOverride" enumeratedTypeString="dirOverride" enumeratedType="dirOverride" enumeratedValueString="dirOverrideDefault" enumeratedValue="dirOverrideDefault"/>
+            <Enumerated symname="kashidas" sym="kashidas" enumeratedTypeString="kashidas" enumeratedType="kashidas" enumeratedValueString="kashidaDefault" enumeratedValue="kashidaDefault"/>
+            <Enumerated symname="diacVPos" sym="diacVPos" enumeratedTypeString="diacVPos" enumeratedType="diacVPos" enumeratedValueString="diacVPosOpenType" enumeratedValue="diacVPosOpenType"/>
+            <UnitDouble symname="diacXOffset" sym="diacXOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="diacYOffset" sym="diacYOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="markYDistFromBaseline" sym="markYDistFromBaseline" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="100"/>
+            <Enumerated symname="baseline" sym="baseline" enumeratedTypeString="baseline" enumeratedType="baseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="strikethrough" sym="strikethrough" enumeratedTypeString="strikethrough" enumeratedType="strikethrough" enumeratedValueString="strikethroughOff" enumeratedValue="strikethroughOff"/>
+            <Enumerated symname="Underline" sym="Undl" enumeratedTypeString="Underline" enumeratedType="Undl" enumeratedValueString="underlineOff" enumeratedValue="underlineOff"/>
+            <UnitDouble symname="underlineOffset" sym="underlineOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Boolean symname="ligature" sym="ligature" boolean="true"/>
+            <Boolean symname="altligature" sym="altligature" boolean="false"/>
+            <Boolean symname="contextualLigatures" sym="contextualLigatures" boolean="false"/>
+            <Boolean symname="alternateLigatures" sym="alternateLigatures" boolean="false"/>
+            <Boolean symname="oldStyle" sym="oldStyle" boolean="false"/>
+            <Boolean symname="fractions" sym="fractions" boolean="false"/>
+            <Boolean symname="ordinals" sym="ordinals" boolean="false"/>
+            <Boolean symname="swash" sym="swash" boolean="false"/>
+            <Boolean symname="titling" sym="titling" boolean="false"/>
+            <Boolean symname="connectionForms" sym="connectionForms" boolean="false"/>
+            <Boolean symname="stylisticAlternates" sym="stylisticAlternates" boolean="false"/>
+            <Integer symname="stylisticSets" sym="stylisticSets" integer="0"/>
+            <Boolean symname="ornaments" sym="ornaments" boolean="false"/>
+            <Boolean symname="justificationAlternates" sym="justificationAlternates" boolean="false"/>
+            <Enumerated symname="figureStyle" sym="figureStyle" enumeratedTypeString="figureStyle" enumeratedType="figureStyle" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Boolean symname="proportionalMetrics" sym="proportionalMetrics" boolean="false"/>
+            <Boolean symname="kana" sym="kana" boolean="false"/>
+            <Boolean symname="italics" sym="italics" boolean="false"/>
+            <Boolean symname="ruby" sym="ruby" boolean="false"/>
+            <Enumerated symname="baselineDirection" sym="baselineDirection" enumeratedTypeString="baselineDirection" enumeratedType="baselineDirection" enumeratedValueString="rotated" enumeratedValue="rotated"/>
+            <Enumerated symname="textLanguage" sym="textLanguage" enumeratedTypeString="textLanguage" enumeratedType="textLanguage" enumeratedValueString="englishLanguage" enumeratedValue="englishLanguage"/>
+            <Enumerated symname="japaneseAlternate" sym="japaneseAlternate" enumeratedTypeString="japaneseAlternate" enumeratedType="japaneseAlternate" enumeratedValueString="defaultForm" enumeratedValue="defaultForm"/>
+            <Double symname="mojiZume" sym="mojiZume" double="0"/>
+            <Enumerated symname="gridAlignment" sym="gridAlignment" enumeratedTypeString="gridAlignment" enumeratedType="gridAlignment" enumeratedValueString="roman" enumeratedValue="roman"/>
+            <Boolean symname="enableWariChu" sym="enableWariChu" boolean="false"/>
+            <Integer symname="wariChuCount" sym="wariChuCount" integer="2"/>
+            <Integer symname="wariChuLineGap" sym="wariChuLineGap" integer="0"/>
+            <Double symname="wariChuScale" sym="wariChuScale" double="0.5"/>
+            <Integer symname="wariChuWidow" sym="wariChuWidow" integer="2"/>
+            <Integer symname="wariChuOrphan" sym="wariChuOrphan" integer="2"/>
+            <Enumerated symname="wariChuJustification" sym="wariChuJustification" enumeratedTypeString="wariChuJustification" enumeratedType="wariChuJustification" enumeratedValueString="wariChuAutoJustify" enumeratedValue="wariChuAutoJustify"/>
+            <Integer symname="tcyUpDown" sym="tcyUpDown" integer="0"/>
+            <Integer symname="tcyLeftRight" sym="tcyLeftRight" integer="0"/>
+            <Double symname="leftAki" sym="leftAki" double="-1"/>
+            <Double symname="rightAki" sym="rightAki" double="-1"/>
+            <Integer symname="jiDori" sym="jiDori" integer="0"/>
+            <Boolean symname="noBreak" sym="noBreak" boolean="false"/>
+            <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Object symname="strokeColor" sym="strokeColor" objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Boolean symname="Fill" sym="Fl  " boolean="true"/>
+            <Boolean symname="Stroke" sym="Strk" boolean="false"/>
+            <Boolean symname="fillFirst" sym="fillFirst" boolean="true"/>
+            <Boolean symname="fillOverPrint" sym="fillOverPrint" boolean="false"/>
+            <Boolean symname="strokeOverPrint" sym="strokeOverPrint" boolean="false"/>
+            <Enumerated symname="lineCap" sym="lineCap" enumeratedTypeString="lineCap" enumeratedType="lineCap" enumeratedValueString="buttCap" enumeratedValue="buttCap"/>
+            <Enumerated symname="lineJoin" sym="lineJoin" enumeratedTypeString="lineJoin" enumeratedType="lineJoin" enumeratedValueString="miterJoin" enumeratedValue="miterJoin"/>
+            <UnitDouble symname="lineWidth" sym="lineWidth" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="1"/>
+            <UnitDouble symname="miterLimit" sym="miterLimit" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="4"/>
+            <Double symname="lineDashoffset" sym="lineDashoffset" double="0"/>
+          </Object>
+        </Object>
+      </Object>
+    </List>
+    <List symname="paragraphStyleRange" sym="paragraphStyleRange" count="1">
+      <Object objectTypeString="paragraphStyleRange" objectType="paragraphStyleRange" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="13"/>
+        <Object symname="paragraphStyle" sym="paragraphStyle" objectTypeString="paragraphStyle" objectType="paragraphStyle" count="34">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <Enumerated symname="Alignment" sym="Algn" enumeratedTypeString="Alignment" enumeratedType="Alg " enumeratedValueString="Left" enumeratedValue="Left"/>
+          <UnitDouble symname="firstLineIndent" sym="firstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedFirstLineIndent" sym="impliedFirstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="startIndent" sym="startIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedStartIndent" sym="impliedStartIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="endIndent" sym="endIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedEndIndent" sym="impliedEndIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceBefore" sym="spaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceBefore" sym="impliedSpaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceAfter" sym="spaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceAfter" sym="impliedSpaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <Double symname="autoLeadingPercentage" sym="autoLeadingPercentage" double="1.20000004768372"/>
+          <Enumerated symname="leadingType" sym="leadingType" enumeratedTypeString="leadingType" enumeratedType="leadingType" enumeratedValueString="leadingBelow" enumeratedValue="leadingBelow"/>
+          <Boolean symname="hyphenate" sym="hyphenate" boolean="true"/>
+          <Integer symname="hyphenateWordSize" sym="hyphenateWordSize" integer="6"/>
+          <Integer symname="hyphenatePreLength" sym="hyphenatePreLength" integer="2"/>
+          <Integer symname="hyphenatePostLength" sym="hyphenatePostLength" integer="2"/>
+          <Integer symname="hyphenateLimit" sym="hyphenateLimit" integer="8"/>
+          <Double symname="hyphenationZone" sym="hyphenationZone" double="36"/>
+          <Double symname="justificationWordMinimum" sym="justificationWordMinimum" double="0.80000001192093"/>
+          <Double symname="justificationWordDesired" sym="justificationWordDesired" double="1"/>
+          <Double symname="justificationWordMaximum" sym="justificationWordMaximum" double="1.33000004291534"/>
+          <Double symname="justificationLetterMinimum" sym="justificationLetterMinimum" double="0"/>
+          <Double symname="justificationLetterDesired" sym="justificationLetterDesired" double="0"/>
+          <Double symname="justificationLetterMaximum" sym="justificationLetterMaximum" double="0"/>
+          <Double symname="justificationGlyphMinimum" sym="justificationGlyphMinimum" double="1"/>
+          <Double symname="justificationGlyphDesired" sym="justificationGlyphDesired" double="1"/>
+          <Double symname="justificationGlyphMaximum" sym="justificationGlyphMaximum" double="1"/>
+          <Boolean symname="hangingRoman" sym="hangingRoman" boolean="false"/>
+          <Boolean symname="keepTogether" sym="keepTogether" boolean="true"/>
+          <Enumerated symname="burasagari" sym="burasagari" enumeratedTypeString="burasagari" enumeratedType="burasagari" enumeratedValueString="burasagariNone" enumeratedValue="burasagariNone"/>
+          <Enumerated symname="preferredKinsokuOrder" sym="preferredKinsokuOrder" enumeratedTypeString="preferredKinsokuOrder" enumeratedType="preferredKinsokuOrder" enumeratedValueString="pushIn" enumeratedValue="pushIn"/>
+          <Boolean symname="textEveryLineComposer" sym="textEveryLineComposer" boolean="false"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="kerningRange" sym="kerningRange" count="0"/>
+  </Object>
+  <Enumerated symname="layerSection" sym="layerSection" enumeratedTypeString="layerSectionType" enumeratedType="layerSectionType" enumeratedValueString="layerSectionContent" enumeratedValue="layerSectionContent"/>
+  <Object symname="layerLocking" sym="layerLocking" objectTypeString="layerLocking" objectType="layerLocking" count="5">
+    <Boolean symname="protectTransparency" sym="protectTransparency" boolean="false"/>
+    <Boolean symname="protectComposite" sym="protectComposite" boolean="false"/>
+    <Boolean symname="protectPosition" sym="protectPosition" boolean="false"/>
+    <Boolean symname="protectArtboardAutonest" sym="protectArtboardAutonest" boolean="false"/>
+    <Boolean symname="protectAll" sym="protectAll" boolean="false"/>
+  </Object>
+  <Boolean symname="Group" sym="Grup" boolean="false"/>
+  <List symname="targetChannels" sym="targetChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="visibleChannels" sym="visibleChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="channelRestrictions" sym="channelRestrictions" count="3">
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Red" enumeratedValue="Rd  "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Green" enumeratedValue="Grn "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Blue" enumeratedValue="Bl  "/>
+  </List>
+  <Integer symname="fillOpacity" sym="fillOpacity" integer="255"/>
+  <Boolean symname="hasUserMask" sym="hasUserMask" boolean="false"/>
+  <Boolean symname="hasVectorMask" sym="hasVectorMask" boolean="false"/>
+  <Boolean symname="proportionalScaling" sym="proportionalScaling" boolean="false"/>
+  <Integer symname="layerKind" sym="layerKind" integer="3"/>
+  <Boolean symname="hasFilterMask" sym="hasFilterMask" boolean="false"/>
+  <Integer symname="userMaskDensity" sym="userMaskDensity" integer="255"/>
+  <Double symname="userMaskFeather" sym="userMaskFeather" double="0"/>
+  <Integer symname="vectorMaskDensity" sym="vectorMaskDensity" integer="255"/>
+  <Double symname="vectorMaskFeather" sym="vectorMaskFeather" double="0"/>
+  <Integer symname="filterMaskDensity" sym="filterMaskDensity" integer="255"/>
+  <Double symname="filterMaskFeather" sym="filterMaskFeather" double="0"/>
+  <Object symname="bounds" sym="bounds" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="48"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="105"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="486"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="381"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="53"/>
+  </Object>
+  <Object symname="boundsNoEffects" sym="boundsNoEffects" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="48"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="105"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="486"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="381"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="53"/>
+  </Object>
+  <Object symname="boundsNoMask" sym="boundsNoMask" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="48"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="105"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="486"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="381"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="53"/>
+  </Object>
+  <Object symname="boundingBox" sym="boundingBox" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="48"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="106"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="485"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="379"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="53"/>
+  </Object>
+  <Boolean symname="useAlignedRendering" sym="useAlignedRendering" boolean="false"/>
+  <Object symname="generatorSettings" sym="generatorSettings" objectTypeString="generatorSettings" objectType="generatorSettings" count="0"/>
+  <List symname="keyOriginType" sym="keyOriginType" count="0"/>
+  <Boolean symname="fillEnabled" sym="fillEnabled" boolean="false"/>
+  <Object symname="animationProtection" sym="animationProtection" objectTypeString="animationProtection" objectType="animationProtection" count="4">
+    <Boolean symname="animationUnifyPosition" sym="animationUnifyPosition" boolean="false"/>
+    <Boolean symname="animationUnifyEffects" sym="animationUnifyEffects" boolean="false"/>
+    <Boolean symname="animationUnifyVisibility" sym="animationUnifyVisibility" boolean="false"/>
+    <Boolean symname="animationPropagate" sym="animationPropagate" boolean="true"/>
+  </Object>
+  <Boolean symname="isSyntheticFill" sym="isSyntheticFill" boolean="false"/>
+  <Boolean symname="artboardEnabled" sym="artboardEnabled" boolean="false"/>
+  <Boolean symname="vectorMaskEmpty" sym="vectorMaskEmpty" boolean="true"/>
+  <Integer symname="textWarningLevel" sym="textWarningLevel" integer="0"/>
+  <Integer symname="parentLayerID" sym="parentLayerID" integer="-1"/>
+</ActionDescriptor><ActionDescriptor count="45">
+  <String symname="Name" sym="Nm  " string="Body Text"/>
+  <Enumerated symname="Color" sym="Clr " enumeratedTypeString="Color" enumeratedType="Clr " enumeratedValueString="None" enumeratedValue="None"/>
+  <Boolean symname="Visible" sym="Vsbl" boolean="true"/>
+  <Enumerated symname="Mode" sym="Md  " enumeratedTypeString="BlendMode" enumeratedType="BlnM" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+  <Integer symname="Opacity" sym="Opct" integer="255"/>
+  <Integer symname="LayerID" sym="LyrI" integer="3"/>
+  <Integer symname="ItemIndex" sym="ItmI" integer="2"/>
+  <Integer symname="Count" sym="Cnt " integer="3"/>
+  <Boolean symname="PreserveTransparency" sym="PrsT" boolean="false"/>
+  <Boolean symname="LayerFXVisible" sym="lfxv" boolean="false"/>
+  <Integer symname="GlobalAngle" sym="gblA" integer="30"/>
+  <Boolean symname="Background" sym="Bckg" boolean="false"/>
+  <Object symname="Text" sym="Txt " objectTypeString="TextLayer" objectType="TxLr" count="13">
+    <String symname="Text" sym="Txt " string="Body content goes here"/>
+    <Object symname="warp" sym="warp" objectTypeString="warp" objectType="warp" count="5">
+      <Enumerated symname="warpStyle" sym="warpStyle" enumeratedTypeString="warpStyle" enumeratedType="warpStyle" enumeratedValueString="warpNone" enumeratedValue="warpNone"/>
+      <Double symname="warpValue" sym="warpValue" double="0"/>
+      <Double symname="warpPerspective" sym="warpPerspective" double="0"/>
+      <Double symname="warpPerspectiveOther" sym="warpPerspectiveOther" double="0"/>
+      <Enumerated symname="warpRotate" sym="warpRotate" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    </Object>
+    <Object symname="TextureCoverage" sym="TxtC" objectTypeString="Point" objectType="Pnt " count="2">
+      <UnitDouble symname="Horizontal" sym="Hrzn" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="8.33333333333333"/>
+      <UnitDouble symname="Vertical" sym="Vrtc" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="37.5"/>
+    </Object>
+    <Enumerated symname="textGridding" sym="textGridding" enumeratedTypeString="textGridding" enumeratedType="textGridding" enumeratedValueString="None" enumeratedValue="None"/>
+    <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    <Enumerated symname="AntiAlias" sym="AntA" enumeratedTypeString="AntiAlias" enumeratedType="Annt" enumeratedValueString="antiAliasSharp" enumeratedValue="antiAliasSharp"/>
+    <Enumerated symname="TxMg" sym="TxMg" enumeratedTypeString="TxMg" enumeratedType="TxMg" enumeratedValueString="TxNM" enumeratedValue="TxNM"/>
+    <Object symname="bounds" sym="bounds" objectTypeString="bounds" objectType="bounds" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-20.595703125"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="253.51171875"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="7.79296875"/>
+    </Object>
+    <Object symname="boundingBox" sym="boundingBox" objectTypeString="boundingBox" objectType="boundingBox" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="2"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-17.34375"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="252.1640625"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="5"/>
+    </Object>
+    <List symname="textShape" sym="textShape" count="1">
+      <Object objectTypeString="textShape" objectType="textShape" count="12">
+        <Enumerated symname="textType" sym="textType" enumeratedTypeString="textType" enumeratedType="textType" enumeratedValueString="Point" enumeratedValue="Pnt "/>
+        <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+        <Object symname="Transform" sym="Trnf" objectTypeString="Transform" objectType="Trnf" count="6">
+          <Double symname="xx" sym="xx" double="1"/>
+          <Double symname="xy" sym="xy" double="0"/>
+          <Double symname="yx" sym="yx" double="0"/>
+          <Double symname="yy" sym="yy" double="1"/>
+          <Double symname="tx" sym="tx" double="0"/>
+          <Double symname="ty" sym="ty" double="0"/>
+        </Object>
+        <Integer symname="rowCount" sym="rowCount" integer="1"/>
+        <Integer symname="columnCount" sym="columnCount" integer="1"/>
+        <Boolean symname="rowMajorOrder" sym="rowMajorOrder" boolean="true"/>
+        <UnitDouble symname="rowGutter" sym="rowGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="columnGutter" sym="columnGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="Spacing" sym="Spcn" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Enumerated symname="frameBaselineAlignment" sym="frameBaselineAlignment" enumeratedTypeString="frameBaselineAlignment" enumeratedType="frameBaselineAlignment" enumeratedValueString="alignByAscent" enumeratedValue="alignByAscent"/>
+        <UnitDouble symname="firstBaselineMinimum" sym="firstBaselineMinimum" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Object symname="base" sym="base" objectTypeString="Point" objectType="Pnt " count="2">
+          <Double symname="Horizontal" sym="Hrzn" double="0"/>
+          <Double symname="Vertical" sym="Vrtc" double="0"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="TextStyleRange" sym="Txtt" count="1">
+      <Object objectTypeString="TextStyleRange" objectType="Txtt" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="23"/>
+        <Object symname="TextStyle" sym="TxtS" objectTypeString="TextStyle" objectType="TxtS" count="13">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <String symname="fontPostScriptName" sym="fontPostScriptName" string="ArialMT"/>
+          <String symname="FontName" sym="FntN" string="Arial"/>
+          <String symname="FontStyleName" sym="FntS" string="Regular"/>
+          <Integer symname="FontScript" sym="Scrp" integer="0"/>
+          <Integer symname="FontTechnology" sym="FntT" integer="1"/>
+          <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+          <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="24"/>
+          <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="24"/>
+          <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+          <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+          <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+            <Double symname="Red" sym="Rd  " double="199.999045729637"/>
+            <Double symname="Green" sym="Grn " double="199.999045729637"/>
+            <Double symname="Blue" sym="Bl  " double="199.999045729637"/>
+          </Object>
+          <Object symname="baseParentStyle" sym="baseParentStyle" objectTypeString="TextStyle" objectType="TxtS" count="80">
+            <String symname="fontPostScriptName" sym="fontPostScriptName" string="MyriadPro-Regular"/>
+            <String symname="FontName" sym="FntN" string="Myriad Pro"/>
+            <String symname="FontStyleName" sym="FntS" string="Regular"/>
+            <Integer symname="FontScript" sym="Scrp" integer="0"/>
+            <Integer symname="FontTechnology" sym="FntT" integer="0"/>
+            <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+            <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <Double symname="HorizontalScale" sym="HrzS" double="100"/>
+            <Double symname="VerticalScale" sym="VrtS" double="100"/>
+            <Boolean symname="syntheticBold" sym="syntheticBold" boolean="false"/>
+            <Boolean symname="syntheticItalic" sym="syntheticItalic" boolean="false"/>
+            <Boolean symname="autoLeading" sym="autoLeading" boolean="true"/>
+            <Integer symname="Tracking" sym="Trck" integer="0"/>
+            <UnitDouble symname="BaselineShift" sym="Bsln" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="impliedBaselineShift" sym="impliedBaselineShift" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Double symname="characterRotation" sym="characterRotation" double="0"/>
+            <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+            <Enumerated symname="fontCaps" sym="fontCaps" enumeratedTypeString="fontCaps" enumeratedType="fontCaps" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="digitSet" sym="digitSet" enumeratedTypeString="digitSet" enumeratedType="digitSet" enumeratedValueString="defaultDigits" enumeratedValue="defaultDigits"/>
+            <Enumerated symname="dirOverride" sym="dirOverride" enumeratedTypeString="dirOverride" enumeratedType="dirOverride" enumeratedValueString="dirOverrideDefault" enumeratedValue="dirOverrideDefault"/>
+            <Enumerated symname="kashidas" sym="kashidas" enumeratedTypeString="kashidas" enumeratedType="kashidas" enumeratedValueString="kashidaDefault" enumeratedValue="kashidaDefault"/>
+            <Enumerated symname="diacVPos" sym="diacVPos" enumeratedTypeString="diacVPos" enumeratedType="diacVPos" enumeratedValueString="diacVPosOpenType" enumeratedValue="diacVPosOpenType"/>
+            <UnitDouble symname="diacXOffset" sym="diacXOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="diacYOffset" sym="diacYOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="markYDistFromBaseline" sym="markYDistFromBaseline" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="100"/>
+            <Enumerated symname="baseline" sym="baseline" enumeratedTypeString="baseline" enumeratedType="baseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="strikethrough" sym="strikethrough" enumeratedTypeString="strikethrough" enumeratedType="strikethrough" enumeratedValueString="strikethroughOff" enumeratedValue="strikethroughOff"/>
+            <Enumerated symname="Underline" sym="Undl" enumeratedTypeString="Underline" enumeratedType="Undl" enumeratedValueString="underlineOff" enumeratedValue="underlineOff"/>
+            <UnitDouble symname="underlineOffset" sym="underlineOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Boolean symname="ligature" sym="ligature" boolean="true"/>
+            <Boolean symname="altligature" sym="altligature" boolean="false"/>
+            <Boolean symname="contextualLigatures" sym="contextualLigatures" boolean="false"/>
+            <Boolean symname="alternateLigatures" sym="alternateLigatures" boolean="false"/>
+            <Boolean symname="oldStyle" sym="oldStyle" boolean="false"/>
+            <Boolean symname="fractions" sym="fractions" boolean="false"/>
+            <Boolean symname="ordinals" sym="ordinals" boolean="false"/>
+            <Boolean symname="swash" sym="swash" boolean="false"/>
+            <Boolean symname="titling" sym="titling" boolean="false"/>
+            <Boolean symname="connectionForms" sym="connectionForms" boolean="false"/>
+            <Boolean symname="stylisticAlternates" sym="stylisticAlternates" boolean="false"/>
+            <Integer symname="stylisticSets" sym="stylisticSets" integer="0"/>
+            <Boolean symname="ornaments" sym="ornaments" boolean="false"/>
+            <Boolean symname="justificationAlternates" sym="justificationAlternates" boolean="false"/>
+            <Enumerated symname="figureStyle" sym="figureStyle" enumeratedTypeString="figureStyle" enumeratedType="figureStyle" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Boolean symname="proportionalMetrics" sym="proportionalMetrics" boolean="false"/>
+            <Boolean symname="kana" sym="kana" boolean="false"/>
+            <Boolean symname="italics" sym="italics" boolean="false"/>
+            <Boolean symname="ruby" sym="ruby" boolean="false"/>
+            <Enumerated symname="baselineDirection" sym="baselineDirection" enumeratedTypeString="baselineDirection" enumeratedType="baselineDirection" enumeratedValueString="rotated" enumeratedValue="rotated"/>
+            <Enumerated symname="textLanguage" sym="textLanguage" enumeratedTypeString="textLanguage" enumeratedType="textLanguage" enumeratedValueString="englishLanguage" enumeratedValue="englishLanguage"/>
+            <Enumerated symname="japaneseAlternate" sym="japaneseAlternate" enumeratedTypeString="japaneseAlternate" enumeratedType="japaneseAlternate" enumeratedValueString="defaultForm" enumeratedValue="defaultForm"/>
+            <Double symname="mojiZume" sym="mojiZume" double="0"/>
+            <Enumerated symname="gridAlignment" sym="gridAlignment" enumeratedTypeString="gridAlignment" enumeratedType="gridAlignment" enumeratedValueString="roman" enumeratedValue="roman"/>
+            <Boolean symname="enableWariChu" sym="enableWariChu" boolean="false"/>
+            <Integer symname="wariChuCount" sym="wariChuCount" integer="2"/>
+            <Integer symname="wariChuLineGap" sym="wariChuLineGap" integer="0"/>
+            <Double symname="wariChuScale" sym="wariChuScale" double="0.5"/>
+            <Integer symname="wariChuWidow" sym="wariChuWidow" integer="2"/>
+            <Integer symname="wariChuOrphan" sym="wariChuOrphan" integer="2"/>
+            <Enumerated symname="wariChuJustification" sym="wariChuJustification" enumeratedTypeString="wariChuJustification" enumeratedType="wariChuJustification" enumeratedValueString="wariChuAutoJustify" enumeratedValue="wariChuAutoJustify"/>
+            <Integer symname="tcyUpDown" sym="tcyUpDown" integer="0"/>
+            <Integer symname="tcyLeftRight" sym="tcyLeftRight" integer="0"/>
+            <Double symname="leftAki" sym="leftAki" double="-1"/>
+            <Double symname="rightAki" sym="rightAki" double="-1"/>
+            <Integer symname="jiDori" sym="jiDori" integer="0"/>
+            <Boolean symname="noBreak" sym="noBreak" boolean="false"/>
+            <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Object symname="strokeColor" sym="strokeColor" objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Boolean symname="Fill" sym="Fl  " boolean="true"/>
+            <Boolean symname="Stroke" sym="Strk" boolean="false"/>
+            <Boolean symname="fillFirst" sym="fillFirst" boolean="true"/>
+            <Boolean symname="fillOverPrint" sym="fillOverPrint" boolean="false"/>
+            <Boolean symname="strokeOverPrint" sym="strokeOverPrint" boolean="false"/>
+            <Enumerated symname="lineCap" sym="lineCap" enumeratedTypeString="lineCap" enumeratedType="lineCap" enumeratedValueString="buttCap" enumeratedValue="buttCap"/>
+            <Enumerated symname="lineJoin" sym="lineJoin" enumeratedTypeString="lineJoin" enumeratedType="lineJoin" enumeratedValueString="miterJoin" enumeratedValue="miterJoin"/>
+            <UnitDouble symname="lineWidth" sym="lineWidth" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="1"/>
+            <UnitDouble symname="miterLimit" sym="miterLimit" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="4"/>
+            <Double symname="lineDashoffset" sym="lineDashoffset" double="0"/>
+          </Object>
+        </Object>
+      </Object>
+    </List>
+    <List symname="paragraphStyleRange" sym="paragraphStyleRange" count="1">
+      <Object objectTypeString="paragraphStyleRange" objectType="paragraphStyleRange" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="23"/>
+        <Object symname="paragraphStyle" sym="paragraphStyle" objectTypeString="paragraphStyle" objectType="paragraphStyle" count="34">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <Enumerated symname="Alignment" sym="Algn" enumeratedTypeString="Alignment" enumeratedType="Alg " enumeratedValueString="Left" enumeratedValue="Left"/>
+          <UnitDouble symname="firstLineIndent" sym="firstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedFirstLineIndent" sym="impliedFirstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="startIndent" sym="startIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedStartIndent" sym="impliedStartIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="endIndent" sym="endIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedEndIndent" sym="impliedEndIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceBefore" sym="spaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceBefore" sym="impliedSpaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceAfter" sym="spaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceAfter" sym="impliedSpaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <Double symname="autoLeadingPercentage" sym="autoLeadingPercentage" double="1.20000004768372"/>
+          <Enumerated symname="leadingType" sym="leadingType" enumeratedTypeString="leadingType" enumeratedType="leadingType" enumeratedValueString="leadingBelow" enumeratedValue="leadingBelow"/>
+          <Boolean symname="hyphenate" sym="hyphenate" boolean="true"/>
+          <Integer symname="hyphenateWordSize" sym="hyphenateWordSize" integer="6"/>
+          <Integer symname="hyphenatePreLength" sym="hyphenatePreLength" integer="2"/>
+          <Integer symname="hyphenatePostLength" sym="hyphenatePostLength" integer="2"/>
+          <Integer symname="hyphenateLimit" sym="hyphenateLimit" integer="8"/>
+          <Double symname="hyphenationZone" sym="hyphenationZone" double="36"/>
+          <Double symname="justificationWordMinimum" sym="justificationWordMinimum" double="0.80000001192093"/>
+          <Double symname="justificationWordDesired" sym="justificationWordDesired" double="1"/>
+          <Double symname="justificationWordMaximum" sym="justificationWordMaximum" double="1.33000004291534"/>
+          <Double symname="justificationLetterMinimum" sym="justificationLetterMinimum" double="0"/>
+          <Double symname="justificationLetterDesired" sym="justificationLetterDesired" double="0"/>
+          <Double symname="justificationLetterMaximum" sym="justificationLetterMaximum" double="0"/>
+          <Double symname="justificationGlyphMinimum" sym="justificationGlyphMinimum" double="1"/>
+          <Double symname="justificationGlyphDesired" sym="justificationGlyphDesired" double="1"/>
+          <Double symname="justificationGlyphMaximum" sym="justificationGlyphMaximum" double="1"/>
+          <Boolean symname="hangingRoman" sym="hangingRoman" boolean="false"/>
+          <Boolean symname="keepTogether" sym="keepTogether" boolean="true"/>
+          <Enumerated symname="burasagari" sym="burasagari" enumeratedTypeString="burasagari" enumeratedType="burasagari" enumeratedValueString="burasagariNone" enumeratedValue="burasagariNone"/>
+          <Enumerated symname="preferredKinsokuOrder" sym="preferredKinsokuOrder" enumeratedTypeString="preferredKinsokuOrder" enumeratedType="preferredKinsokuOrder" enumeratedValueString="pushIn" enumeratedValue="pushIn"/>
+          <Boolean symname="textEveryLineComposer" sym="textEveryLineComposer" boolean="false"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="kerningRange" sym="kerningRange" count="0"/>
+  </Object>
+  <Enumerated symname="layerSection" sym="layerSection" enumeratedTypeString="layerSectionType" enumeratedType="layerSectionType" enumeratedValueString="layerSectionContent" enumeratedValue="layerSectionContent"/>
+  <Object symname="layerLocking" sym="layerLocking" objectTypeString="layerLocking" objectType="layerLocking" count="5">
+    <Boolean symname="protectTransparency" sym="protectTransparency" boolean="false"/>
+    <Boolean symname="protectComposite" sym="protectComposite" boolean="false"/>
+    <Boolean symname="protectPosition" sym="protectPosition" boolean="false"/>
+    <Boolean symname="protectArtboardAutonest" sym="protectArtboardAutonest" boolean="false"/>
+    <Boolean symname="protectAll" sym="protectAll" boolean="false"/>
+  </Object>
+  <Boolean symname="Group" sym="Grup" boolean="false"/>
+  <List symname="targetChannels" sym="targetChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="visibleChannels" sym="visibleChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="channelRestrictions" sym="channelRestrictions" count="3">
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Red" enumeratedValue="Rd  "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Green" enumeratedValue="Grn "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Blue" enumeratedValue="Bl  "/>
+  </List>
+  <Integer symname="fillOpacity" sym="fillOpacity" integer="255"/>
+  <Boolean symname="hasUserMask" sym="hasUserMask" boolean="false"/>
+  <Boolean symname="hasVectorMask" sym="hasVectorMask" boolean="false"/>
+  <Boolean symname="proportionalScaling" sym="proportionalScaling" boolean="false"/>
+  <Integer symname="layerKind" sym="layerKind" integer="3"/>
+  <Boolean symname="hasFilterMask" sym="hasFilterMask" boolean="false"/>
+  <Integer symname="userMaskDensity" sym="userMaskDensity" integer="255"/>
+  <Double symname="userMaskFeather" sym="userMaskFeather" double="0"/>
+  <Integer symname="vectorMaskDensity" sym="vectorMaskDensity" integer="255"/>
+  <Double symname="vectorMaskFeather" sym="vectorMaskFeather" double="0"/>
+  <Integer symname="filterMaskDensity" sym="filterMaskDensity" integer="255"/>
+  <Double symname="filterMaskFeather" sym="filterMaskFeather" double="0"/>
+  <Object symname="bounds" sym="bounds" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="282"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="305"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="353"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="252"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="23"/>
+  </Object>
+  <Object symname="boundsNoEffects" sym="boundsNoEffects" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="282"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="305"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="353"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="252"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="23"/>
+  </Object>
+  <Object symname="boundsNoMask" sym="boundsNoMask" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="282"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="305"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="353"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="252"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="23"/>
+  </Object>
+  <Object symname="boundingBox" sym="boundingBox" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="283"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="102"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="305"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="352"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="250"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="22"/>
+  </Object>
+  <Boolean symname="useAlignedRendering" sym="useAlignedRendering" boolean="false"/>
+  <Object symname="generatorSettings" sym="generatorSettings" objectTypeString="generatorSettings" objectType="generatorSettings" count="0"/>
+  <List symname="keyOriginType" sym="keyOriginType" count="0"/>
+  <Boolean symname="fillEnabled" sym="fillEnabled" boolean="false"/>
+  <Object symname="animationProtection" sym="animationProtection" objectTypeString="animationProtection" objectType="animationProtection" count="4">
+    <Boolean symname="animationUnifyPosition" sym="animationUnifyPosition" boolean="false"/>
+    <Boolean symname="animationUnifyEffects" sym="animationUnifyEffects" boolean="false"/>
+    <Boolean symname="animationUnifyVisibility" sym="animationUnifyVisibility" boolean="false"/>
+    <Boolean symname="animationPropagate" sym="animationPropagate" boolean="true"/>
+  </Object>
+  <Boolean symname="isSyntheticFill" sym="isSyntheticFill" boolean="false"/>
+  <Boolean symname="artboardEnabled" sym="artboardEnabled" boolean="false"/>
+  <Boolean symname="vectorMaskEmpty" sym="vectorMaskEmpty" boolean="true"/>
+  <Integer symname="textWarningLevel" sym="textWarningLevel" integer="0"/>
+  <Integer symname="parentLayerID" sym="parentLayerID" integer="-1"/>
+</ActionDescriptor><ActionDescriptor count="45">
+  <String symname="Name" sym="Nm  " string="Footer Text"/>
+  <Enumerated symname="Color" sym="Clr " enumeratedTypeString="Color" enumeratedType="Clr " enumeratedValueString="None" enumeratedValue="None"/>
+  <Boolean symname="Visible" sym="Vsbl" boolean="true"/>
+  <Enumerated symname="Mode" sym="Md  " enumeratedTypeString="BlendMode" enumeratedType="BlnM" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+  <Integer symname="Opacity" sym="Opct" integer="255"/>
+  <Integer symname="LayerID" sym="LyrI" integer="4"/>
+  <Integer symname="ItemIndex" sym="ItmI" integer="3"/>
+  <Integer symname="Count" sym="Cnt " integer="3"/>
+  <Boolean symname="PreserveTransparency" sym="PrsT" boolean="false"/>
+  <Boolean symname="LayerFXVisible" sym="lfxv" boolean="false"/>
+  <Integer symname="GlobalAngle" sym="gblA" integer="30"/>
+  <Boolean symname="Background" sym="Bckg" boolean="false"/>
+  <Object symname="Text" sym="Txt " objectTypeString="TextLayer" objectType="TxLr" count="13">
+    <String symname="Text" sym="Txt " string="Footer information"/>
+    <Object symname="warp" sym="warp" objectTypeString="warp" objectType="warp" count="5">
+      <Enumerated symname="warpStyle" sym="warpStyle" enumeratedTypeString="warpStyle" enumeratedType="warpStyle" enumeratedValueString="warpNone" enumeratedValue="warpNone"/>
+      <Double symname="warpValue" sym="warpValue" double="0"/>
+      <Double symname="warpPerspective" sym="warpPerspective" double="0"/>
+      <Double symname="warpPerspectiveOther" sym="warpPerspectiveOther" double="0"/>
+      <Enumerated symname="warpRotate" sym="warpRotate" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    </Object>
+    <Object symname="TextureCoverage" sym="TxtC" objectTypeString="Point" objectType="Pnt " count="2">
+      <UnitDouble symname="Horizontal" sym="Hrzn" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="8.33333333333333"/>
+      <UnitDouble symname="Vertical" sym="Vrtc" unitDoubleTypeString="Percent" unitDoubleType="#Prc" unitDoubleValue="75"/>
+    </Object>
+    <Enumerated symname="textGridding" sym="textGridding" enumeratedTypeString="textGridding" enumeratedType="textGridding" enumeratedValueString="None" enumeratedValue="None"/>
+    <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+    <Enumerated symname="AntiAlias" sym="AntA" enumeratedTypeString="AntiAlias" enumeratedType="Annt" enumeratedValueString="antiAliasSharp" enumeratedValue="antiAliasSharp"/>
+    <Enumerated symname="TxMg" sym="TxMg" enumeratedTypeString="TxMg" enumeratedType="TxMg" enumeratedValueString="TxNM" enumeratedValue="TxNM"/>
+    <Object symname="bounds" sym="bounds" objectTypeString="bounds" objectType="bounds" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-15.44677734375"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="146.0654296875"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="5.8447265625"/>
+    </Object>
+    <Object symname="boundingBox" sym="boundingBox" objectTypeString="boundingBox" objectType="boundingBox" count="4">
+      <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="1"/>
+      <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="-13.265625"/>
+      <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="145.0546875"/>
+      <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+    </Object>
+    <List symname="textShape" sym="textShape" count="1">
+      <Object objectTypeString="textShape" objectType="textShape" count="12">
+        <Enumerated symname="textType" sym="textType" enumeratedTypeString="textType" enumeratedType="textType" enumeratedValueString="Point" enumeratedValue="Pnt "/>
+        <Enumerated symname="Orientation" sym="Ornt" enumeratedTypeString="Orientation" enumeratedType="Ornt" enumeratedValueString="Horizontal" enumeratedValue="Hrzn"/>
+        <Object symname="Transform" sym="Trnf" objectTypeString="Transform" objectType="Trnf" count="6">
+          <Double symname="xx" sym="xx" double="1"/>
+          <Double symname="xy" sym="xy" double="0"/>
+          <Double symname="yx" sym="yx" double="0"/>
+          <Double symname="yy" sym="yy" double="1"/>
+          <Double symname="tx" sym="tx" double="0"/>
+          <Double symname="ty" sym="ty" double="0"/>
+        </Object>
+        <Integer symname="rowCount" sym="rowCount" integer="1"/>
+        <Integer symname="columnCount" sym="columnCount" integer="1"/>
+        <Boolean symname="rowMajorOrder" sym="rowMajorOrder" boolean="true"/>
+        <UnitDouble symname="rowGutter" sym="rowGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="columnGutter" sym="columnGutter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <UnitDouble symname="Spacing" sym="Spcn" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Enumerated symname="frameBaselineAlignment" sym="frameBaselineAlignment" enumeratedTypeString="frameBaselineAlignment" enumeratedType="frameBaselineAlignment" enumeratedValueString="alignByAscent" enumeratedValue="alignByAscent"/>
+        <UnitDouble symname="firstBaselineMinimum" sym="firstBaselineMinimum" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+        <Object symname="base" sym="base" objectTypeString="Point" objectType="Pnt " count="2">
+          <Double symname="Horizontal" sym="Hrzn" double="0"/>
+          <Double symname="Vertical" sym="Vrtc" double="0"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="TextStyleRange" sym="Txtt" count="1">
+      <Object objectTypeString="TextStyleRange" objectType="Txtt" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="19"/>
+        <Object symname="TextStyle" sym="TxtS" objectTypeString="TextStyle" objectType="TxtS" count="13">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <String symname="fontPostScriptName" sym="fontPostScriptName" string="ArialMT"/>
+          <String symname="FontName" sym="FntN" string="Arial"/>
+          <String symname="FontStyleName" sym="FntS" string="Regular"/>
+          <Integer symname="FontScript" sym="Scrp" integer="0"/>
+          <Integer symname="FontTechnology" sym="FntT" integer="1"/>
+          <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+          <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="18"/>
+          <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="18"/>
+          <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+          <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+          <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+            <Double symname="Red" sym="Rd  " double="150.001191794872"/>
+            <Double symname="Green" sym="Grn " double="150.001191794872"/>
+            <Double symname="Blue" sym="Bl  " double="150.001191794872"/>
+          </Object>
+          <Object symname="baseParentStyle" sym="baseParentStyle" objectTypeString="TextStyle" objectType="TxtS" count="80">
+            <String symname="fontPostScriptName" sym="fontPostScriptName" string="MyriadPro-Regular"/>
+            <String symname="FontName" sym="FntN" string="Myriad Pro"/>
+            <String symname="FontStyleName" sym="FntS" string="Regular"/>
+            <Integer symname="FontScript" sym="Scrp" integer="0"/>
+            <Integer symname="FontTechnology" sym="FntT" integer="0"/>
+            <Boolean symname="fontAvailable" sym="fontAvailable" boolean="true"/>
+            <UnitDouble symname="SizeKey" sym="Sz  " unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <UnitDouble symname="impliedFontSize" sym="impliedFontSize" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="12"/>
+            <Double symname="HorizontalScale" sym="HrzS" double="100"/>
+            <Double symname="VerticalScale" sym="VrtS" double="100"/>
+            <Boolean symname="syntheticBold" sym="syntheticBold" boolean="false"/>
+            <Boolean symname="syntheticItalic" sym="syntheticItalic" boolean="false"/>
+            <Boolean symname="autoLeading" sym="autoLeading" boolean="true"/>
+            <Integer symname="Tracking" sym="Trck" integer="0"/>
+            <UnitDouble symname="BaselineShift" sym="Bsln" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="impliedBaselineShift" sym="impliedBaselineShift" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Double symname="characterRotation" sym="characterRotation" double="0"/>
+            <Enumerated symname="AutoKern" sym="AtKr" enumeratedTypeString="AutoKern" enumeratedType="AtKr" enumeratedValueString="metricsKern" enumeratedValue="metricsKern"/>
+            <Enumerated symname="fontCaps" sym="fontCaps" enumeratedTypeString="fontCaps" enumeratedType="fontCaps" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="digitSet" sym="digitSet" enumeratedTypeString="digitSet" enumeratedType="digitSet" enumeratedValueString="defaultDigits" enumeratedValue="defaultDigits"/>
+            <Enumerated symname="dirOverride" sym="dirOverride" enumeratedTypeString="dirOverride" enumeratedType="dirOverride" enumeratedValueString="dirOverrideDefault" enumeratedValue="dirOverrideDefault"/>
+            <Enumerated symname="kashidas" sym="kashidas" enumeratedTypeString="kashidas" enumeratedType="kashidas" enumeratedValueString="kashidaDefault" enumeratedValue="kashidaDefault"/>
+            <Enumerated symname="diacVPos" sym="diacVPos" enumeratedTypeString="diacVPos" enumeratedType="diacVPos" enumeratedValueString="diacVPosOpenType" enumeratedValue="diacVPosOpenType"/>
+            <UnitDouble symname="diacXOffset" sym="diacXOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="diacYOffset" sym="diacYOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <UnitDouble symname="markYDistFromBaseline" sym="markYDistFromBaseline" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="100"/>
+            <Enumerated symname="baseline" sym="baseline" enumeratedTypeString="baseline" enumeratedType="baseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="otbaseline" sym="otbaseline" enumeratedTypeString="otbaseline" enumeratedType="otbaseline" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Enumerated symname="strikethrough" sym="strikethrough" enumeratedTypeString="strikethrough" enumeratedType="strikethrough" enumeratedValueString="strikethroughOff" enumeratedValue="strikethroughOff"/>
+            <Enumerated symname="Underline" sym="Undl" enumeratedTypeString="Underline" enumeratedType="Undl" enumeratedValueString="underlineOff" enumeratedValue="underlineOff"/>
+            <UnitDouble symname="underlineOffset" sym="underlineOffset" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+            <Boolean symname="ligature" sym="ligature" boolean="true"/>
+            <Boolean symname="altligature" sym="altligature" boolean="false"/>
+            <Boolean symname="contextualLigatures" sym="contextualLigatures" boolean="false"/>
+            <Boolean symname="alternateLigatures" sym="alternateLigatures" boolean="false"/>
+            <Boolean symname="oldStyle" sym="oldStyle" boolean="false"/>
+            <Boolean symname="fractions" sym="fractions" boolean="false"/>
+            <Boolean symname="ordinals" sym="ordinals" boolean="false"/>
+            <Boolean symname="swash" sym="swash" boolean="false"/>
+            <Boolean symname="titling" sym="titling" boolean="false"/>
+            <Boolean symname="connectionForms" sym="connectionForms" boolean="false"/>
+            <Boolean symname="stylisticAlternates" sym="stylisticAlternates" boolean="false"/>
+            <Integer symname="stylisticSets" sym="stylisticSets" integer="0"/>
+            <Boolean symname="ornaments" sym="ornaments" boolean="false"/>
+            <Boolean symname="justificationAlternates" sym="justificationAlternates" boolean="false"/>
+            <Enumerated symname="figureStyle" sym="figureStyle" enumeratedTypeString="figureStyle" enumeratedType="figureStyle" enumeratedValueString="Normal" enumeratedValue="Nrml"/>
+            <Boolean symname="proportionalMetrics" sym="proportionalMetrics" boolean="false"/>
+            <Boolean symname="kana" sym="kana" boolean="false"/>
+            <Boolean symname="italics" sym="italics" boolean="false"/>
+            <Boolean symname="ruby" sym="ruby" boolean="false"/>
+            <Enumerated symname="baselineDirection" sym="baselineDirection" enumeratedTypeString="baselineDirection" enumeratedType="baselineDirection" enumeratedValueString="rotated" enumeratedValue="rotated"/>
+            <Enumerated symname="textLanguage" sym="textLanguage" enumeratedTypeString="textLanguage" enumeratedType="textLanguage" enumeratedValueString="englishLanguage" enumeratedValue="englishLanguage"/>
+            <Enumerated symname="japaneseAlternate" sym="japaneseAlternate" enumeratedTypeString="japaneseAlternate" enumeratedType="japaneseAlternate" enumeratedValueString="defaultForm" enumeratedValue="defaultForm"/>
+            <Double symname="mojiZume" sym="mojiZume" double="0"/>
+            <Enumerated symname="gridAlignment" sym="gridAlignment" enumeratedTypeString="gridAlignment" enumeratedType="gridAlignment" enumeratedValueString="roman" enumeratedValue="roman"/>
+            <Boolean symname="enableWariChu" sym="enableWariChu" boolean="false"/>
+            <Integer symname="wariChuCount" sym="wariChuCount" integer="2"/>
+            <Integer symname="wariChuLineGap" sym="wariChuLineGap" integer="0"/>
+            <Double symname="wariChuScale" sym="wariChuScale" double="0.5"/>
+            <Integer symname="wariChuWidow" sym="wariChuWidow" integer="2"/>
+            <Integer symname="wariChuOrphan" sym="wariChuOrphan" integer="2"/>
+            <Enumerated symname="wariChuJustification" sym="wariChuJustification" enumeratedTypeString="wariChuJustification" enumeratedType="wariChuJustification" enumeratedValueString="wariChuAutoJustify" enumeratedValue="wariChuAutoJustify"/>
+            <Integer symname="tcyUpDown" sym="tcyUpDown" integer="0"/>
+            <Integer symname="tcyLeftRight" sym="tcyLeftRight" integer="0"/>
+            <Double symname="leftAki" sym="leftAki" double="-1"/>
+            <Double symname="rightAki" sym="rightAki" double="-1"/>
+            <Integer symname="jiDori" sym="jiDori" integer="0"/>
+            <Boolean symname="noBreak" sym="noBreak" boolean="false"/>
+            <Object symname="Color" sym="Clr " objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Object symname="strokeColor" sym="strokeColor" objectTypeString="RGBColor" objectType="RGBC" count="3">
+              <Double symname="Red" sym="Rd  " double="0"/>
+              <Double symname="Green" sym="Grn " double="0"/>
+              <Double symname="Blue" sym="Bl  " double="0"/>
+            </Object>
+            <Boolean symname="Fill" sym="Fl  " boolean="true"/>
+            <Boolean symname="Stroke" sym="Strk" boolean="false"/>
+            <Boolean symname="fillFirst" sym="fillFirst" boolean="true"/>
+            <Boolean symname="fillOverPrint" sym="fillOverPrint" boolean="false"/>
+            <Boolean symname="strokeOverPrint" sym="strokeOverPrint" boolean="false"/>
+            <Enumerated symname="lineCap" sym="lineCap" enumeratedTypeString="lineCap" enumeratedType="lineCap" enumeratedValueString="buttCap" enumeratedValue="buttCap"/>
+            <Enumerated symname="lineJoin" sym="lineJoin" enumeratedTypeString="lineJoin" enumeratedType="lineJoin" enumeratedValueString="miterJoin" enumeratedValue="miterJoin"/>
+            <UnitDouble symname="lineWidth" sym="lineWidth" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="1"/>
+            <UnitDouble symname="miterLimit" sym="miterLimit" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="4"/>
+            <Double symname="lineDashoffset" sym="lineDashoffset" double="0"/>
+          </Object>
+        </Object>
+      </Object>
+    </List>
+    <List symname="paragraphStyleRange" sym="paragraphStyleRange" count="1">
+      <Object objectTypeString="paragraphStyleRange" objectType="paragraphStyleRange" count="3">
+        <Integer symname="From" sym="From" integer="0"/>
+        <Integer symname="To" sym="T   " integer="19"/>
+        <Object symname="paragraphStyle" sym="paragraphStyle" objectTypeString="paragraphStyle" objectType="paragraphStyle" count="34">
+          <Boolean symname="styleSheetHasParent" sym="styleSheetHasParent" boolean="true"/>
+          <Enumerated symname="Alignment" sym="Algn" enumeratedTypeString="Alignment" enumeratedType="Alg " enumeratedValueString="Left" enumeratedValue="Left"/>
+          <UnitDouble symname="firstLineIndent" sym="firstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedFirstLineIndent" sym="impliedFirstLineIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="startIndent" sym="startIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedStartIndent" sym="impliedStartIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="endIndent" sym="endIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedEndIndent" sym="impliedEndIndent" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceBefore" sym="spaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceBefore" sym="impliedSpaceBefore" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="spaceAfter" sym="spaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <UnitDouble symname="impliedSpaceAfter" sym="impliedSpaceAfter" unitDoubleTypeString="Points" unitDoubleType="#Pnt" unitDoubleValue="0"/>
+          <Double symname="autoLeadingPercentage" sym="autoLeadingPercentage" double="1.20000004768372"/>
+          <Enumerated symname="leadingType" sym="leadingType" enumeratedTypeString="leadingType" enumeratedType="leadingType" enumeratedValueString="leadingBelow" enumeratedValue="leadingBelow"/>
+          <Boolean symname="hyphenate" sym="hyphenate" boolean="true"/>
+          <Integer symname="hyphenateWordSize" sym="hyphenateWordSize" integer="6"/>
+          <Integer symname="hyphenatePreLength" sym="hyphenatePreLength" integer="2"/>
+          <Integer symname="hyphenatePostLength" sym="hyphenatePostLength" integer="2"/>
+          <Integer symname="hyphenateLimit" sym="hyphenateLimit" integer="8"/>
+          <Double symname="hyphenationZone" sym="hyphenationZone" double="36"/>
+          <Double symname="justificationWordMinimum" sym="justificationWordMinimum" double="0.80000001192093"/>
+          <Double symname="justificationWordDesired" sym="justificationWordDesired" double="1"/>
+          <Double symname="justificationWordMaximum" sym="justificationWordMaximum" double="1.33000004291534"/>
+          <Double symname="justificationLetterMinimum" sym="justificationLetterMinimum" double="0"/>
+          <Double symname="justificationLetterDesired" sym="justificationLetterDesired" double="0"/>
+          <Double symname="justificationLetterMaximum" sym="justificationLetterMaximum" double="0"/>
+          <Double symname="justificationGlyphMinimum" sym="justificationGlyphMinimum" double="1"/>
+          <Double symname="justificationGlyphDesired" sym="justificationGlyphDesired" double="1"/>
+          <Double symname="justificationGlyphMaximum" sym="justificationGlyphMaximum" double="1"/>
+          <Boolean symname="hangingRoman" sym="hangingRoman" boolean="false"/>
+          <Boolean symname="keepTogether" sym="keepTogether" boolean="true"/>
+          <Enumerated symname="burasagari" sym="burasagari" enumeratedTypeString="burasagari" enumeratedType="burasagari" enumeratedValueString="burasagariNone" enumeratedValue="burasagariNone"/>
+          <Enumerated symname="preferredKinsokuOrder" sym="preferredKinsokuOrder" enumeratedTypeString="preferredKinsokuOrder" enumeratedType="preferredKinsokuOrder" enumeratedValueString="pushIn" enumeratedValue="pushIn"/>
+          <Boolean symname="textEveryLineComposer" sym="textEveryLineComposer" boolean="false"/>
+        </Object>
+      </Object>
+    </List>
+    <List symname="kerningRange" sym="kerningRange" count="0"/>
+  </Object>
+  <Enumerated symname="layerSection" sym="layerSection" enumeratedTypeString="layerSectionType" enumeratedType="layerSectionType" enumeratedValueString="layerSectionContent" enumeratedValue="layerSectionContent"/>
+  <Object symname="layerLocking" sym="layerLocking" objectTypeString="layerLocking" objectType="layerLocking" count="5">
+    <Boolean symname="protectTransparency" sym="protectTransparency" boolean="false"/>
+    <Boolean symname="protectComposite" sym="protectComposite" boolean="false"/>
+    <Boolean symname="protectPosition" sym="protectPosition" boolean="false"/>
+    <Boolean symname="protectArtboardAutonest" sym="protectArtboardAutonest" boolean="false"/>
+    <Boolean symname="protectAll" sym="protectAll" boolean="false"/>
+  </Object>
+  <Boolean symname="Group" sym="Grup" boolean="false"/>
+  <List symname="targetChannels" sym="targetChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="visibleChannels" sym="visibleChannels" count="3">
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="1"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="2"/>
+    </Reference>
+    <Reference count="1">
+      <Index symname="Channel" sym="Chnl" desiredClassString="Channel" desiredClass="Chnl" index="3"/>
+    </Reference>
+  </List>
+  <List symname="channelRestrictions" sym="channelRestrictions" count="3">
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Red" enumeratedValue="Rd  "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Green" enumeratedValue="Grn "/>
+    <Enumerated enumeratedTypeString="Channel" enumeratedType="Chnl" enumeratedValueString="Blue" enumeratedValue="Bl  "/>
+  </List>
+  <Integer symname="fillOpacity" sym="fillOpacity" integer="255"/>
+  <Boolean symname="hasUserMask" sym="hasUserMask" boolean="false"/>
+  <Boolean symname="hasVectorMask" sym="hasVectorMask" boolean="false"/>
+  <Boolean symname="proportionalScaling" sym="proportionalScaling" boolean="false"/>
+  <Integer symname="layerKind" sym="layerKind" integer="3"/>
+  <Boolean symname="hasFilterMask" sym="hasFilterMask" boolean="false"/>
+  <Integer symname="userMaskDensity" sym="userMaskDensity" integer="255"/>
+  <Double symname="userMaskFeather" sym="userMaskFeather" double="0"/>
+  <Integer symname="vectorMaskDensity" sym="vectorMaskDensity" integer="255"/>
+  <Double symname="vectorMaskFeather" sym="vectorMaskFeather" double="0"/>
+  <Integer symname="filterMaskDensity" sym="filterMaskDensity" integer="255"/>
+  <Double symname="filterMaskFeather" sym="filterMaskFeather" double="0"/>
+  <Object symname="bounds" sym="bounds" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="587"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="600"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="245"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="144"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="13"/>
+  </Object>
+  <Object symname="boundsNoEffects" sym="boundsNoEffects" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="587"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="600"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="245"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="144"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="13"/>
+  </Object>
+  <Object symname="boundsNoMask" sym="boundsNoMask" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="587"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="600"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="245"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="144"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="13"/>
+  </Object>
+  <Object symname="boundingBox" sym="boundingBox" objectTypeString="Rectangle" objectType="Rctn" count="6">
+    <UnitDouble symname="Top" sym="Top " unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="587"/>
+    <UnitDouble symname="Left" sym="Left" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="101"/>
+    <UnitDouble symname="Bottom" sym="Btom" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="600"/>
+    <UnitDouble symname="Right" sym="Rght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="245"/>
+    <UnitDouble symname="Width" sym="Wdth" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="144"/>
+    <UnitDouble symname="Height" sym="Hght" unitDoubleTypeString="Pixels" unitDoubleType="#Pxl" unitDoubleValue="13"/>
+  </Object>
+  <Boolean symname="useAlignedRendering" sym="useAlignedRendering" boolean="false"/>
+  <Object symname="generatorSettings" sym="generatorSettings" objectTypeString="generatorSettings" objectType="generatorSettings" count="0"/>
+  <List symname="keyOriginType" sym="keyOriginType" count="0"/>
+  <Boolean symname="fillEnabled" sym="fillEnabled" boolean="false"/>
+  <Object symname="animationProtection" sym="animationProtection" objectTypeString="animationProtection" objectType="animationProtection" count="4">
+    <Boolean symname="animationUnifyPosition" sym="animationUnifyPosition" boolean="false"/>
+    <Boolean symname="animationUnifyEffects" sym="animationUnifyEffects" boolean="false"/>
+    <Boolean symname="animationUnifyVisibility" sym="animationUnifyVisibility" boolean="false"/>
+    <Boolean symname="animationPropagate" sym="animationPropagate" boolean="true"/>
+  </Object>
+  <Boolean symname="isSyntheticFill" sym="isSyntheticFill" boolean="false"/>
+  <Boolean symname="artboardEnabled" sym="artboardEnabled" boolean="false"/>
+  <Boolean symname="vectorMaskEmpty" sym="vectorMaskEmpty" boolean="true"/>
+  <Integer symname="textWarningLevel" sym="textWarningLevel" integer="0"/>
+  <Integer symname="parentLayerID" sym="parentLayerID" integer="-1"/>
+</ActionDescriptor>
+</PhotoshopInfo>

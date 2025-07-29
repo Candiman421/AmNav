@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "es5",
     "module": "commonjs",
-    "lib": ["ES2017"],
+    "lib": ["es5"],
     "outDir": "./dist",
     "rootDir": "./",
     "strict": true,
@@ -12,28 +12,20 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "removeComments": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@tests/*": ["./tests/*"]
+    }
   },
   "include": [
-    "ActionDescriptorNavigator.ts",
-    "types.ts",
+    "ActionManager/**/*",
     "tests/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "tests/transpiled"
-  ],
-  "ts-node": {
-    "esm": false,
-    "experimentalSpecifierResolution": "node"
-  }
+    "coverage"
+  ]
 }

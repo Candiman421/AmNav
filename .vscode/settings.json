@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "actiondescriptor",
+        "actionmanager",
         "altligature",
         "Annt",
         "artboard",
@@ -54,8 +55,8 @@
         "PSDT",
         "PSMT",
         "Rctn",
-        "Rght",
         "RGBC",
+        "Rght",
         "Rslt",
         "Scrp",
         "Spcn",
@@ -73,6 +74,7 @@
         "wari",
         "watr",
         "Wdth",
+        "writeln",
         "xmpmeta",
         "xmptk",
         "xpacket",

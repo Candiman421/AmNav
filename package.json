@@ -1,74 +1,87 @@
 {
-  "name": "action-descriptor-navigator",
-  "version": "4.1.0",
-  "description": "LINQ-style navigation framework for Adobe Photoshop ActionDescriptor with ES3 compatibility and comprehensive testing",
-  "main": "ActionDescriptorNavigator.ts",
-  "types": "types.ts",
+  "name": "actionmanager-navigator",
+  "version": "1.0.0",
+  "description": "Fluent ActionManager Navigator for Adobe ExtendScript - Criteria-based selection with sentinel error handling",
+  "main": "dist/ActionDescriptorNavigator.js",
+  "types": "dist/types.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:webpack": "webpack --mode production",
+    "webpack": "webpack",
+    "dev": "webpack --mode=development",
+    "prod": "webpack --mode=production",
+    "build": "npm run prod",
     "test": "jest",
     "test:watch": "jest --watch",
-    "transpile": "tsc",
-    "transpile:es3": "webpack --config webpack.config.js",
-    "generate-test-psds": "ts-node tests/generate-test-assets.ts",
-    "generate-xml-scripts": "ts-node tests/generate-xml-dumps.ts",
-    "create-expected-results": "ts-node tests/create-expected-results.ts",
-    "test:integration": "npm run generate-test-psds && echo 'PSDs generated. Run on work computer: Open PSDs in Photoshop, then run XML scripts.'",
-    "validate-setup": "ts-node --version && echo 'Setup validated successfully'"
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:unit": "jest --testPathPattern=unit",
+    "generate-assets": "npx ts-node tests/generate-test-assets.ts",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prebuild": "npm run clean",
+    "postbuild": "echo '✅ Build complete: dist/ActionDescriptorNavigator.js ready for ExtendScript'",
+    "pretest": "npm run lint",
+    "validate": "npm run lint && npm run test && npm run build",
+    "dev-quick": "npm run dev && echo '🚀 Development build ready'",
+    "prod-ready": "npm run validate && npm run prod && echo '🎯 Production build validated and ready'"
   },
   "keywords": [
     "photoshop",
     "extendscript",
-    "actiondescriptor",
-    "navigation",
-    "linq",
-    "scoring",
+    "actionmanager",
+    "adobe",
+    "after-effects",
+    "illustrator",
+    "indesign",
+    "premiere-pro",
+    "fluent-api",
+    "typescript",
     "es3",
-    "testing",
-    "automation"
+    "actiondescriptor",
+    "text-analysis",
+    "font-extraction"
   ],
-  "author": "Framework Integration",
+  "author": "ActionManager Navigator Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CandiMan421/AmNav.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CandiMan421/AmNav/issues"
+  },
+  "homepage": "https://github.com/CandiMan421/AmNav#readme",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
   "devDependencies": {
-    "@types/lodash": "^4.17.7",
-    "@types/node": "^18.19.0",
-    "types-for-adobe": "^7.2.2",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^22.13.13",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "ag-psd": "^14.3.6",
+    "eslint": "^7.32.0",
+    "jest": "^27.5.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.1.5",
+    "ts-loader": "^8.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "^4.1.6",
-    "webpack": "^4.17.0",
+    "webpack": "^4.47.0",
     "webpack-cli": "^3.3.0",
     "webpack-es3-plugin": "^1.5.2",
     "webpack-merge": "^4.1.3"
   },
-  "engines": {
-    "extendscript": ">=3.0",
-    "node": ">=14.0.0"
+  "dependencies": {
+    "npx": "^10.2.2"
   },
   "files": [
-    "ActionDescriptorNavigator.ts",
-    "types.ts",
+    "dist/**/*",
+    "ActionManager/types.ts",
     "es5-polyfills.js",
-    "tests/assets/*.psd",
-    "tests/expected/*.json",
-    "tests/scripts/*.jsx"
-  ],
-  "dependencies": {
-    "@types/jest": "^29.5.0",
-    "@types/xml2js": "^0.4.14",
-    "ag-psd": "^28.2.2",
-    "jest": "^29.5.0",
-    "lodash": "^4.17.21",
-    "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2",
-    "xml2js": "^0.6.2"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": ["**/tests/**/*.test.ts"],
-    "collectCoverageFrom": [
-      "ActionDescriptorNavigator.ts",
-      "types.ts"
-    ]
-  }
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ]
 }

@@ -38,6 +38,33 @@ declare global {
         writeln(message: string): void;
     };
 
+        /**
+     * ExtendScript File class
+     */
+    class File {
+        constructor(path?: string);
+        readonly absoluteURI: string;
+        readonly name: string;
+        readonly path: string;
+        exists: boolean;
+        open(mode: string): boolean;
+        close(): boolean;
+        read(): string;
+        write(text: string): boolean;
+    }
+
+    /**
+     * ExtendScript Folder class  
+     */
+    class Folder {
+        constructor(path?: string);
+        readonly absoluteURI: string;
+        readonly name: string;
+        readonly path: string;
+        exists: boolean;
+        create(): boolean;
+    }
+    
     /**
      * Adobe ActionReference class for targeting specific objects
      */

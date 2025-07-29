@@ -19,13 +19,11 @@
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": [
-    "ActionManager/**/*",
-    "tests/**/*"
-  ],
+  "include": ["ActionManager/**/*", "tests/**/*"],
   "exclude": [
     "node_modules",
     "dist",
-    "coverage"
+    "coverage",
+    "tests/photoshop-scripts/**/*"
   ]
 }

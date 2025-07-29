@@ -1,3 +1,4 @@
+//ActionManager/types.ts
 /**
  * Adobe ExtendScript ActionManager Navigator - Complete Type Definitions
  * 
@@ -30,141 +31,6 @@
  * ```
  */
 
-declare global {
-    /**
-     * ExtendScript global logging utility
-     */
-    var $: {
-        writeln(message: string): void;
-    };
-
-    /**
-     * ExtendScript File class for Adobe environments
-     */
-    class ExtendScriptFile {
-        constructor(path?: string);
-        readonly absoluteURI: string;
-        readonly name: string;
-        readonly path: string;
-        exists: boolean;
-        open(mode: string): boolean;
-        close(): boolean;
-        read(): string;
-        write(text: string): boolean;
-    }
-
-    /**
-     * ExtendScript Folder class  
-     */
-    class Folder {
-        constructor(path?: string);
-        readonly absoluteURI: string;
-        readonly name: string;
-        readonly path: string;
-        exists: boolean;
-        create(): boolean;
-    }
-
-    /**
-     * Adobe ActionReference class for targeting specific objects
-     */
-    class ActionReference {
-        constructor();
-        putEnumerated(classID: number, typeID: number, enumID: number): void;
-        putIndex(classID: number, index: number): void;
-        putProperty(classID: number, propertyID: number): void;
-        putName(classID: number, name: string): void;
-        putIdentifier(classID: number, identifier: number): void;
-        putOffset(classID: number, offset: number): void;
-    }
-
-    /**
-     * Adobe ActionDescriptor class - container for property-value pairs
-     */
-    class ActionDescriptor {
-        constructor();
-        count: number;
-        hasKey(key: number): boolean;
-        getObjectValue(key: number): ActionDescriptor;
-        getList(key: number): ActionList;
-        getString(key: number): string;
-        getDouble(key: number): number;
-        getInteger(key: number): number;
-        getBoolean(key: number): boolean;
-        getEnumerationValue(key: number): number;
-        getEnumerationType(key: number): number;
-        getReference(key: number): ActionReference;
-        getClass(key: number): number;
-        getPath(key: number): ExtendScriptFile;
-        getData(key: number): string;
-        getType(key: number): number;
-        getUnitDoubleType(key: number): number;
-        getUnitDoubleValue(key: number): number;
-        getLargeInteger(key: number): number;
-        getObjectType(key: number): number;
-    }
-
-    /**
-     * Adobe ActionList class - container for indexed items
-     */
-    class ActionList {
-        constructor();
-        count: number;
-        getObjectValue(index: number): ActionDescriptor;
-        getString(index: number): string;
-        getDouble(index: number): number;
-        getInteger(index: number): number;
-        getBoolean(index: number): boolean;
-        getEnumerationValue(index: number): number;
-        getReference(index: number): ActionReference;
-        getClass(index: number): number;
-        getList(index: number): ActionList;
-        getType(index: number): number;
-        getData(index: number): string;
-        getPath(index: number): ExtendScriptFile;
-        getUnitDoubleType(index: number): number;
-        getUnitDoubleValue(index: number): number;
-        getLargeInteger(index: number): number;
-        getObjectType(index: number): number;
-        getEnumerationType(index: number): number;
-    }
-
-    /**
-     * Execute ActionManager get operation
-     */
-    function executeActionGet(reference: ActionReference): ActionDescriptor;
-
-    /**
-     * Execute ActionManager action
-     */
-    function executeAction(eventID: number, descriptor?: ActionDescriptor, dialogOptions?: number): ActionDescriptor;
-
-    /**
-     * Convert string ID to type ID
-     */
-    function stringIDToTypeID(stringID: string): number;
-
-    /**
-     * Convert type ID to string ID
-     */
-    function typeIDToStringID(typeID: number): string;
-
-    /**
-     * Convert 4-character ID to type ID
-     */
-    function charIDToTypeID(charID: string): number;
-
-    /**
-     * Convert type ID to 4-character ID
-     */
-    function typeIDToCharID(typeID: number): string;
-
-    /**
-     * Localize text string
-     */
-    function localize(text: string, ...args: any[]): string;
-}
-
 /**
  * Exported interface versions of global ActionManager classes
  * for import compatibility with development code and framework portability
@@ -182,7 +48,7 @@ export interface ActionDescriptor {
     getEnumerationType(key: number): number;
     getReference(key: number): ActionReference;
     getClass(key: number): number;
-    getPath(key: number): ExtendScriptFile;  // ← This is the key fix
+    getPath(key: number): ExtendScriptFile;
     getData(key: number): string;
     getType(key: number): number;
     getUnitDoubleType(key: number): number;
@@ -270,6 +136,17 @@ export type SentinelValue<T extends ValueType> =
  *   // Safe to use bounds calculations
  *   const area = bounds.width * bounds.height;
  * }
+ * 
+ * // File and reference sentinels  ← ADD THIS SECTION
+ * const linkedFile = layer.getPath('linkedAsset');
+ * if (linkedFile.exists) {  // Natural property checking
+ *   const content = linkedFile.read();
+ * }
+ * 
+ * const reference = layer.getReference('someProperty');
+ * if (reference !== SENTINELS.reference) {
+ *   reference.putProperty(someClassID, somePropertyID);
+ * }
  * ```
  * 
  * @example Incorrect - Assuming values are valid
@@ -279,6 +156,9 @@ export type SentinelValue<T extends ValueType> =
  * 
  * // BAD - Could crash if bounds are invalid
  * const area = layer.getBounds().width * layer.getBounds().height;
+ * 
+ * // BAD - Could crash if file is sentinel  ← ADD THIS SECTION
+ * const content = layer.getPath('asset').read();  // Crashes if sentinel
  * ```
  */
 export interface SentinelValueMap {
@@ -287,7 +167,29 @@ export interface SentinelValueMap {
     readonly "integer": -1;
     readonly "double": -1;
     readonly "boolean": false;
+    readonly "file": ExtendScriptFile;        
+    readonly "reference": ActionReference;   
 }
+
+const SENTINEL_FILE: ExtendScriptFile = {
+    absoluteURI: "",
+    name: "",
+    path: "",
+    exists: false,
+    open: () => false,
+    close: () => false,
+    read: () => "",
+    write: () => false
+} as ExtendScriptFile;
+
+const SENTINEL_REFERENCE: ActionReference = {
+    putEnumerated: () => {},
+    putIndex: () => {},
+    putProperty: () => {},
+    putName: () => {},
+    putIdentifier: () => {},
+    putOffset: () => {}
+} as ActionReference;
 
 /**
  * Sentinel values used throughout the system for graceful error handling.
@@ -298,7 +200,9 @@ export const SENTINELS: SentinelValueMap = {
     "enumerated": "",
     "integer": -1,
     "double": -1,
-    "boolean": false
+    "boolean": false,
+    "file": SENTINEL_FILE,
+    "reference": SENTINEL_REFERENCE
 } as const;
 
 /**
@@ -834,10 +738,10 @@ export interface IActionDescriptorNavigator {
     getObjectType(key: string): number;
 
     /** Extract file path reference */
-    getPath(key: string): ExtendScriptFile | null;
+    getPath(key: string): ExtendScriptFile;
 
     /** Extract ActionReference object */
-    getReference(key: string): ActionReference | null;
+    getReference(key: string): ActionReference;
 
     /** Extract unit double type ID */
     getUnitDoubleType(key: string): number;
@@ -1864,6 +1768,45 @@ export interface LayerProperties {
     readonly hasTextKey: boolean;
     readonly isBackground: boolean;
     readonly isLocked: boolean;
+}
+
+/**
+ * Check if a file is a sentinel (failed operation).
+ * 
+ * @param file - File to check
+ * @returns true if file is sentinel
+ * 
+ * @example Good - File validation
+ * ```typescript
+ * const assetFile = layer.getPath('linkedAsset');
+ * if (!isSentinelFile(assetFile)) {
+ *   // Safe to use file operations
+ *   const content = assetFile.read();
+ *   console.log('File size:', content.length);
+ * }
+ * ```
+ */
+export function isSentinelFile(file: ExtendScriptFile): boolean {
+    return file === SENTINELS.file || !file.exists;
+}
+
+/**
+ * Check if a reference is a sentinel (failed operation).
+ * 
+ * @param reference - Reference to check  
+ * @returns true if reference is sentinel
+ * 
+ * @example Good - Reference validation
+ * ```typescript
+ * const layerRef = layer.getReference('parentLayer');
+ * if (!isSentinelReference(layerRef)) {
+ *   // Safe to use reference operations
+ *   layerRef.putProperty(classID, propertyID);
+ * }
+ * ```
+ */
+export function isSentinelReference(reference: ActionReference): boolean {
+    return reference === SENTINELS.reference;
 }
 
 /**

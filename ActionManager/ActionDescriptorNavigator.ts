@@ -1237,20 +1237,24 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     getEnumerationType(key: string): number { return this.getIntegerValue(key, 'getEnumerationType'); }
     getType(key: string): number { return this.getIntegerValue(key, 'getType'); }
 
-    getPath(key: string): ExtendScriptFile | null {
-        if (this.isSentinel || !this.desc || !key || key.length === 0) return null;
+    getPath(key: string): ExtendScriptFile {  // ← Remove | null
+        if (this.isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.file;
         try {
             const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? this.desc.getPath(typeID) : null;
-        } catch (e: any) { return null; }
+            return this.desc.hasKey(typeID) ? (this.desc.getPath(typeID) || SENTINELS.file) : SENTINELS.file;
+        } catch (e: any) {
+            return SENTINELS.file;  // ← Return sentinel, not null
+        }
     }
 
-    getReference(key: string): ActionReference | null {
-        if (this.isSentinel || !this.desc || !key || key.length === 0) return null;
+    getReference(key: string): ActionReference {  // ← Remove | null
+        if (this.isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.reference;
         try {
             const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? this.desc.getReference(typeID) : null;
-        } catch (e: any) { return null; }
+            return this.desc.hasKey(typeID) ? (this.desc.getReference(typeID) || SENTINELS.reference) : SENTINELS.reference;
+        } catch (e: any) {
+            return SENTINELS.reference;  // ← Return sentinel, not null
+        }
     }
 
     // Helper methods to reduce duplication

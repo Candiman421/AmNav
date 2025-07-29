@@ -3,39 +3,17 @@
 
 /**
  * Setup file for Jest tests
- * Configures the testing environment for ActionDescriptorNavigator
+ * Configures mock ExtendScript environment for testing
  */
 
-// Extend global namespace to allow Jest mocking
-declare global {
-    namespace jest {
-        interface Matchers<R> {
-            // Add custom matchers here if needed
-        }
-    }
-
-    // Allow assignment to global ExtendScript types for mocking
-    var $: any;
-    var ActionReference: any;
-    var ActionDescriptor: any;
-    var ActionList: any;
-    var executeActionGet: any;
-    var executeAction: any;
-    var stringIDToTypeID: any;
-    var typeIDToStringID: any;
-    var charIDToTypeID: any;
-    var typeIDToCharID: any;
-}
-
-// Mock ExtendScript globals for testing environment
+// Mock ExtendScript globals for testing (no declarations, just mocks)
 (global as any).$ = {
     writeln: jest.fn((message: string) => {
-        // In test environment, redirect ExtendScript logging to console
         console.log(`[ExtendScript]: ${message}`);
     })
 };
 
-// Mock ActionManager globals (these don't exist in Node.js)
+// Mock ActionManager classes
 (global as any).ActionReference = jest.fn().mockImplementation(() => ({
     putEnumerated: jest.fn(),
     putIndex: jest.fn(),
@@ -88,7 +66,7 @@ declare global {
     getEnumerationType: jest.fn(() => -1)
 }));
 
-// Mock ActionManager functions
+// Mock ActionManager functions  
 (global as any).executeActionGet = jest.fn(() => new ((global as any).ActionDescriptor)());
 (global as any).executeAction = jest.fn(() => new ((global as any).ActionDescriptor)());
 (global as any).stringIDToTypeID = jest.fn((str: string) => str.length);
@@ -98,10 +76,7 @@ declare global {
 
 // Setup test environment
 beforeEach(() => {
-    // Clear all mocks before each test
     jest.clearAllMocks();
 });
-
-export {};
 
 console.log('✅ Jest setup complete - ActionDescriptorNavigator test environment ready');

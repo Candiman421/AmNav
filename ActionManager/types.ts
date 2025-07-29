@@ -38,10 +38,10 @@ declare global {
         writeln(message: string): void;
     };
 
-        /**
-     * ExtendScript File class
+    /**
+     * ExtendScript File class for Adobe environments
      */
-    class File {
+    class ExtendScriptFile {
         constructor(path?: string);
         readonly absoluteURI: string;
         readonly name: string;
@@ -64,7 +64,7 @@ declare global {
         exists: boolean;
         create(): boolean;
     }
-    
+
     /**
      * Adobe ActionReference class for targeting specific objects
      */
@@ -95,7 +95,7 @@ declare global {
         getEnumerationType(key: number): number;
         getReference(key: number): ActionReference;
         getClass(key: number): number;
-        getPath(key: number): File;
+        getPath(key: number): ExtendScriptFile;
         getData(key: number): string;
         getType(key: number): number;
         getUnitDoubleType(key: number): number;
@@ -121,7 +121,7 @@ declare global {
         getList(index: number): ActionList;
         getType(index: number): number;
         getData(index: number): string;
-        getPath(index: number): File;
+        getPath(index: number): ExtendScriptFile;
         getUnitDoubleType(index: number): number;
         getUnitDoubleValue(index: number): number;
         getLargeInteger(index: number): number;
@@ -167,7 +167,7 @@ declare global {
 
 /**
  * Exported interface versions of global ActionManager classes
- * for import compatibility with development code
+ * for import compatibility with development code and framework portability
  */
 export interface ActionDescriptor {
     count: number;
@@ -182,7 +182,7 @@ export interface ActionDescriptor {
     getEnumerationType(key: number): number;
     getReference(key: number): ActionReference;
     getClass(key: number): number;
-    getPath(key: number): File;
+    getPath(key: number): ExtendScriptFile;  // ← This is the key fix
     getData(key: number): string;
     getType(key: number): number;
     getUnitDoubleType(key: number): number;
@@ -213,7 +213,7 @@ export interface ActionList {
     getList(index: number): ActionList;
     getType(index: number): number;
     getData(index: number): string;
-    getPath(index: number): File;
+    getPath(index: number): ExtendScriptFile;  // ← This is the key fix
     getUnitDoubleType(index: number): number;
     getUnitDoubleValue(index: number): number;
     getLargeInteger(index: number): number;
@@ -834,7 +834,7 @@ export interface IActionDescriptorNavigator {
     getObjectType(key: string): number;
 
     /** Extract file path reference */
-    getPath(key: string): File | null;
+    getPath(key: string): ExtendScriptFile | null;
 
     /** Extract ActionReference object */
     getReference(key: string): ActionReference | null;

@@ -11,7 +11,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: {
-        target: 'es5',              // ES5 target for Jest (ES3 handled by webpack)
+        target: 'es5',              // ES5 for Jest (matches your webpack target)
         module: 'commonjs',
         strict: true,
         esModuleInterop: true,
@@ -28,7 +28,7 @@ module.exports = {
   },
   
   collectCoverageFrom: [
-    'ActionManager/**/*.ts',
+    'ActionManager/**/*.ts',        // Test your actual implementation
     '!ActionManager/**/*.d.ts',
     '!**/node_modules/**'
   ],
@@ -43,5 +43,12 @@ module.exports = {
     '/node_modules/',
     '/dist/',
     '/coverage/'
-  ]
+  ],
+  
+  // Add globals for ExtendScript compatibility in tests
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  }
 };

@@ -1,3 +1,4 @@
+//ps.ts
 /**
  * Minimal Photoshop ActionManager API for development
  * Re-exports global functions as named exports for import compatibility

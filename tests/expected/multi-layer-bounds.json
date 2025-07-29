@@ -1,0 +1,11 @@
+{
+  "hasTextKey": true,
+  "textStyleRangeCount": 1,
+  "layerCount": 2,
+  "firstRange": {
+    "from": 0,
+    "to": 10,
+    "fontPostScriptName": "ArialMT",
+    "fontSize": 36
+  }
+}

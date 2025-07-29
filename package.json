@@ -23,7 +23,10 @@
     "pretest": "npm run lint",
     "validate": "npm run lint && npm run test && npm run build",
     "dev-quick": "npm run dev && echo '🚀 Development build ready'",
-    "prod-ready": "npm run validate && npm run prod && echo '🎯 Production build validated and ready'"
+    "prod-ready": "npm run validate && npm run prod && echo '🎯 Production build validated and ready'",
+    "parse-xml": "npx ts-node tests/parse-xml-expectations.ts",
+    "build-tests": "npm run build && npm run parse-xml && echo '✅ Tests ready for Photoshop'",
+    "copy-tests": "npm run build-tests && echo 'Copy tests/extendscript-tests/*.js to main computer'"
   },
   "keywords": [
     "photoshop",

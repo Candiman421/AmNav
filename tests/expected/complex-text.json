@@ -1,0 +1,15 @@
+{
+  "hasTextKey": true,
+  "textStyleRangeCount": 1,
+  "firstRange": {
+    "from": 0,
+    "to": 16,
+    "fontPostScriptName": "ArialMT",
+    "fontSize": 64,
+    "color": {
+      "red": 255,
+      "green": 0,
+      "blue": 0
+    }
+  }
+}

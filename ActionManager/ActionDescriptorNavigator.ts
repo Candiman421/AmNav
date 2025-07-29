@@ -1237,7 +1237,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     getEnumerationType(key: string): number { return this.getIntegerValue(key, 'getEnumerationType'); }
     getType(key: string): number { return this.getIntegerValue(key, 'getType'); }
 
-    getPath(key: string): File | null {
+    getPath(key: string): ExtendScriptFile | null {
         if (this.isSentinel || !this.desc || !key || key.length === 0) return null;
         try {
             const typeID = stringIDToTypeID(key);
@@ -1722,3 +1722,55 @@ export class ActionListNavigator implements IActionListNavigator {
         return this;
     }
 }
+
+/**
+ * @fileoverview ActionDescriptorNavigator - Fluent API for Adobe ExtendScript ActionManager
+ * 
+ * Exports the complete ActionDescriptorNavigator framework for navigating
+ * Photoshop's ActionManager API with criteria-based selection and sentinel error handling.
+ * 
+ * @example Basic Usage
+ * ```typescript
+ * import { ActionDescriptorNavigator } from './ActionManager/ActionDescriptorNavigator';
+ * 
+ * const layer = ActionDescriptorNavigator.forCurrentLayer();
+ * const fontName = layer
+ *   .getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getFirstWhere(range => range.getInteger('from') === 0)
+ *   .getObject('textStyle')
+ *   .getString('fontPostScriptName');
+ * ```
+ * 
+ * @example ExtendScript Usage
+ * ```javascript
+ * // After webpack transpilation to ES3
+ * var layer = ActionDescriptorNavigator.forCurrentLayer();
+ * var fontName = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getFirstWhere(function(range) { return range.getInteger('from') === 0; })
+ *   .getObject('textStyle')
+ *   .getString('fontPostScriptName');
+ * ```
+ * 
+ * @version 1.0.0
+ * @author ActionManager Navigator Team
+ * @license MIT
+ */
+
+// Utility exports - For advanced usage
+export { SENTINELS };
+
+// Type exports - For TypeScript development
+export type {
+    IActionDescriptorNavigator,
+    IActionListNavigator,
+    IEnumerable,
+    IEnumerableArray,
+    PredicateFunction,
+    SelectorFunction,
+    BoundsObject
+};
+
+// Default export for convenience
+export default ActionDescriptorNavigator;

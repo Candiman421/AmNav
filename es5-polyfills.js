@@ -1,25 +1,37 @@
 /**
- * Complete ExtendScript ECMA-3 Compatible Polyfills v2.1
+ * Complete ExtendScript ECMA-3 Compatible Polyfills v2.2
  * Based on MDN official polyfills and es5-shim standards
  * Fully ES3 compatible for Adobe ExtendScript environments
+ * 
+ * Updated for ActionManager module integration:
+ * - Examples show new action-manager import paths
+ * - Verified compatibility with namespace exports
+ * - Standalone design for root-level placement
+ * - Safe for use with existing ps.ts and new action-manager module
  * 
  * Compatible with: Photoshop CS5+, After Effects CS5+, Illustrator CS5+, InDesign CS5+, Premiere Pro CS5+
  * Tested against: ExtendScript Toolkit, UXP, CEP environments
  * 
  * @fileoverview Essential polyfills for modern JavaScript functionality in ExtendScript
- * @version 2.1.0
+ * @version 2.2.0
  * @author ActionManager Navigator Team
  * @license MIT
  * 
- * @example Best - Include at the start of your script
+ * @example Best - Include at the start of your script (recommended root placement)
  * ```javascript
  * // At the very beginning of your .jsx file:
- * #include "es5-polyfills.js"
+ * #include "../es5-polyfills.js"
  * 
- * // Now you can use modern JavaScript:
- * var boldRanges = styleRanges.filter(function(range) {
- *   return range.getObject('textStyle').getBoolean('syntheticBold');
- * });
+ * // For new scoring scripts using ActionManager
+ * #include "action-manager/ActionDescriptorNavigator.js"
+ * 
+ * // Now you can use modern JavaScript with ActionManager:
+ * var layer = ActionDescriptorNavigator.forCurrentLayer();
+ * var boldRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getObject('textStyle').getBoolean('syntheticBold');
+ *   });
  * 
  * var fontNames = boldRanges.map(function(range) {
  *   return range.getObject('textStyle').getString('fontPostScriptName');
@@ -30,25 +42,47 @@
  * });
  * ```
  * 
- * @example Good - Using with ActionManager Navigator
+ * @example Good - Using with ActionManager namespace (maximum safety)
  * ```javascript
- * #include "es5-polyfills.js"
- * #include "ActionDescriptorNavigator.js"
+ * #include "../es5-polyfills.js"
+ * #include "action-manager/index.js"
  * 
- * var layer = ActionDescriptorNavigator.forCurrentLayer();
+ * // Use namespace to prevent conflicts
+ * var layer = ActionManager.Navigator.forCurrentLayer();
  * var allBoldRanges = layer.getObject('textKey')
  *   .getList('textStyleRange')
  *   .getAllWhere(function(range) {
  *     return range.getObject('textStyle').getBoolean('syntheticBold');
  *   });
  * 
- * // Use modern array methods
+ * // Use modern array methods safely
  * var fontSizes = allBoldRanges.map(function(range) {
  *   return range.getObject('textStyle').getUnitDouble('sizeKey');
  * });
  * 
  * var uniqueSizes = fontSizes.filter(function(size, index, arr) {
  *   return arr.indexOf(size) === index;
+ * });
+ * ```
+ * 
+ * @example Mixed - ActionManager + Document API (with ps-utils.ts)
+ * ```javascript
+ * #include "../es5-polyfills.js"
+ * #include "action-manager/ActionDescriptorNavigator.js"
+ * #include "ps-utils.js"  // Still needed for Document API
+ * 
+ * // ActionManager for layer properties
+ * var layer = ActionDescriptorNavigator.forCurrentLayer();
+ * var bounds = layer.getBounds();
+ * 
+ * // Document API for pixel sampling (ActionManager can't do this)
+ * var colors = SamplePixelColors(doc, [{x: bounds.left, y: bounds.top}]);
+ * 
+ * // Modern array processing
+ * var analysis = [bounds, colors].filter(function(item) {
+ *   return item !== null && item !== undefined;
+ * }).map(function(item, index) {
+ *   return index === 0 ? 'Layer: ' + item.width + 'x' + item.height : 'Color: ' + item;
  * });
  * ```
  * 
@@ -90,10 +124,11 @@ function isFunction(obj) {
  * @param {*} obj - Object to test
  * @returns {boolean} true if object is an object and not null
  * 
- * @example Good - Object validation
+ * @example Good - Object validation for ActionManager data
  * ```javascript
- * if (isObject(data) && data.hasOwnProperty('fontName')) {
- *   processFont(data.fontName);
+ * var styleData = range.getObject('textStyle');
+ * if (isObject(styleData) && !styleData.isSentinel) {
+ *   processTextStyle(styleData);
  * }
  * ```
  */
@@ -117,8 +152,9 @@ function isString(obj) {
  * @param {*} obj - Object to test
  * @returns {boolean} true if object is a valid number
  * 
- * @example Good - Number validation
+ * @example Good - Number validation for font sizes
  * ```javascript
+ * var fontSize = textStyle.getUnitDouble('sizeKey');
  * if (isNumber(fontSize) && fontSize > 0) {
  *   applyFontSize(fontSize);
  * }
@@ -138,10 +174,14 @@ function isNumber(obj) {
  * @param {*} arg - The object to be checked
  * @returns {boolean} true if the object is an array, false otherwise
  * 
- * @example Best - Array detection
+ * @example Best - Array detection for ActionManager results
  * ```javascript
- * if (Array.isArray(styleRanges)) {
- *   styleRanges.forEach(function(range) {
+ * var allBoldRanges = styleRanges.getAllWhere(function(range) {
+ *   return range.getObject('textStyle').getBoolean('syntheticBold');
+ * });
+ * 
+ * if (Array.isArray(allBoldRanges)) {
+ *   allBoldRanges.forEach(function(range) {
  *     processRange(range);
  *   });
  * }
@@ -160,18 +200,20 @@ if (!Array.isArray) {
  * @param {number} end - Zero-based index before which to end extraction
  * @returns {Array} A new array containing the extracted elements
  * 
- * @example Best - Array slicing for analysis
+ * @example Best - Array slicing for ActionManager analysis
  * ```javascript
- * var allRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getInteger('from') >= 0;
- * });
+ * var allRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getInteger('from') >= 0;
+ *   });
  * 
  * var firstThree = allRanges.slice(0, 3);          // First 3 ranges
  * var lastTwo = allRanges.slice(-2);               // Last 2 ranges
  * var middle = allRanges.slice(2, 5);              // Ranges 2, 3, 4
  * ```
  * 
- * @example Good - Font name extraction
+ * @example Good - Font name extraction with ActionManager
  * ```javascript
  * var fontNames = ['Arial-Bold', 'Times-Roman', 'Helvetica-Light'];
  * var fontFamilies = fontNames.map(function(name) {
@@ -216,9 +258,13 @@ if (!Array.prototype.slice) {
  * @param {...*} element - The elements to add to the end of the array
  * @returns {number} The new length of the array
  * 
- * @example Best - Building analysis results
+ * @example Best - Building ActionManager analysis results
  * ```javascript
  * var fontSizes = [];
+ * 
+ * var allBoldRanges = styleRanges.getAllWhere(function(range) {
+ *   return range.getObject('textStyle').getBoolean('syntheticBold');
+ * });
  * 
  * allBoldRanges.forEach(function(range) {
  *   var size = range.getObject('textStyle').getUnitDouble('sizeKey');
@@ -243,7 +289,7 @@ if (!Array.prototype.push) {
  * 
  * @returns {*} The removed element from the array; undefined if the array is empty
  * 
- * @example Straightforward - Stack operations
+ * @example Straightforward - Stack operations for range processing
  * ```javascript
  * var processQueue = [range1, range2, range3];
  * 
@@ -314,11 +360,15 @@ if (!Array.prototype.unshift) {
  * @param {string} separator - String to separate each pair of adjacent elements
  * @returns {string} A string with all array elements joined
  * 
- * @example Best - Font name reporting
+ * @example Best - Font name reporting with ActionManager
  * ```javascript
- * var fontNames = allTextRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName');
- * });
+ * var layer = ActionDescriptorNavigator.forCurrentLayer();
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName');
+ *   })
+ *   .toResultArray();
  * 
  * var uniqueFonts = fontNames.filter(function(name, index, arr) {
  *   return arr.indexOf(name) === index;
@@ -357,7 +407,7 @@ if (!Array.prototype.join) {
  * @param {...*} arrayN - Arrays and/or values to concatenate into a new array
  * @returns {Array} A new Array instance
  * 
- * @example Good - Combining analysis results
+ * @example Good - Combining ActionManager analysis results
  * ```javascript
  * var boldRanges = styleRanges.getAllWhere(function(range) {
  *   return range.getObject('textStyle').getBoolean('syntheticBold');
@@ -404,7 +454,7 @@ if (!Array.prototype.concat) {
  * 
  * @returns {Array} The reversed array
  * 
- * @example Straightforward - Process in reverse order
+ * @example Straightforward - Process layers in reverse order
  * ```javascript
  * var layers = document.getAllLayers();
  * var reversedLayers = layers.slice().reverse();  // Copy first, then reverse
@@ -436,11 +486,14 @@ if (!Array.prototype.reverse) {
  * @param {function} compareFn - Function that defines the sort order
  * @returns {Array} The sorted array
  * 
- * @example Best - Sort font sizes for analysis
+ * @example Best - Sort font sizes for ActionManager analysis
  * ```javascript
- * var fontSizes = allTextRanges.map(function(range) {
- *   return range.getObject('textStyle').getUnitDouble('sizeKey');
- * });
+ * var fontSizes = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getUnitDouble('sizeKey');
+ *   })
+ *   .toResultArray();
  * 
  * // Sort sizes in ascending order
  * fontSizes.sort(function(a, b) {
@@ -495,11 +548,14 @@ if (!Array.prototype.sort) {
  * @param {number} fromIndex - Index to start the search at
  * @returns {number} The first index of the element in the array; -1 if not found
  * 
- * @example Best - Finding duplicate fonts
+ * @example Best - Finding duplicate fonts with ActionManager
  * ```javascript
- * var fontNames = allTextRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName');
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName');
+ *   })
+ *   .toResultArray();
  * 
  * // Remove duplicates
  * var uniqueFonts = fontNames.filter(function(name, index) {
@@ -594,11 +650,13 @@ if (!Array.prototype.lastIndexOf) {
  * @param {function} callback - Function to execute for each element
  * @param {*} thisArg - Value to use as this when executing callback
  * 
- * @example Best - Process all text ranges
+ * @example Best - Process all ActionManager text ranges
  * ```javascript
- * var allBoldRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getObject('textStyle').getBoolean('syntheticBold');
- * });
+ * var allBoldRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getObject('textStyle').getBoolean('syntheticBold');
+ *   });
  * 
  * allBoldRanges.forEach(function(range, index) {
  *   var from = range.getInteger('from');
@@ -609,7 +667,7 @@ if (!Array.prototype.lastIndexOf) {
  * });
  * ```
  * 
- * @example Good - Layer analysis
+ * @example Good - Layer analysis with ActionManager
  * ```javascript
  * var textLayers = layers.getAllWhere(function(layer) {
  *   return layer.hasKey('textKey');
@@ -620,7 +678,7 @@ if (!Array.prototype.lastIndexOf) {
  *   var opacity = layer.getInteger('opacity');
  *   var bounds = layer.getBounds();
  *   
- *   if (hasValidBounds(bounds)) {
+ *   if (ActionManager.Types.hasValidBounds(bounds)) {
  *     reportLayer(name, opacity, bounds.width, bounds.height);
  *   }
  * });
@@ -661,11 +719,13 @@ if (!Array.prototype.forEach) {
  * @param {*} thisArg - Value to use as this when executing callback
  * @returns {Array} A new array with each element being the result of the callback function
  * 
- * @example Best - Extract font properties for analysis
+ * @example Best - Extract font properties for analysis with ActionManager
  * ```javascript
- * var allTextRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getInteger('from') >= 0;
- * });
+ * var allTextRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getInteger('from') >= 0;
+ *   });
  * 
  * // Extract font data for analysis
  * var fontData = allTextRanges.map(function(range) {
@@ -689,7 +749,7 @@ if (!Array.prototype.forEach) {
  * // Now apply your tolerance algorithms to the raw fontData
  * ```
  * 
- * @example Good - Layer name extraction
+ * @example Good - Layer name extraction with ActionManager
  * ```javascript
  * var visibleLayers = layers.getAllWhere(function(layer) {
  *   return layer.getBoolean('visible') === true;
@@ -741,11 +801,13 @@ if (!Array.prototype.map) {
  * @param {*} thisArg - Value to use as this when executing callback
  * @returns {Array} A new array with the elements that pass the test
  * 
- * @example Best - Filter font sizes for analysis
+ * @example Best - Filter font sizes for ActionManager analysis
  * ```javascript
- * var allRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getInteger('from') >= 0;
- * });
+ * var allRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getInteger('from') >= 0;
+ *   });
  * 
  * var fontSizes = allRanges.map(function(range) {
  *   return range.getObject('textStyle').getUnitDouble('sizeKey');
@@ -767,7 +829,7 @@ if (!Array.prototype.map) {
  * });
  * ```
  * 
- * @example Good - Layer filtering
+ * @example Good - Layer filtering with ActionManager
  * ```javascript
  * var allLayers = document.getAllLayers();
  * 
@@ -816,7 +878,7 @@ if (!Array.prototype.filter) {
  * @param {*} thisArg - Value to use as this when executing callbackfn
  * @returns {boolean} true if all elements pass the test, false otherwise
  * 
- * @example Good - Validation checks
+ * @example Good - Validation checks with ActionManager
  * ```javascript
  * var fontSizes = allRanges.map(function(range) {
  *   return range.getObject('textStyle').getUnitDouble('sizeKey');
@@ -877,11 +939,13 @@ if (!Array.prototype.every) {
  * @param {*} thisArg - Value to use as this when executing callback
  * @returns {boolean} true if at least one element passes the test, false otherwise
  * 
- * @example Best - Existence checks
+ * @example Best - Existence checks with ActionManager
  * ```javascript
- * var allRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getInteger('from') >= 0;
- * });
+ * var allRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getInteger('from') >= 0;
+ *   });
  * 
  * // Check if any text is bold
  * var hasBoldText = allRanges.some(function(range) {
@@ -933,13 +997,17 @@ if (!Array.prototype.some) {
  * @param {*} initialValue - Value to use as the first argument to the first call of the callback
  * @returns {*} The final result of the reduction
  * 
- * @example Best - Font size analysis
+ * @example Best - Font size analysis with ActionManager
  * ```javascript
- * var fontSizes = allRanges.map(function(range) {
- *   return range.getObject('textStyle').getUnitDouble('sizeKey');
- * }).filter(function(size) {
- *   return size > 0;  // Filter out sentinel values
- * });
+ * var fontSizes = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getUnitDouble('sizeKey');
+ *   })
+ *   .toResultArray()
+ *   .filter(function(size) {
+ *     return size > 0;  // Filter out sentinel values
+ *   });
  * 
  * // Find maximum font size
  * var maxSize = fontSizes.reduce(function(max, size) {
@@ -959,11 +1027,14 @@ if (!Array.prototype.some) {
  * $.writeln('  Average: ' + avgSize.toFixed(1) + 'pt');
  * ```
  * 
- * @example Good - Build font usage report
+ * @example Good - Build font usage report with ActionManager
  * ```javascript
- * var fontNames = allRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName');
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName');
+ *   })
+ *   .toResultArray();
  * 
  * // Count font usage
  * var fontCount = fontNames.reduce(function(counts, font) {
@@ -1065,7 +1136,7 @@ if (!Array.prototype.reduceRight) {
  * 
  * @returns {string} A new string with whitespace removed from both ends
  * 
- * @example Best - Clean font names and layer names
+ * @example Best - Clean font names and layer names with ActionManager
  * ```javascript
  * var layerNames = allLayers.map(function(layer) {
  *   return layer.getString('name').trim();  // Remove leading/trailing spaces
@@ -1091,11 +1162,14 @@ if (!String.prototype.trim) {
  * @param {number} limit - A limit on the number of substrings to be included in the array
  * @returns {Array} An Array of strings, split at each point where the separator occurs
  * 
- * @example Best - Font name parsing
+ * @example Best - Font name parsing with ActionManager
  * ```javascript
- * var fontNames = allRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName');
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName');
+ *   })
+ *   .toResultArray();
  * 
  * var fontFamilies = fontNames.map(function(name) {
  *   var parts = name.split('-');          // Split "Arial-Bold" -> ["Arial", "Bold"]
@@ -1108,7 +1182,7 @@ if (!String.prototype.trim) {
  * });
  * ```
  * 
- * @example Good - Layer name parsing
+ * @example Good - Layer name parsing with ActionManager
  * ```javascript
  * var layerNames = layers.map(function(layer) {
  *   return layer.getString('name');
@@ -1216,12 +1290,15 @@ if (!String.prototype.substring) {
  * @param {string} replaceValue - The string to replace matches with
  * @returns {string} A new string with some or all matches replaced
  * 
- * @example Good - Font name normalization
+ * @example Good - Font name normalization with ActionManager
  * ```javascript
- * var fontNames = allRanges.map(function(range) {
- *   var name = range.getObject('textStyle').getString('fontPostScriptName');
- *   return name.replace('MT', '').replace('PS', '');  // Normalize suffixes
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     var name = range.getObject('textStyle').getString('fontPostScriptName');
+ *     return name.replace('MT', '').replace('PS', '');  // Normalize suffixes
+ *   })
+ *   .toResultArray();
  * ```
  */
 if (!String.prototype.replace) {
@@ -1244,11 +1321,14 @@ if (!String.prototype.replace) {
  * 
  * @returns {string} The calling string value converted to lower case
  * 
- * @example Good - Case-insensitive comparisons
+ * @example Good - Case-insensitive comparisons with ActionManager
  * ```javascript
- * var fontNames = allRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName').toLowerCase();
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName').toLowerCase();
+ *   })
+ *   .toResultArray();
  * 
  * // Check for Arial family fonts (case-insensitive)
  * var hasArial = fontNames.some(function(name) {
@@ -1284,11 +1364,14 @@ if (!String.prototype.toUpperCase) {
  * @param {number} start - The position in this string at which to begin searching
  * @returns {boolean} true if the search string is found, false otherwise
  * 
- * @example Best - Font family detection
+ * @example Best - Font family detection with ActionManager
  * ```javascript
- * var fontNames = allRanges.map(function(range) {
- *   return range.getObject('textStyle').getString('fontPostScriptName');
- * });
+ * var fontNames = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     return range.getObject('textStyle').getString('fontPostScriptName');
+ *   })
+ *   .toResultArray();
  * 
  * // Find fonts that include "Arial"
  * var arialFonts = fontNames.filter(function(name) {
@@ -1328,17 +1411,20 @@ if (!String.prototype.includes) {
  * @param {Object} obj - The object whose enumerable properties are to be returned
  * @returns {Array} An array of strings that represent all the enumerable properties of the given object
  * 
- * @example Best - Font analysis reporting
+ * @example Best - Font analysis reporting with ActionManager
  * ```javascript
- * var fontData = allRanges.map(function(range) {
- *   var style = range.getObject('textStyle');
- *   return {
- *     name: style.getString('fontPostScriptName'),
- *     size: style.getUnitDouble('sizeKey'),
- *     bold: style.getBoolean('syntheticBold'),
- *     italic: style.getBoolean('syntheticItalic')
- *   };
- * });
+ * var fontData = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .select(function(range) {
+ *     var style = range.getObject('textStyle');
+ *     return {
+ *       name: style.getString('fontPostScriptName'),
+ *       size: style.getUnitDouble('sizeKey'),
+ *       bold: style.getBoolean('syntheticBold'),
+ *       italic: style.getBoolean('syntheticItalic')
+ *     };
+ *   })
+ *   .toResultArray();
  * 
  * // Group fonts by properties
  * var fontUsage = fontData.reduce(function(usage, font) {
@@ -1358,7 +1444,7 @@ if (!String.prototype.includes) {
  * });
  * ```
  * 
- * @example Good - Layer analysis
+ * @example Good - Layer analysis with ActionManager
  * ```javascript
  * var layerData = {
  *   visible: 15,
@@ -1421,7 +1507,7 @@ if (!Object.keys) {
  * @param {...*} aArgs - Arguments to prepend to arguments provided to the bound function
  * @returns {Function} A bound function with the specified this value and initial arguments
  * 
- * @example Good - Context binding for callbacks
+ * @example Good - Context binding for ActionManager callbacks
  * ```javascript
  * var TextAnalyzer = {
  *   minSize: 12,
@@ -1438,9 +1524,11 @@ if (!Object.keys) {
  *   }
  * };
  * 
- * var allRanges = styleRanges.getAllWhere(function(range) {
- *   return range.getInteger('from') >= 0;
- * });
+ * var allRanges = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getInteger('from') >= 0;
+ *   });
  * 
  * var analysis = TextAnalyzer.analyze(allRanges);
  * ```
@@ -1519,17 +1607,19 @@ if (!Math.min) {
  * 
  * @returns {number} The number of milliseconds since the Unix Epoch
  * 
- * @example Straightforward - Performance timing
+ * @example Straightforward - Performance timing for ActionManager operations
  * ```javascript
  * var startTime = Date.now();
  * 
- * // Process all text ranges
- * var results = styleRanges.getAllWhere(function(range) {
- *   return range.getObject('textStyle').getBoolean('syntheticBold');
- * });
+ * // Process all text ranges with ActionManager
+ * var results = layer.getObject('textKey')
+ *   .getList('textStyleRange')
+ *   .getAllWhere(function(range) {
+ *     return range.getObject('textStyle').getBoolean('syntheticBold');
+ *   });
  * 
  * var endTime = Date.now();
- * $.writeln('Processing took ' + (endTime - startTime) + 'ms');
+ * $.writeln('ActionManager processing took ' + (endTime - startTime) + 'ms');
  * ```
  */
 if (!Date.now) {
@@ -1590,6 +1680,7 @@ if (!Date.now) {
     if (missing.length > 0 && typeof $ !== 'undefined' && $ && $.writeln) {
         $.writeln('ExtendScript Polyfills: Missing methods after polyfill load: ' + missing.join(', '));
     } else if (missing.length === 0 && typeof $ !== 'undefined' && $ && $.writeln) {
-        $.writeln('ExtendScript Polyfills: All essential methods loaded successfully');
+        $.writeln('ExtendScript Polyfills v2.2: All essential methods loaded successfully');
+        $.writeln('Ready for ActionManager module integration');
     }
 })();

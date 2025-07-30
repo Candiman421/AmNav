@@ -1,10 +1,20 @@
-//actionManager/actionDescriptorNavigator.ts
+//ps/action-manager/ActionDescriptorNavigator.ts
 /**
  * Adobe ExtendScript ActionManager Navigator - Simplified Implementation
  * 
  * Clean, composable API for navigating Photoshop's ActionManager with sentinel-based error handling.
  * No complex caching - users cache naturally with const variables.
  * Never crashes - always returns safe sentinel values on errors.
+ * 
+ * ARCHITECTURE ALIGNED: Uses constructor functions from action-manager-api.ts
+ * and namespace types from types.ts for complete architectural consistency.
+ * 
+ * Updated for ActionManager module integration:
+ * - Imports constructor functions from ./action-manager-api
+ * - Imports namespace types from ./types with aliases
+ * - Uses ExtendScriptFile to prevent conflicts
+ * - Updated examples to show new import paths
+ * - Ready for namespace export
  * 
  * @fileoverview Simple, chainable ActionManager navigation without complex caching
  * @version 1.0.0
@@ -13,9 +23,11 @@
  * 
  * @example Best - Natural caching with const variables (user's preferred pattern)
  * ```typescript
- * // 1. Travel down XML hierarchy to focus scope
- * const layer = ActionDescriptorNavigator.forCurrentLayer();
- * const textObj = layer.getObject('textKey');
+ * import { ActionDescriptorNavigator } from '../ps/action-manager';
+ * 
+ * // 1. Travel down XML hierarchy to focus scope - target specific layers
+ * const titleLayer = ActionDescriptorNavigator.forLayerByName('Title');
+ * const textObj = titleLayer.getObject('textKey');
  * 
  * // 2. Chain to get ranges  
  * const styleRanges = textObj.getList('textStyleRange');
@@ -35,19 +47,27 @@
  * // Never crashes - always safe values (sentinels on error)
  * ```
  * 
- * @example Good - Composable chaining for analysis
+ * @example Good - Multi-layer analysis workflow
  * ```typescript
- * // Get ALL bold ranges for analysis
- * const allBoldRanges = styleRanges.getAllWhere(range => 
+ * import { ActionDescriptorNavigator } from '../ps/action-manager';
+ * 
+ * // Analyze multiple specific layers
+ * const headerLayer = ActionDescriptorNavigator.forLayerByName('Header');
+ * const bodyLayer = ActionDescriptorNavigator.forLayerByName('Body Text');
+ * 
+ * // Get ALL bold ranges from header for analysis
+ * const headerStyleRanges = headerLayer.getObject('textKey').getList('textStyleRange');
+ * const allBoldRanges = headerStyleRanges.getAllWhere(range => 
  *   range.getObject('textStyle').getBoolean('syntheticBold')
  * );
  * 
- * // Extract raw data for algorithms
+ * // Extract raw data for tolerance algorithms
  * const fontData = allBoldRanges.map(range => {
  *   const style = range.getObject('textStyle');
  *   return {
  *     fontSize: style.getUnitDouble('sizeKey'),    // Raw values for tolerance
- *     fontName: style.getString('fontPostScriptName')
+ *     fontName: style.getString('fontPostScriptName'),
+ *     layerName: 'Header'  // Track source layer
  *   };
  * });
  * ```
@@ -71,15 +91,28 @@
  * ```
  */
 
+// Constructor functions from API layer (architecture compliance)
 import {
     executeActionGet,
     stringIDToTypeID,
     charIDToTypeID,
-    typeIDToStringID
-} from "../ps";
+    typeIDToStringID,
+    ActionReference,     // Constructor function
+    ActionDescriptor,    // Constructor function  
+    ActionList          // Constructor function
+} from "./action-manager-api";
 
+// Runtime values (constants, objects that are used at runtime)
 import {
-    SENTINELS,
+    SENTINELS  // ✅ Imported as value because it's used at runtime
+} from './types';
+
+// Types with aliases to prevent naming conflicts
+import type {
+    ActionDescriptor as ActionDescriptorType,
+    ActionList as ActionListType,
+    ActionReference as ActionReferenceType,
+    ExtendScriptFile,
     PredicateFunction,
     SelectorFunction,
     BoundsObject,
@@ -87,7 +120,7 @@ import {
     IActionListNavigator,
     IEnumerable,
     IEnumerableArray
-} from "./types";
+} from './types';
 
 /**
  * Simple enumerable for filtering without complex lazy evaluation.
@@ -108,6 +141,8 @@ class SimpleEnumerable implements IEnumerable {
      * 
      * @example Best - Multi-stage filtering
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const filtered = styleRanges
      *   .whereMatches(range => range.getInteger('from') >= 0)
      *   .whereMatches(range => range.getObject('textStyle').getUnitDouble('sizeKey') > 12)
@@ -133,6 +168,8 @@ class SimpleEnumerable implements IEnumerable {
      * 
      * @example Good - Get first match after filtering
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const firstBold = styleRanges
      *   .whereMatches(range => range.getObject('textStyle').getBoolean('syntheticBold'))
      *   .getFirst();  // Safe - returns sentinel if none found
@@ -182,6 +219,8 @@ class SimpleEnumerable implements IEnumerable {
      * 
      * @example Best - Select and continue filtering
      * ```typescript
+     * import { ActionDescriptorNavigator, SENTINELS } from '../ps/action-manager';
+     * 
      * const fontNames = styleRanges
      *   .whereMatches(range => range.getInteger('from') >= 0)
      *   .select(range => range.getObject('textStyle').getString('fontPostScriptName'))
@@ -226,7 +265,9 @@ class SimpleEnumerable implements IEnumerable {
      */
     debug(label: string): IEnumerable {
         try {
-            $.writeln(label + ': ' + this.items.length + ' items');
+            if (typeof $ !== 'undefined' && $ && $.writeln) {
+                $.writeln(label + ': ' + this.items.length + ' items');
+            }
         } catch (e: any) {
             // Graceful fallback
         }
@@ -253,6 +294,8 @@ class SimpleEnumerableArray implements IEnumerableArray {
      * 
      * @example Best - Filter after transform
      * ```typescript
+     * import { ActionDescriptorNavigator, SENTINELS } from '../ps/action-manager';
+     * 
      * const validFontNames = styleRanges
      *   .select(range => range.getObject('textStyle').getString('fontPostScriptName'))
      *   .whereMatches(name => name !== SENTINELS.string && name.length > 0)
@@ -352,7 +395,9 @@ class SimpleEnumerableArray implements IEnumerableArray {
      */
     debug(label: string): IEnumerableArray {
         try {
-            $.writeln(label + ': ' + this.array.length + ' items');
+            if (typeof $ !== 'undefined' && $ && $.writeln) {
+                $.writeln(label + ': ' + this.array.length + ' items');
+            }
         } catch (e: any) {
             // Graceful fallback
         }
@@ -367,6 +412,8 @@ class SimpleEnumerableArray implements IEnumerableArray {
  * 
  * @example Best - Complete workflow with natural caching
  * ```typescript
+ * import { ActionDescriptorNavigator } from '../ps/action-manager';
+ * 
  * // Travel down hierarchy and cache key navigators in const variables
  * const layer = ActionDescriptorNavigator.forCurrentLayer();
  * const textObj = layer.getObject('textKey');
@@ -392,14 +439,14 @@ class SimpleEnumerableArray implements IEnumerableArray {
  */
 export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     public readonly isSentinel: boolean;
-    private desc: ActionDescriptor | null;
+    private desc: ActionDescriptorType | null;
 
     /**
      * Create ActionDescriptor navigator
      * 
      * @param desc - ActionDescriptor to navigate (null creates sentinel)
      */
-    constructor(desc: ActionDescriptor | null) {
+    constructor(desc: ActionDescriptorType | null) {
         this.desc = desc;
         this.isSentinel = desc === null || desc === undefined;
     }
@@ -411,6 +458,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Best - Current layer analysis
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const layer = ActionDescriptorNavigator.forCurrentLayer();
      * 
      * // Safe to chain immediately - never crashes
@@ -424,6 +473,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Good - Text layer detection
      * ```typescript
+     * import { ActionDescriptorNavigator, SENTINELS } from '../ps/action-manager';
+     * 
      * const currentLayer = ActionDescriptorNavigator.forCurrentLayer();
      * 
      * // No if checks needed - just chain and check results
@@ -434,9 +485,9 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * ```
      */
     static forCurrentLayer(): ActionDescriptorNavigator {
-        let ref: ActionReference | null = null;
+        let ref: ActionReferenceType | null = null;
         try {
-            ref = new ActionReference();
+            ref = ActionReference();
             ref.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
             const desc = executeActionGet(ref);
             return new ActionDescriptorNavigator(desc);
@@ -454,6 +505,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Best - Document analysis
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const doc = ActionDescriptorNavigator.forCurrentDocument();
      * 
      * const docInfo = {
@@ -466,9 +519,9 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * ```
      */
     static forCurrentDocument(): ActionDescriptorNavigator {
-        let ref: ActionReference | null = null;
+        let ref: ActionReferenceType | null = null;
         try {
-            ref = new ActionReference();
+            ref = ActionReference();
             ref.putEnumerated(charIDToTypeID('Dcmn'), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'));
             const desc = executeActionGet(ref);
             return new ActionDescriptorNavigator(desc);
@@ -487,6 +540,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Best - Target specific layers
      * ```typescript
+     * import { ActionDescriptorNavigator, SENTINELS } from '../ps/action-manager';
+     * 
      * const titleLayer = ActionDescriptorNavigator.forLayerByName('Title');
      * const headerLayer = ActionDescriptorNavigator.forLayerByName('Header');
      * 
@@ -540,9 +595,9 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
             return ActionDescriptorNavigator.createSentinel();
         }
 
-        let ref: ActionReference | null = null;
+        let ref: ActionReferenceType | null = null;
         try {
-            ref = new ActionReference();
+            ref = ActionReference();
             ref.putIndex(charIDToTypeID("Lyr "), index);
             const desc = executeActionGet(ref);
             return new ActionDescriptorNavigator(desc);
@@ -568,9 +623,9 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * @returns Number of layers or -1 if failed
      */
     private static getLayerCount(): number {
-        let ref: ActionReference | null = null;
+        let ref: ActionReferenceType | null = null;
         try {
-            ref = new ActionReference();
+            ref = ActionReference();
             ref.putProperty(stringIDToTypeID("property"), stringIDToTypeID("numberOfLayers"));
             ref.putEnumerated(charIDToTypeID('Dcmn'), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'));
             const count = executeActionGet(ref).getInteger(stringIDToTypeID("numberOfLayers"));
@@ -590,6 +645,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Best - Deep navigation with caching
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const layer = ActionDescriptorNavigator.forCurrentLayer();
      * 
      * // Cache key navigators in const variables
@@ -648,6 +705,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @example Best - List processing with caching
      * ```typescript
+     * import { ActionDescriptorNavigator } from '../ps/action-manager';
+     * 
      * const textObj = layer.getObject('textKey');
      * 
      * // Cache list navigators
@@ -695,36 +754,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns String value or empty string ("") if failed (never null)
-     * 
-     * @example Best - String extraction with caching
-     * ```typescript
-     * const layer = ActionDescriptorNavigator.forCurrentLayer();
-     * const textStyle = layer.getObject('textKey')
-     *   .getList('textStyleRange')
-     *   .getFirstWhere(range => range.getInteger('from') === 0)
-     *   .getObject('textStyle');
-     * 
-     * // Fast access from cached textStyle navigator
-     * const fontName = textStyle.getString('fontPostScriptName');   // "ArialMT"
-     * const familyName = textStyle.getString('fontName');           // "Arial"
-     * const styleName = textStyle.getString('fontStyleName');       // "Bold"
-     * 
-     * // Safe to use without null checks
-     * if (fontName !== SENTINELS.string) {
-     *   console.log('Font:', fontName);
-     * }
-     * ```
-     * 
-     * @example Good - In chains
-     * ```typescript
-     * const layerName = layer.getString('name');
-     * const blendMode = layer.getEnumerationString('mode');
-     * ```
-     * 
-     * @example Straightforward - By itself
-     * ```typescript
-     * const docTitle = ActionDescriptorNavigator.forCurrentDocument().getString('title');
-     * ```
      */
     getString(key: string): string {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -747,32 +776,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns Numeric value or -1 if failed (never null/NaN)
-     * 
-     * @example Best - Color extraction with caching
-     * ```typescript
-     * const color = textStyle.getObject('color');
-     * 
-     * // Fast access from cached color navigator
-     * const red = color.getDouble('red');     // 255.0
-     * const green = color.getDouble('green'); // 128.5
-     * const blue = color.getDouble('blue');   // 0.0
-     * 
-     * // Safe to use in calculations (never NaN)
-     * const brightness = (red + green + blue) / 3;
-     * const hexColor = `#${Math.round(red).toString(16).padStart(2, '0')}${Math.round(green).toString(16).padStart(2, '0')}${Math.round(blue).toString(16).padStart(2, '0')}`;
-     * ```
-     * 
-     * @example Good - Layer properties
-     * ```typescript
-     * const opacity = layer.getDouble('opacity');           // 255.0 = 100%
-     * const hScale = textStyle.getDouble('horizontalScale'); // 150.0 = 150%
-     * const warpValue = warp.getDouble('warpValue');         // 20.0
-     * ```
-     * 
-     * @example Straightforward - In chains
-     * ```typescript
-     * const scaleX = layer.getObject('textKey').getObject('transform').getDouble('xx');
-     * ```
      */
     getDouble(key: string): number {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -795,33 +798,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns Numeric value in document units or -1 if failed
-     * 
-     * @example Best - Font size analysis with caching
-     * ```typescript
-     * const styleRanges = textObj.getList('textStyleRange');
-     * 
-     * // Extract all font sizes for analysis
-     * const fontSizes = styleRanges
-     *   .select(range => range.getObject('textStyle').getUnitDouble('sizeKey'))
-     *   .whereMatches(size => size > 0)  // Filter valid sizes
-     *   .toResultArray();
-     * 
-     * // Process raw values with your tolerance algorithms
-     * const avgSize = fontSizes.reduce((sum, size) => sum + size, 0) / fontSizes.length;
-     * ```
-     * 
-     * @example Good - Document dimensions
-     * ```typescript
-     * const doc = ActionDescriptorNavigator.forCurrentDocument();
-     * const width = doc.getUnitDouble('width');      // 1920.0
-     * const height = doc.getUnitDouble('height');    // 1080.0
-     * const resolution = doc.getUnitDouble('resolution'); // 72.0
-     * ```
-     * 
-     * @example Straightforward - Single measurement
-     * ```typescript
-     * const fontSize = textStyle.getUnitDouble('sizeKey');
-     * ```
      */
     getUnitDouble(key: string): number {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -844,33 +820,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns Integer value or -1 if failed (never null)
-     * 
-     * @example Best - Range analysis with caching
-     * ```typescript
-     * const styleRanges = textObj.getList('textStyleRange');
-     * 
-     * // Get all character ranges for analysis
-     * const rangeData = styleRanges
-     *   .select(range => ({
-     *     from: range.getInteger('from'),     // Character start
-     *     to: range.getInteger('to'),         // Character end
-     *     length: range.getInteger('to') - range.getInteger('from')
-     *   }))
-     *   .whereMatches(data => data.from >= 0 && data.to > data.from)
-     *   .toResultArray();
-     * ```
-     * 
-     * @example Good - Layer identification
-     * ```typescript
-     * const layerID = layer.getInteger('layerID');        // 142
-     * const itemIndex = layer.getInteger('itemIndex');    // 33
-     * const opacity = layer.getInteger('opacity');        // 255 = 100%
-     * ```
-     * 
-     * @example Straightforward - Single value
-     * ```typescript
-     * const tracking = textStyle.getInteger('tracking');
-     * ```
      */
     getInteger(key: string): number {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -893,38 +842,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns Boolean value or false if failed (never null)
-     * 
-     * @example Best - Style analysis with caching
-     * ```typescript
-     * const styleRanges = textObj.getList('textStyleRange');
-     * 
-     * // Analyze text formatting
-     * const styleAnalysis = styleRanges
-     *   .select(range => {
-     *     const style = range.getObject('textStyle');
-     *     return {
-     *       bold: style.getBoolean('syntheticBold'),
-     *       italic: style.getBoolean('syntheticItalic'),
-     *       autoLeading: style.getBoolean('autoLeading'),
-     *       ligatures: style.getBoolean('ligature')
-     *     };
-     *   })
-     *   .toResultArray();
-     * 
-     * const hasBoldText = styleAnalysis.some(style => style.bold);
-     * ```
-     * 
-     * @example Good - Layer state
-     * ```typescript
-     * const isVisible = layer.getBoolean('visible');
-     * const isLocked = layer.getBoolean('protectAll');
-     * const hasText = layer.hasKey('textKey');  // Use hasKey for existence
-     * ```
-     * 
-     * @example Straightforward - Single check
-     * ```typescript
-     * const isBold = textStyle.getBoolean('syntheticBold');
-     * ```
      */
     getBoolean(key: string): boolean {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -947,37 +864,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name using camelCase
      * @returns Enumeration string or empty string ("") if failed
-     * 
-     * @example Best - Multi-property analysis with caching
-     * ```typescript
-     * const layer = ActionDescriptorNavigator.forCurrentLayer();
-     * const doc = ActionDescriptorNavigator.forCurrentDocument();
-     * 
-     * const analysis = {
-     *   // Layer enumerations
-     *   blendMode: layer.getEnumerationString('mode'),           // "normal", "multiply"
-     *   sectionType: layer.getEnumerationString('layerSection'), // "layerSectionContent"
-     *   
-     *   // Document enumerations
-     *   colorMode: doc.getEnumerationString('mode'),             // "RGBColor", "CMYKColor"
-     *   
-     *   // Text enumerations
-     *   warpStyle: layer.getObject('textKey').getObject('warp').getEnumerationString('warpStyle'),
-     *   antiAlias: layer.getObject('textKey').getEnumerationString('antiAlias')
-     * };
-     * ```
-     * 
-     * @example Good - Text formatting
-     * ```typescript
-     * const fontCaps = textStyle.getEnumerationString('fontCaps');     // "normal", "smallCaps"
-     * const autoKern = textStyle.getEnumerationString('autoKern');     // "metricsKern"
-     * const alignment = paragraphStyle.getEnumerationString('alignment'); // "left", "center"
-     * ```
-     * 
-     * @example Straightforward - Single enumeration
-     * ```typescript
-     * const blendMode = layer.getEnumerationString('mode');
-     * ```
      */
     getEnumerationString(key: string): string {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -1024,38 +910,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param key - Property name to check
      * @returns true if property exists, false otherwise (never throws)
-     * 
-     * @example Best - Feature detection
-     * ```typescript
-     * const layer = ActionDescriptorNavigator.forCurrentLayer();
-     * 
-     * // Detect layer capabilities without crashes
-     * const capabilities = {
-     *   hasText: layer.hasKey('textKey'),
-     *   hasEffects: layer.hasKey('layerEffects'),
-     *   hasAdjustment: layer.hasKey('adjustment'),
-     *   hasMask: layer.hasKey('userMask')
-     * };
-     * 
-     * if (capabilities.hasText) {
-     *   // Safe to proceed with text operations
-     *   const textContent = layer.getObject('textKey').getString('textKey');
-     * }
-     * ```
-     * 
-     * @example Good - Conditional processing
-     * ```typescript
-     * // Check before accessing optional properties
-     * if (textStyle.hasKey('strokeColor')) {
-     *   const strokeColor = textStyle.getObject('strokeColor');
-     *   // Process stroke color
-     * }
-     * ```
-     * 
-     * @example Straightforward - Single check
-     * ```typescript
-     * const hasWarp = textObj.hasKey('warp');
-     * ```
      */
     hasKey(key: string): boolean {
         if (this.isSentinel || !this.desc || !key || key.length === 0) {
@@ -1074,45 +928,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * Extract bounds/rectangle information from this descriptor
      * 
      * @returns Bounds object with calculated width/height (sentinel values if failed)
-     * 
-     * @example Best - Layer size analysis
-     * ```typescript
-     * const layer = ActionDescriptorNavigator.forCurrentLayer();
-     * const bounds = layer.getBounds();
-     * 
-     * // Safe to use without null checks (sentinels on failure)
-     * if (bounds.width > 0 && bounds.height > 0) {
-     *   const analysis = {
-     *     position: { x: bounds.left, y: bounds.top },
-     *     size: { width: bounds.width, height: bounds.height },
-     *     center: { 
-     *       x: bounds.left + bounds.width / 2, 
-     *       y: bounds.top + bounds.height / 2 
-     *     },
-     *     area: bounds.width * bounds.height,
-     *     aspectRatio: bounds.width / bounds.height,
-     *     isLandscape: bounds.width > bounds.height,
-     *     isSquare: Math.abs(bounds.width - bounds.height) < 1
-     *   };
-     * }
-     * ```
-     * 
-     * @example Good - Multiple bounds comparison
-     * ```typescript
-     * const layerBounds = layer.getBounds();
-     * const docBounds = ActionDescriptorNavigator.forCurrentDocument().getBounds();
-     * 
-     * if (layerBounds.width > 0 && docBounds.width > 0) {
-     *   const isOffCanvas = layerBounds.right < 0 || layerBounds.left > docBounds.width;
-     *   const fillsWidth = layerBounds.width >= docBounds.width * 0.9;
-     * }
-     * ```
-     * 
-     * @example Straightforward - Quick size check
-     * ```typescript
-     * const bounds = layer.getBounds();
-     * const isLarge = bounds.width > 500 || bounds.height > 500;
-     * ```
      */
     getBounds(): BoundsObject {
         if (this.isSentinel || !this.desc) {
@@ -1170,24 +985,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param selector - Function to transform the descriptor
      * @returns Transformed result or null if failed
-     * 
-     * @example Good - Custom data extraction
-     * ```typescript
-     * const customData = layer.select(layer => {
-     *   if (!layer.hasKey('textKey')) return null;
-     *   
-     *   const textObj = layer.getObject('textKey');
-     *   const styleRanges = textObj.getList('textStyleRange');
-     *   
-     *   return {
-     *     hasText: true,
-     *     rangeCount: styleRanges.getCount(),
-     *     firstFont: styleRanges.getFirstWhere(range => range.getInteger('from') === 0)
-     *       .getObject('textStyle')
-     *       .getString('fontPostScriptName')
-     *   };
-     * });
-     * ```
      */
     select<T>(selector: SelectorFunction<T>): T | null {
         if (this.isSentinel) {
@@ -1206,22 +1003,12 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * 
      * @param label - Debug label
      * @returns Same navigator for continued chaining
-     * 
-     * @example Good - Debug complex chains
-     * ```typescript
-     * const result = layer
-     *   .debug('Starting with layer')
-     *   .getObject('textKey')
-     *   .debug('Got text object')
-     *   .getList('textStyleRange')
-     *   .debug('Got style ranges')
-     *   .getAllWhere(range => range.getInteger('from') === 0)
-     *   .debug('Filtered to first ranges');
-     * ```
      */
     debug(label: string): IActionDescriptorNavigator {
         try {
-            $.writeln(label + ': ' + (this.isSentinel ? 'SENTINEL' : 'OK'));
+            if (typeof $ !== 'undefined' && $ && $.writeln) {
+                $.writeln(label + ': ' + (this.isSentinel ? 'SENTINEL' : 'OK'));
+            }
         } catch (e: any) {
             // Graceful fallback
         }
@@ -1238,23 +1025,35 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     getEnumerationType(key: string): number { return this.getIntegerValue(key, 'getEnumerationType'); }
     getType(key: string): number { return this.getIntegerValue(key, 'getType'); }
 
-    getPath(key: string): ExtendScriptFile {  // ← Remove | null
+    /**
+     * Extract file path reference (using ExtendScriptFile)
+     * 
+     * @param key - Property name using camelCase
+     * @returns ExtendScriptFile object or sentinel if failed
+     */
+    getPath(key: string): ExtendScriptFile {
         if (this.isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.file;
         try {
             const typeID = stringIDToTypeID(key);
             return this.desc.hasKey(typeID) ? (this.desc.getPath(typeID) || SENTINELS.file) : SENTINELS.file;
         } catch (e: any) {
-            return SENTINELS.file;  // ← Return sentinel, not null
+            return SENTINELS.file;
         }
     }
 
-    getReference(key: string): ActionReference {  // ← Remove | null
+    /**
+     * Extract ActionReference object
+     * 
+     * @param key - Property name using camelCase
+     * @returns ActionReference object or sentinel if failed
+     */
+    getReference(key: string): ActionReferenceType {
         if (this.isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.reference;
         try {
             const typeID = stringIDToTypeID(key);
             return this.desc.hasKey(typeID) ? (this.desc.getReference(typeID) || SENTINELS.reference) : SENTINELS.reference;
         } catch (e: any) {
-            return SENTINELS.reference;  // ← Return sentinel, not null
+            return SENTINELS.reference;
         }
     }
 
@@ -1287,31 +1086,12 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
 /**
  * Navigator for ActionList collections with simple, composable methods.
  * No complex lazy evaluation - just clean, chainable operations.
- * 
- * @example Best - Complete list processing workflow
- * ```typescript
- * const styleRanges = textObj.getList('textStyleRange');
- * 
- * // Get ALL bold ranges for analysis (preferred for analysis)
- * const allBoldRanges = styleRanges.getAllWhere(range => 
- *   range.getObject('textStyle').getBoolean('syntheticBold')
- * );
- * 
- * // Extract raw data for tolerance algorithms
- * const rawData = allBoldRanges.map(range => {
- *   const style = range.getObject('textStyle');
- *   return {
- *     fontSize: style.getUnitDouble('sizeKey'),
- *     fontName: style.getString('fontPostScriptName')
- *   };
- * });
- * ```
  */
 export class ActionListNavigator implements IActionListNavigator {
     public readonly isSentinel: boolean;
-    private list: ActionList | null;
+    private list: ActionListType | null;
 
-    constructor(list: ActionList | null) {
+    constructor(list: ActionListType | null) {
         this.list = list;
         this.isSentinel = list === null || list === undefined;
     }
@@ -1324,16 +1104,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * Get the number of items in this list
      * 
      * @returns Item count or -1 if failed
-     * 
-     * @example Straightforward - Count validation
-     * ```typescript
-     * const styleRanges = textObj.getList('textStyleRange');
-     * const count = styleRanges.getCount();
-     * 
-     * if (count > 0) {
-     *   console.log(`Found ${count} text style ranges`);
-     * }
-     * ```
      */
     getCount(): number {
         if (this.isSentinel || !this.list) {
@@ -1352,19 +1122,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param index - Zero-based index
      * @returns Navigator for the item (sentinel if out of bounds)
-     * 
-     * @example Straightforward - When you know the index
-     * ```typescript
-     * const firstRange = styleRanges.getObject(0);
-     * const lastRange = styleRanges.getObject(styleRanges.getCount() - 1);
-     * ```
-     * 
-     * @example Better - Use criteria-based methods instead
-     * ```typescript
-     * // PREFER these over getObject(index):
-     * const firstRange = styleRanges.getFirstWhere(range => range.getInteger('from') === 0);
-     * const lastRange = styleRanges.getAllWhere(range => range.getInteger('from') >= 0).pop();
-     * ```
      */
     getObject(index: number): IActionDescriptorNavigator {
         if (this.isSentinel || !this.list || index < 0) {
@@ -1389,38 +1146,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param predicate - Function to test each item
      * @returns First matching item (sentinel if none found)
-     * 
-     * @example Best - Find specific ranges
-     * ```typescript
-     * // Find first character range (typically from=0)
-     * const firstRange = styleRanges.getFirstWhere(range => 
-     *   range.getInteger('from') === 0
-     * );
-     * 
-     * // Find first bold text range
-     * const boldRange = styleRanges.getFirstWhere(range => 
-     *   range.getObject('textStyle').getBoolean('syntheticBold')
-     * );
-     * 
-     * // Find first large font
-     * const largeRange = styleRanges.getFirstWhere(range => 
-     *   range.getObject('textStyle').getUnitDouble('sizeKey') > 24
-     * );
-     * 
-     * // Safe to chain immediately
-     * const fontName = boldRange.getObject('textStyle').getString('fontPostScriptName');
-     * ```
-     * 
-     * @example Good - Layer finding
-     * ```typescript
-     * const visibleLayer = layers.getFirstWhere(layer => 
-     *   layer.getBoolean('visible')
-     * );
-     * 
-     * const textLayer = layers.getFirstWhere(layer => 
-     *   layer.hasKey('textKey')
-     * );
-     * ```
      */
     getFirstWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
         if (this.isSentinel) {
@@ -1453,26 +1178,14 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param predicate - Function to test each item
      * @returns The single matching item (sentinel if 0 or multiple found)
-     * 
-     * @example Good - When expecting exactly one result
-     * ```typescript
-     * // Find the one range with specific font (expecting exactly one)
-     * const titleRange = styleRanges.getSingleWhere(range => 
-     *   range.getObject('textStyle').getString('fontPostScriptName') === 'Arial-BoldMT'
-     * );
-     * 
-     * if (!titleRange.isSentinel) {
-     *   console.log('Found unique title range');
-     * } else {
-     *   console.log('ERROR: Expected exactly one title range');
-     * }
-     * ```
      */
     getSingleWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
         const matches = this.getAllWhere(predicate);
         if (matches.length === 0) {
             try {
-                $.writeln('WARNING: getSingleWhere() - No objects matched criteria');
+                if (typeof $ !== 'undefined' && $ && $.writeln) {
+                    $.writeln('WARNING: getSingleWhere() - No objects matched criteria');
+                }
             } catch (e: any) {
                 // Graceful fallback
             }
@@ -1480,7 +1193,9 @@ export class ActionListNavigator implements IActionListNavigator {
         }
         if (matches.length > 1) {
             try {
-                $.writeln('WARNING: getSingleWhere() - Multiple objects matched (' + matches.length + '), expected exactly one');
+                if (typeof $ !== 'undefined' && $ && $.writeln) {
+                    $.writeln('WARNING: getSingleWhere() - Multiple objects matched (' + matches.length + '), expected exactly one');
+                }
             } catch (e: any) {
                 // Graceful fallback
             }
@@ -1494,66 +1209,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param predicate - Function to test each item
      * @returns Array of all matching items (empty array if none found)
-     * 
-     * @example Best - Complete analysis workflow
-     * ```typescript
-     * // Get ALL bold text ranges for comprehensive analysis
-     * const allBoldRanges = styleRanges.getAllWhere(range => 
-     *   range.getObject('textStyle').getBoolean('syntheticBold')
-     * );
-     * 
-     * console.log(`Found ${allBoldRanges.length} bold ranges`);
-     * 
-     * // Extract raw target values for algorithmic processing
-     * const boldRangeData = allBoldRanges.map(range => {
-     *   const style = range.getObject('textStyle');
-     *   const color = style.getObject('color');
-     *   return {
-     *     // Raw values for tolerance algorithms
-     *     from: range.getInteger('from'),
-     *     to: range.getInteger('to'),
-     *     fontSize: style.getUnitDouble('sizeKey'),    // Exact size
-     *     tracking: style.getInteger('tracking'),      // Raw tracking
-     *     red: color.getDouble('red'),                 // Raw RGB
-     *     green: color.getDouble('green'),
-     *     blue: color.getDouble('blue'),
-     *     fontName: style.getString('fontPostScriptName')
-     *   };
-     * });
-     * 
-     * // Apply your tolerance algorithms to raw boldRangeData
-     * ```
-     * 
-     * @example Good - Multi-condition analysis
-     * ```typescript
-     * // Get ALL ranges with large fonts
-     * const largeTextRanges = styleRanges.getAllWhere(range => 
-     *   range.getObject('textStyle').getUnitDouble('sizeKey') > 24
-     * );
-     * 
-     * // Get ALL Arial font ranges
-     * const arialRanges = styleRanges.getAllWhere(range => 
-     *   range.getObject('textStyle').getString('fontPostScriptName').includes('Arial')
-     * );
-     * 
-     * // Get ALL visible layers
-     * const visibleLayers = layers.getAllWhere(layer => 
-     *   layer.getBoolean('visible')
-     * );
-     * ```
-     * 
-     * @example Better - vs verbose chaining
-     * ```typescript
-     * // OLD verbose way:
-     * const results1 = styleRanges
-     *   .whereMatches(range => range.getObject('textStyle').getBoolean('syntheticBold'))
-     *   .toResultArray();
-     * 
-     * // NEW direct way:
-     * const results2 = styleRanges.getAllWhere(range => 
-     *   range.getObject('textStyle').getBoolean('syntheticBold')
-     * );
-     * ```
      */
     getAllWhere(predicate: PredicateFunction): IActionDescriptorNavigator[] {
         if (this.isSentinel) {
@@ -1589,41 +1244,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param predicate - Function to test each item
      * @returns Chainable enumerable for further filtering/transformation
-     * 
-     * @example Best - Complex multi-stage filtering (when you need multiple filters)
-     * ```typescript
-     * const complexResults = styleRanges
-     *   .whereMatches(range => range.getInteger('from') >= 0)
-     *   .whereMatches(range => range.getInteger('to') > range.getInteger('from'))
-     *   .whereMatches(range => range.getObject('textStyle').getUnitDouble('sizeKey') > 12)
-     *   .select(range => {
-     *     const style = range.getObject('textStyle');
-     *     return {
-     *       from: range.getInteger('from'),
-     *       to: range.getInteger('to'),
-     *       fontName: style.getString('fontPostScriptName'),
-     *       fontSize: style.getUnitDouble('sizeKey')
-     *     };
-     *   })
-     *   .whereMatches(item => item.fontName !== SENTINELS.string)
-     *   .toResultArray();
-     * ```
-     * 
-     * @example Good - When to use vs getAllWhere
-     * ```typescript
-     * // Use whereMatches() for complex pipelines:
-     * const processed = styleRanges
-     *   .whereMatches(range => range.getInteger('from') >= 0)    // Filter step 1
-     *   .whereMatches(range => someComplexCheck(range))          // Filter step 2  
-     *   .select(range => transformData(range))                   // Transform step
-     *   .whereMatches(item => item.isValid)                     // Filter transformed
-     *   .toResultArray();                                        // Get final results
-     * 
-     * // Use getAllWhere() for simple "get all that match":
-     * const simple = styleRanges.getAllWhere(range => 
-     *   range.getObject('textStyle').getBoolean('syntheticBold')
-     * ); // Direct array result
-     * ```
      */
     whereMatches(predicate: PredicateFunction): IEnumerable {
         const items = this.getAllWhere(predicate);
@@ -1635,45 +1255,6 @@ export class ActionListNavigator implements IActionListNavigator {
      * 
      * @param transformer - Function to transform each item
      * @returns Chainable enumerable array for further operations
-     * 
-     * @example Best - Data extraction and transformation
-     * ```typescript
-     * // Extract font data for analysis
-     * const fontData = styleRanges.select(range => {
-     *   const style = range.getObject('textStyle');
-     *   const color = style.getObject('color');
-     *   
-     *   return {
-     *     // Raw target values for algorithms
-     *     fontName: style.getString('fontPostScriptName'),
-     *     fontSize: style.getUnitDouble('sizeKey'),
-     *     bold: style.getBoolean('syntheticBold'),
-     *     red: color.getDouble('red'),
-     *     green: color.getDouble('green'),
-     *     blue: color.getDouble('blue')
-     *   };
-     * });
-     * 
-     * // Continue processing
-     * const validFonts = fontData
-     *   .whereMatches(font => font.fontName !== SENTINELS.string)
-     *   .whereMatches(font => font.fontSize > 0)
-     *   .toResultArray();
-     * ```
-     * 
-     * @example Good - Simple property extraction
-     * ```typescript
-     * // Extract just font names
-     * const fontNames = styleRanges
-     *   .select(range => range.getObject('textStyle').getString('fontPostScriptName'))
-     *   .whereMatches(name => name !== SENTINELS.string)
-     *   .toResultArray();
-     * 
-     * // Extract layer names
-     * const layerNames = layers
-     *   .select(layer => layer.getString('name'))
-     *   .toResultArray();
-     * ```
      */
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray {
         if (this.isSentinel) {
@@ -1720,7 +1301,9 @@ export class ActionListNavigator implements IActionListNavigator {
     debug(label: string): IActionListNavigator {
         try {
             const count = this.getCount();
-            $.writeln(label + ': ' + (count === -1 ? 'SENTINEL' : count + ' items'));
+            if (typeof $ !== 'undefined' && $ && $.writeln) {
+                $.writeln(label + ': ' + (count === -1 ? 'SENTINEL' : count + ' items'));
+            }
         } catch (e: any) {
             // Graceful fallback
         }
@@ -1736,7 +1319,7 @@ export class ActionListNavigator implements IActionListNavigator {
  * 
  * @example Basic Usage
  * ```typescript
- * import { ActionDescriptorNavigator } from './ActionManager/ActionDescriptorNavigator';
+ * import { ActionDescriptorNavigator } from '../ps/action-manager';
  * 
  * const layer = ActionDescriptorNavigator.forCurrentLayer();
  * const fontName = layer
@@ -1762,20 +1345,6 @@ export class ActionListNavigator implements IActionListNavigator {
  * @author ActionManager Navigator Team
  * @license MIT
  */
-
-// Utility exports - For advanced usage
-export { SENTINELS };
-
-// Type exports - For TypeScript development
-export type {
-    IActionDescriptorNavigator,
-    IActionListNavigator,
-    IEnumerable,
-    IEnumerableArray,
-    PredicateFunction,
-    SelectorFunction,
-    BoundsObject
-};
 
 // Default export for convenience
 export default ActionDescriptorNavigator;

@@ -227,17 +227,17 @@ export type {
     IEnumerableArray,
     PredicateFunction,
     SelectorFunction,
-    BoundsObject,
-    FontStyleProperties,
-    ColorProperties,
-    WarpProperties,
-    LayerProperties,
+    // BoundsObject,  //TODO REMOVE
+    // FontStyleProperties,
+    // ColorProperties,
+    // WarpProperties,
+    // LayerProperties,
     ValueType,
     SentinelValue,
     SentinelValueMap,
-    FontDataProjection,
-    ColorDataProjection,
-    TextStyleProjection
+    // FontDataProjection,
+    // ColorDataProjection,
+    // TextStyleProjection
 } from './types';
 
 /**

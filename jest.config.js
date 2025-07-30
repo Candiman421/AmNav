@@ -28,8 +28,8 @@ module.exports = {
   },
   
   collectCoverageFrom: [
-    'ActionManager/**/*.ts',        // Test your actual implementation
-    '!ActionManager/**/*.d.ts',
+    'action-manager/**/*.ts',        // Test your actual implementation
+    '!action-manager/**/*.d.ts',
     '!**/node_modules/**'
   ],
   coverageDirectory: 'coverage',

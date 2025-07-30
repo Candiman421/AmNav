@@ -13,7 +13,7 @@ class TestRunner {
     private static expectedDir = './tests/expected';
     private static assetsDir = './tests/assets';
     private static xmlDir = './tests/xml-dumps';
-    private static actionManagerDir = './ActionManager';
+    private static actionManagerDir = './action-manager';
 
     /**
      * Validate the complete test setup
@@ -154,8 +154,8 @@ class TestRunner {
         console.log('   npm test');
         console.log('');
         console.log('   # After tests pass, copy to work project:');
-        console.log('   cp ActionManager/ActionDescriptorNavigator.ts /path/to/work/project/');
-        console.log('   cp ActionManager/types.ts /path/to/work/project/');
+        console.log('   cp action-manager/ActionDescriptorNavigator.ts /path/to/work/project/');
+        console.log('   cp action-manager/types.ts /path/to/work/project/');
         console.log('   cp es5-polyfills.js /path/to/work/project/');
     }
 }

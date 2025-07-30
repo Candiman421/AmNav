@@ -81,7 +81,7 @@
   },
   "files": [
     "dist/**/*",
-    "ActionManager/types.ts",
+    "action-manager/types.ts",
     "es5-polyfills.js",
     "README.md",
     "LICENSE",

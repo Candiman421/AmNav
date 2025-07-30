@@ -3,7 +3,7 @@ const path = require('path');
 const ES3Plugin = require('webpack-es3-plugin');
 
 module.exports = {
-    entry: './ActionManager/ActionDescriptorNavigator.ts',
+    entry: './action-manager/ActionDescriptorNavigator.ts',
 
     mode: process.env.NODE_ENV || 'production',
 

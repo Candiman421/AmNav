@@ -105,7 +105,7 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A[Source: ActionManager/*.ts] --> B{Build Type?}
+    A[Source: action-manager/*.ts] --> B{Build Type?}
     
     B -->|Development| C[npm run dev]
     B -->|Production| D[npm run build]
@@ -236,7 +236,7 @@ npx ts-node tests/generate-test-assets.ts → Generate .psd files for testing
 ```json
 {
   "extends": "./tsconfig.json",
-  "include": ["ActionManager/**/*"],
+  "include": ["action-manager/**/*"],
   "exclude": ["tests", "**/*.test.ts", "**/*.spec.ts"]
 }
 ```
@@ -249,7 +249,7 @@ npx ts-node tests/generate-test-assets.ts → Generate .psd files for testing
 **Key Configuration Elements**:
 ```javascript
 module.exports = {
-    entry: './ActionManager/ActionDescriptorNavigator.ts',
+    entry: './action-manager/ActionDescriptorNavigator.ts',
     output: {
         filename: 'ActionDescriptorNavigator.js',
         library: 'ActionDescriptorNavigator',
@@ -279,7 +279,7 @@ module.exports = {
 ```
 
 **Coverage Configuration**:
-- **Includes**: `ActionManager/**/*.ts`
+- **Includes**: `action-manager/**/*.ts`
 - **Excludes**: Type definitions, node_modules
 - **Reporters**: Text, LCOV, HTML
 
@@ -369,7 +369,7 @@ flowchart TD
 **Files included in npm package** (from `package.json` files array):
 ```
 dist/**/*                    # Built library files
-ActionManager/types.ts       # Source types
+action-manager/types.ts       # Source types
 es5-polyfills.js            # ExtendScript compatibility
 README.md                   # Documentation
 LICENSE                     # License file
@@ -478,7 +478,7 @@ I've created a comprehensive **BUILD & DEVELOPMENT GUIDE** that serves as your c
 
 **Build System Flow:**
 ```
-Source (ActionManager/*.ts) 
+Source (action-manager/*.ts) 
   → TypeScript (ES5) 
   → Webpack (ES3Plugin) 
   → ExtendScript-compatible output

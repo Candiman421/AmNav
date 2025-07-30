@@ -1,4 +1,4 @@
-//ActionManager/types.ts
+//actionManager/types.ts
 /**
  * Adobe ExtendScript ActionManager Navigator - Complete Type Definitions
  * 

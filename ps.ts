@@ -5,7 +5,7 @@
  * Types are already defined in types.ts
  */
 
-import type { ActionDescriptor, ActionReference } from './ActionManager/types';
+// import type { ActionDescriptor, ActionReference } from './actionManager/types';
 
 // Re-export global functions as named exports for import compatibility
 export function executeActionGet(reference: ActionReference): ActionDescriptor {

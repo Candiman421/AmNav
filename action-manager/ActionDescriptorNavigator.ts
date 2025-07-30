@@ -1,3 +1,4 @@
+//actionManager/actionDescriptorNavigator.ts
 /**
  * Adobe ExtendScript ActionManager Navigator - Simplified Implementation
  * 

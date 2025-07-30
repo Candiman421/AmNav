@@ -19,7 +19,7 @@
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["ActionManager/**/*", "tests/**/*"],
+  "include": ["action-manager/**/*", "tests/**/*"],
   "exclude": [
     "node_modules",
     "dist",

@@ -1,5 +1,5 @@
 // tests/integration/adn-xml-validation.test.ts
-import { ActionDescriptorNavigator } from '../../ActionManager/ActionDescriptorNavigator';
+import { ActionDescriptorNavigator } from '../../action-manager/ActionDescriptorNavigator';
 import { expectedResults } from '../create-expected-from-xml';
 
 describe('ADN vs XML Validation', () => {

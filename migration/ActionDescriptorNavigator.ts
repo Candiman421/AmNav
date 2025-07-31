@@ -9,9 +9,10 @@
  * CONSOLIDATED: Merges best features from both implementations
  * ENHANCED: Superior enumerable system with LINQ-style operations
  * FIXED: getBounds() returns Bounds instead of Rectangle
+ * FIXED: SelectorFunction now supports index parameter
  * 
  * @fileoverview Enhanced ActionManager navigation implementation
- * @version 2.1.0
+ * @version 2.1.1
  * 
  * @example Best - Natural caching with const variables
  * ```typescript
@@ -24,12 +25,13 @@
  * // 2. Chain to get ranges with enhanced LINQ operations
  * const styleRanges = textObj.getList('textStyleRange');
  * 
- * // 3. Use sophisticated filtering and transformations
+ * // 3. Use sophisticated filtering and transformations with index support
  * const filteredRanges = styleRanges
  *   .whereMatches(range => range.getInteger('from') === 0)
- *   .select(range => ({
+ *   .select((range, index) => ({
  *     from: range.getInteger('from'),
  *     to: range.getInteger('to'),
+ *     index: index,
  *     style: range.getObject('textStyle')
  *   }));
  * 
@@ -77,6 +79,7 @@ import {
 /**
  * Enhanced enumerable for sophisticated filtering and transformations
  * Superior implementation from ps-nav.ts with advanced error handling
+ * FIXED: select() now passes index parameter
  */
 class SimpleEnumerable implements IEnumerable {
     private items: IActionDescriptorNavigator[];
@@ -110,10 +113,11 @@ class SimpleEnumerable implements IEnumerable {
     }
 
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray {
-        const transformed = this.items.map(item => {
+        const transformed = this.items.map((item, index) => {
             if (item.isSentinel) return null;
             try {
-                return transformer(item);
+                // FIXED: Now passes index parameter
+                return transformer(item, index);
             } catch (e: any) {
                 return null;
             }
@@ -135,6 +139,7 @@ class SimpleEnumerable implements IEnumerable {
 /**
  * Enhanced enumerable array for transformed collections
  * Superior implementation with comprehensive method chaining
+ * FIXED: select() now passes index parameter
  */
 class SimpleEnumerableArray implements IEnumerableArray {
     readonly array: any[];
@@ -166,10 +171,11 @@ class SimpleEnumerableArray implements IEnumerableArray {
         return this.array.length > 0;
     }
 
-    select<T>(transformer: (item: any) => T): IEnumerableArray {
-        const transformed = this.array.map(item => {
+    select<T>(transformer: (item: any, index?: number) => T): IEnumerableArray {
+        const transformed = this.array.map((item, index) => {
             try {
-                return transformer(item);
+                // FIXED: Now passes index parameter
+                return transformer(item, index);
             } catch (e: any) {
                 return null;
             }
@@ -640,7 +646,8 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
         }
 
         try {
-            return selector(this);
+            // Individual navigator select doesn't have an index context
+            return selector(this, 0);
         } catch (e: any) {
             return null;
         }

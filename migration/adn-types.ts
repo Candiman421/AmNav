@@ -3,10 +3,7 @@
  * ActionDescriptor Navigator Type Definitions
  * 
  * Complete type definitions for ActionManager navigation with sentinel-based
- * error handling. Uses global ActionManager classes from index.d.ts.
- * 
- * REWRITTEN: Removed namespace architecture, uses global Adobe types directly
- * ENHANCED: Complete SENTINELS with file and reference support
+ * error handling. Uses global Adobe classes from index.d.ts.
  * 
  * @fileoverview Type definitions and constants for ActionManager navigation
  * @version 1.0.0
@@ -94,8 +91,6 @@ const SENTINEL_REFERENCE: ActionReference = {
 /**
  * Complete sentinel values for ActionManager operations
  * Used when operations fail to provide safe, non-crashing defaults
- * 
- * ENHANCED: Includes "file" and "reference" properties needed by ActionDescriptorNavigator
  */
 export const SENTINELS = {
     "string": "",
@@ -119,9 +114,6 @@ export type PredicateFunction = (item: IActionDescriptorNavigator) => boolean;
  * Function signature for transforming items during selection operations
  */
 export type SelectorFunction<T = any> = (item: IActionDescriptorNavigator) => T;
-
-// NOTE: Using Adobe's existing Rectangle class from index.d.ts instead of custom BoundsObject
-// Rectangle has: left, top, right, bottom, width, height properties
 
 // ===================================================================
 // NAVIGATION INTERFACES

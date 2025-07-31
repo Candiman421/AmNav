@@ -145,15 +145,15 @@ export interface IActionListNavigator extends ISentinel {
 export interface IEnumerable extends ISentinel {
     // Filtering operations
     whereMatches(predicate: PredicateFunction): IEnumerable;
-
+    
     // Access operations - return sentinels, never null
     getFirst(): IActionDescriptorNavigator;
     hasAnyMatches(): boolean;
     getCount(): number;
-
+    
     // Transformation operations with full generic support
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T>;
-
+    
     // Materialization operations
     toResultArray(): IActionDescriptorNavigator[];
     debug(label: string): IEnumerable;
@@ -167,18 +167,18 @@ export interface IEnumerable extends ISentinel {
 export interface IEnumerableArray<T = any> extends ISentinel {
     /** Direct access to the underlying typed array */
     readonly array: T[];
-
+    
     // Filtering operations with proper typing
     whereMatches(predicate: TransformedPredicateFunction<T>): IEnumerableArray<T>;
-
+    
     // Access operations - follow sentinel pattern except where null makes sense
     getFirst(): T | null;  // Can return null for empty arrays of transformed data
     getCount(): number;
     hasAnyMatches(): boolean;
-
+    
     // Transformation operations with full generic support
     select<U>(transformer: TransformerFunction<T, U>): IEnumerableArray<U>;
-
+    
     // Materialization operations
     toResultArray(): T[];
     debug(label: string): IEnumerableArray<T>;

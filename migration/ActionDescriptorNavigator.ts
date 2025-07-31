@@ -63,8 +63,6 @@ import {
     SelectorFunction,
     TransformedPredicateFunction,
     TransformerFunction,
-    IDebugInfo,
-    IEnhancedDebuggable,
     isSentinel
 } from './adn-types';
 
@@ -79,7 +77,7 @@ import {
  * ENHANCED: Consistent sentinel behavior throughout all operations
  * FIXED: Proper type preservation and error handling
  */
-class SimpleEnumerable implements IEnumerable, IEnhancedDebuggable {
+class SimpleEnumerable implements IEnumerable {
     private items: IActionDescriptorNavigator[];
 
     constructor(items: IActionDescriptorNavigator[]) {
@@ -117,7 +115,7 @@ class SimpleEnumerable implements IEnumerable, IEnhancedDebuggable {
 
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T> {
         const transformed: T[] = [];
-
+        
         this.items.forEach((item, index) => {
             if (!item.isSentinel) {
                 try {
@@ -142,16 +140,6 @@ class SimpleEnumerable implements IEnumerable, IEnhancedDebuggable {
         console.log(`[${label}] Enumerable with ${this.items.length} items`);
         return this;
     }
-
-    getDebugInfo(label: string): IDebugInfo {
-        return {
-            label,
-            type: 'SimpleEnumerable',
-            isSentinel: this.isSentinel,
-            itemCount: this.items.length,
-            chainDepth: 1
-        };
-    }
 }
 
 /**
@@ -159,7 +147,7 @@ class SimpleEnumerable implements IEnumerable, IEnhancedDebuggable {
  * FULLY GENERIC: Maintains complete type information through all operations
  * ENHANCED: Proper error handling and sentinel behavior
  */
-class SimpleEnumerableArray<T = any> implements IEnumerableArray<T>, IEnhancedDebuggable {
+class SimpleEnumerableArray<T = any> implements IEnumerableArray<T> {
     readonly array: T[];
 
     constructor(items: T[]) {
@@ -197,7 +185,7 @@ class SimpleEnumerableArray<T = any> implements IEnumerableArray<T>, IEnhancedDe
 
     select<U>(transformer: TransformerFunction<T, U>): IEnumerableArray<U> {
         const transformed: U[] = [];
-
+        
         this.array.forEach((item, index) => {
             try {
                 const result = transformer(item, index);
@@ -220,17 +208,6 @@ class SimpleEnumerableArray<T = any> implements IEnumerableArray<T>, IEnhancedDe
         console.log(`[${label}] EnumerableArray<${typeof this.array[0]}> with ${this.array.length} items`);
         return this;
     }
-
-    getDebugInfo(label: string): IDebugInfo {
-        return {
-            label,
-            type: 'SimpleEnumerableArray',
-            isSentinel: this.isSentinel,
-            itemCount: this.array.length,
-            arrayType: this.array.length > 0 ? typeof this.array[0] : 'unknown',
-            chainDepth: 1
-        };
-    }
 }
 
 // ===================================================================
@@ -240,9 +217,8 @@ class SimpleEnumerableArray<T = any> implements IEnumerableArray<T>, IEnhancedDe
 /**
  * Enhanced ActionList navigator with superior enumerable support
  * ENHANCED: Full generic support and consistent sentinel behavior
- * FIXED: Added missing IEnhancedDebuggable implementation
  */
-class ActionListNavigator implements IActionListNavigator, IEnhancedDebuggable {
+class ActionListNavigator implements IActionListNavigator {
     private list: ActionList | null;
     private _isSentinel: boolean;
 
@@ -306,7 +282,7 @@ class ActionListNavigator implements IActionListNavigator, IEnhancedDebuggable {
 
     getSingleWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
         const matches = this.getAllWhere(predicate);
-
+        
         if (matches.length === 1) {
             return matches[0];
         }
@@ -373,16 +349,6 @@ class ActionListNavigator implements IActionListNavigator, IEnhancedDebuggable {
         return this;
     }
 
-    getDebugInfo(label: string): IDebugInfo {
-        return {
-            label,
-            type: 'ActionListNavigator',
-            isSentinel: this.isSentinel,
-            itemCount: this.getCount(),
-            chainDepth: 1
-        };
-    }
-
     static createSentinel(): ActionListNavigator {
         return new ActionListNavigator(null, true);
     }
@@ -396,7 +362,7 @@ class ActionListNavigator implements IActionListNavigator, IEnhancedDebuggable {
  * Enhanced ActionDescriptor navigator implementation
  * ENHANCED: Full type safety, consistent sentinel behavior, optimized performance
  */
-export class ActionDescriptorNavigator implements IActionDescriptorNavigator, IEnhancedDebuggable {
+export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     private descriptor: ActionDescriptor | null;
     private _isSentinel: boolean;
 
@@ -575,7 +541,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator, IE
                 const top = boundsDesc.getUnitDoubleValue(stringIDToTypeID("top"));
                 const right = boundsDesc.getUnitDoubleValue(stringIDToTypeID("right"));
                 const bottom = boundsDesc.getUnitDoubleValue(stringIDToTypeID("bottom"));
-
+                
                 // FIXED: Return object literal instead of new Bounds()
                 return {
                     left: left,
@@ -620,15 +586,6 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator, IE
     debug(label: string): IActionDescriptorNavigator {
         console.log(`[${label}] ActionDescriptorNavigator: ${this._isSentinel ? 'SENTINEL' : 'OK'}`);
         return this;
-    }
-
-    getDebugInfo(label: string): IDebugInfo {
-        return {
-            label,
-            type: 'ActionDescriptorNavigator',
-            isSentinel: this.isSentinel,
-            chainDepth: 1
-        };
     }
 
     // ===================================================================

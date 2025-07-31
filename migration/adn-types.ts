@@ -1,104 +1,34 @@
-//ps/adn-types.ts
+//ps/action-manager/adn-types.ts
 /**
  * ActionDescriptor Navigator Type Definitions
  * 
  * Complete type definitions for ActionManager navigation with sentinel-based
- * error handling. Uses global Adobe classes from index.d.ts.
+ * error handling. Uses Adobe's built-in types directly for maximum simplicity.
+ * 
+ * SIMPLIFIED: Uses Adobe's global types directly - no namespace complexity
+ * ENHANCED: Complete SENTINELS with simple null values
  * 
  * @fileoverview Type definitions and constants for ActionManager navigation
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 // ===================================================================
-// SENTINEL IMPLEMENTATIONS
+// SENTINEL VALUES
 // ===================================================================
 
 /**
- * Minimal sentinel File implementation that returns safe defaults
- */
-const SENTINEL_FILE: File = {
-    absoluteURI: "",
-    alias: false,
-    created: new Date(0),
-    creator: "",
-    displayName: "",
-    encoding: "",
-    eof: true,
-    error: "Sentinel file object",
-    exists: false,
-    fsName: "",
-    fullName: "",
-    hidden: false,
-    length: 0,
-    lineFeed: "unix",
-    localizedName: "",
-    modified: new Date(0),
-    name: "",
-    parent: null as any,
-    path: "",
-    readonly: true,
-    relativeURI: "",
-    type: "",
-
-    // Essential methods (no-ops for sentinel) - using correct Adobe method names
-    changePath: () => false,
-    close: () => false,
-    copy: () => false,
-    createAlias: () => false,
-    execute: () => false,
-    getRelativeURI: () => "",
-    open: () => false,
-    openDlg: () => null,        // Correct Adobe method name
-    read: () => "",
-    readch: () => "",
-    readln: () => "",
-    remove: () => false,
-    rename: () => false,
-    resolve: () => null,
-    saveDlg: () => null,        // Correct Adobe method name
-    seek: () => false,
-    tell: () => 0,
-    write: () => false,
-    writeln: () => false
-} as File;
-
-/**
- * Minimal sentinel ActionReference implementation
- */
-const SENTINEL_REFERENCE: ActionReference = {
-    // Put methods (no-ops for sentinel)
-    putClass: () => {},
-    putEnumerated: () => {},
-    putIdentifier: () => {},
-    putIndex: () => {},
-    putName: () => {},
-    putOffset: () => {},
-    putProperty: () => {},
-
-    // Get methods (return sentinel values)
-    getDesiredClass: () => -1,
-    getEnumeratedType: () => -1,
-    getEnumeratedValue: () => -1,
-    getForm: () => -1,
-    getIdentifier: () => -1,
-    getIndex: () => -1,
-    getName: () => "",
-    getOffset: () => -1,
-    getProperty: () => -1,
-    getContainer: (): ActionReference => SENTINEL_REFERENCE
-} as ActionReference;
-
-/**
- * Complete sentinel values for ActionManager operations
+ * Simple sentinel values for ActionManager operations
  * Used when operations fail to provide safe, non-crashing defaults
+ * 
+ * SIMPLIFIED: Uses null for complex objects, primitive values for simple types
  */
 export const SENTINELS = {
     "string": "",
     "integer": -1,
     "double": -1,
     "boolean": false,
-    "file": SENTINEL_FILE,
-    "reference": SENTINEL_REFERENCE
+    "file": null as File | null,
+    "reference": null as ActionReference | null
 } as const;
 
 // ===================================================================
@@ -121,7 +51,7 @@ export type SelectorFunction<T = any> = (item: IActionDescriptorNavigator) => T;
 
 /**
  * Primary interface for navigating ActionDescriptor objects
- * Uses global Adobe types directly (no namespace dependencies)
+ * Uses Adobe's built-in types directly for maximum compatibility
  */
 export interface IActionDescriptorNavigator {
     /** Indicates if this navigator represents a failed operation */
@@ -150,12 +80,12 @@ export interface IActionDescriptorNavigator {
     getEnumerationType(key: string): number;
     getType(key: string): number;
 
-    // File and reference methods (need sentinel support)
-    getPath(key: string): File;
-    getReference(key: string): ActionReference;
+    // File and reference methods - SIMPLIFIED: Use Adobe types directly
+    getPath(key: string): File | null;              // Adobe's File type + null
+    getReference(key: string): ActionReference | null; // Adobe's ActionReference + null
 
     // Utility methods
-    getBounds(): Rectangle;  // Uses Adobe's existing Rectangle class
+    getBounds(): Rectangle;  // Adobe's Rectangle class
     hasKey(key: string): boolean;
     select<T>(selector: SelectorFunction<T>): T | null;
     debug(label: string): IActionDescriptorNavigator;

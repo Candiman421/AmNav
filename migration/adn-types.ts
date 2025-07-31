@@ -8,9 +8,10 @@
  * SIMPLIFIED: Uses Adobe's global types directly - no namespace complexity
  * ENHANCED: Complete SENTINELS with simple null values
  * FIXED: getBounds() now returns Bounds instead of Rectangle
+ * FIXED: SelectorFunction now supports optional index parameter
  * 
  * @fileoverview Type definitions and constants for ActionManager navigation
- * @version 2.1.0
+ * @version 2.1.1
  */
 
 // ===================================================================
@@ -43,8 +44,9 @@ export type PredicateFunction = (item: IActionDescriptorNavigator) => boolean;
 
 /**
  * Function signature for transforming items during selection operations
+ * FIXED: Now supports optional index parameter like JavaScript's Array.map()
  */
-export type SelectorFunction<T = any> = (item: IActionDescriptorNavigator) => T;
+export type SelectorFunction<T = any> = (item: IActionDescriptorNavigator, index?: number) => T;
 
 // ===================================================================
 // NAVIGATION INTERFACES
@@ -141,7 +143,7 @@ export interface IEnumerableArray {
     getFirst(): any;
     getCount(): number;
     hasAnyMatches(): boolean;
-    select<T>(transformer: (item: any) => T): IEnumerableArray;
+    select<T>(transformer: (item: any, index?: number) => T): IEnumerableArray;
     toResultArray(): any[];
     debug(label: string): IEnumerableArray;
 }

@@ -7,9 +7,10 @@
  * 
  * SIMPLIFIED: Uses Adobe's global types directly - no namespace complexity
  * ENHANCED: Complete SENTINELS with simple null values
+ * FIXED: getBounds() now returns Bounds instead of Rectangle
  * 
  * @fileoverview Type definitions and constants for ActionManager navigation
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 // ===================================================================
@@ -52,6 +53,8 @@ export type SelectorFunction<T = any> = (item: IActionDescriptorNavigator) => T;
 /**
  * Primary interface for navigating ActionDescriptor objects
  * Uses Adobe's built-in types directly for maximum compatibility
+ * 
+ * FIXED: getBounds() now returns Bounds instead of Rectangle
  */
 export interface IActionDescriptorNavigator {
     /** Indicates if this navigator represents a failed operation */
@@ -84,8 +87,8 @@ export interface IActionDescriptorNavigator {
     getPath(key: string): File | null;              // Adobe's File type + null
     getReference(key: string): ActionReference | null; // Adobe's ActionReference + null
 
-    // Utility methods
-    getBounds(): Rectangle;  // Adobe's Rectangle class
+    // Utility methods - FIXED: getBounds() now returns Bounds
+    getBounds(): Bounds;  // FIXED: Changed from Rectangle to Bounds
     hasKey(key: string): boolean;
     select<T>(selector: SelectorFunction<T>): T | null;
     debug(label: string): IActionDescriptorNavigator;

@@ -1,15 +1,16 @@
 //ps/testScoreScript.ts
 /**
- * Example usage of ActionManager navigation with Adobe direct types
- * Demonstrates ActionManager navigation + DOM operations working together
+ * Enhanced example usage of ActionManager navigation with consolidated implementation
+ * Demonstrates ActionManager navigation + DOM operations with new LINQ-style features
  * 
- * SIMPLIFIED: Updated for Adobe direct types - shows null check patterns
+ * ENHANCED: Updated for consolidated implementation with superior enumerable system
+ * FIXED: getBounds() now returns Bounds instead of Rectangle
  */
 
-// Import ActionManager navigation from action-manager module
-import { ActionDescriptorNavigator } from './action-manager/ps-nav';
+// Import consolidated ActionManager navigation
+import { ActionDescriptorNavigator } from './action-manager/ActionDescriptorNavigator';
 
-// Import ActionManager constants (now simplified)
+// Import ActionManager constants
 import { SENTINELS } from './action-manager/adn-types';
 
 // DOM operations (direct property access) - framework file unchanged
@@ -19,12 +20,13 @@ import { getDOMLayerByName } from './ps';
 // import { samplePixelColor } from './ps-util';
 
 /**
- * Example: Parallel systems usage pattern
+ * Example: Enhanced parallel systems usage with LINQ-style operations
  * Shows how to use both ActionManager (fluent) and DOM (direct) approaches
+ * with the new sophisticated collection operations
  */
-export function demonstrateParallelSystems(): void {
+export function demonstrateEnhancedParallelSystems(): void {
     // ===================================================================
-    // PARALLEL SYSTEMS USAGE PATTERN
+    // ENHANCED PARALLEL SYSTEMS USAGE PATTERN
     // ===================================================================
 
     const layerName = 'Title';
@@ -34,39 +36,107 @@ export function demonstrateParallelSystems(): void {
     const domLayer = getDOMLayerByName(layerName);                          // DOM
 
     // ===================================================================
-    // USE ACTIONMANAGER FOR TEXT ANALYSIS (fluent, never crashes)
+    // ENHANCED ACTIONMANAGER WITH LINQ-STYLE OPERATIONS
     // ===================================================================
 
-    // Navigate to text style information with fluent chaining
-    const textStyle = navigator
-        .getObject('textKey')
-        .getList('textStyleRange')
-        .getFirstWhere(range => range.getInteger('from') === 0)
-        .getObject('textStyle');
+    // Navigate to text style information with enhanced fluent chaining
+    const textObj = navigator.getObject('textKey');
+    const textRanges = textObj.getList('textStyleRange');
+
+    // Use new sophisticated filtering and transformation capabilities
+    const validRanges = textRanges
+        .whereMatches(range => range.getInteger('from') >= 0)
+        .debug("Valid text ranges"); // Enhanced debugging
+
+    // Transform ranges into structured data
+    const rangeData = validRanges
+        .select(range => ({
+            from: range.getInteger('from'),
+            to: range.getInteger('to'),
+            length: range.getInteger('to') - range.getInteger('from'),
+            style: range.getObject('textStyle')
+        }))
+        .debug("Transformed range data");
+
+    // Get the first valid range (traditional approach still works)
+    const firstRange = textRanges.getFirstWhere(range => range.getInteger('from') === 0);
+    const textStyle = firstRange.getObject('textStyle');
 
     // Extract text properties (sentinel-safe, no if checks needed during chain)
     const fontName = textStyle.getString('fontPostScriptName');
     const fontSize = textStyle.getUnitDouble('sizeKey');
     const isBold = textStyle.getBoolean('bold');
 
-    // Get layer bounds using ActionManager
+    // FIXED: getBounds() now returns Bounds instead of Rectangle
     const bounds = navigator.getBounds();
+
+    // ===================================================================
+    // ENHANCED COLLECTION PROCESSING
+    // ===================================================================
+
+    // Process all ranges with advanced LINQ operations
+    const fontSizes = textRanges
+        .whereMatches(range => range.hasKey('textStyle'))
+        .select(range => range.getObject('textStyle'))
+        .whereMatches(style => style.hasKey('sizeKey'))
+        .select(style => style.getUnitDouble('sizeKey'))
+        .toResultArray()
+        .filter(size => size !== SENTINELS.double);
+
+    console.log('Font sizes found:', fontSizes);
+
+    // Find ranges with specific formatting
+    const boldRanges = textRanges
+        .whereMatches(range => {
+            const style = range.getObject('textStyle');
+            return style.getBoolean('syntheticBold') === true;
+        })
+        .debug("Bold text ranges")
+        .toResultArray();
+
+    // Complex multi-stage filtering and transformation
+    const complexAnalysis = textRanges
+        .asEnumerable()
+        .whereMatches(range => range.getInteger('to') - range.getInteger('from') > 0)
+        .select(range => {
+            const style = range.getObject('textStyle');
+            const color = style.getObject('color');
+            return {
+                range: {
+                    from: range.getInteger('from'),
+                    to: range.getInteger('to')
+                },
+                font: style.getString('fontPostScriptName'),
+                size: style.getUnitDouble('sizeKey'),
+                color: {
+                    red: color.getDouble('red'),
+                    green: color.getDouble('green'),
+                    blue: color.getDouble('blue')
+                },
+                formatting: {
+                    bold: style.getBoolean('syntheticBold'),
+                    italic: style.getBoolean('syntheticItalic'),
+                    underline: style.getBoolean('underline')
+                }
+            };
+        })
+        .whereMatches(data => data.size > 12) // Filter by font size
+        .debug("Complex analysis results");
 
     // ===================================================================
     // FILE OPERATIONS - UPDATED: Now requires null checks
     // ===================================================================
 
-    // SIMPLIFIED: File operations with null checks
+    // File operations with null checks (unchanged behavior)
     const linkedFile = navigator.getPath('smartObject');
     let linkedFileContent = '';
-    if (linkedFile && linkedFile.exists) {  // ← Added null check
+    if (linkedFile && linkedFile.exists) {
         linkedFileContent = linkedFile.read();
     }
 
     // Reference operations with null checks
     const layerReference = navigator.getReference('someProperty');
-    if (layerReference) {  // ← Added null check
-        // Safe to use layerReference methods
+    if (layerReference) {
         const className = layerReference.getDesiredClass();
     }
 
@@ -84,7 +154,7 @@ export function demonstrateParallelSystems(): void {
     const opacity = domLayer ? domLayer.opacity : 0;
 
     // ===================================================================
-    // COMBINE RESULTS FOR ANALYSIS - UPDATED: Simple null checks
+    // ENHANCED RESULTS COMBINATION - UPDATED: With Bounds instead of Rectangle
     // ===================================================================
 
     const analysis = {
@@ -93,13 +163,21 @@ export function demonstrateParallelSystems(): void {
         fontName: fontName !== SENTINELS.string ? fontName : 'Unknown',
         fontSize: fontSize !== SENTINELS.double ? fontSize : 0,
         isBold: isBold,
+        // FIXED: Updated bounds handling for Bounds object
         bounds: {
-            left: bounds.left,
-            top: bounds.top,
-            width: bounds.width,
-            height: bounds.height
+            left: bounds.left || 0,
+            top: bounds.top || 0,
+            right: bounds.right || 0,
+            bottom: bounds.bottom || 0,
+            width: bounds.width || 0,
+            height: bounds.height || 0
         },
-        // SIMPLIFIED: File handling with simple null checks
+        // Enhanced collection data
+        totalRanges: textRanges.getCount(),
+        validRanges: validRanges.getCount(),
+        boldRanges: boldRanges.length,
+        fontSizes: fontSizes,
+        // File handling (unchanged)
         hasLinkedFile: linkedFile !== null,
         linkedFileExists: linkedFile && linkedFile.exists,
         hasReference: layerReference !== null,
@@ -107,15 +185,22 @@ export function demonstrateParallelSystems(): void {
         visible: isVisible,
         opacity: opacity,
         existsInDOM: domLayer !== null,
-        existsInActionManager: !navigator.isSentinel
+        existsInActionManager: !navigator.isSentinel,
+        // Enhanced analysis results
+        complexAnalysisCount: complexAnalysis.getCount(),
+        hasComplexFormatting: complexAnalysis.hasAnyMatches()
     };
 
-    // Log the results
-    console.log('Parallel Systems Analysis:', analysis);
+    // Log the enhanced results
+    console.log('Enhanced Parallel Systems Analysis:', analysis);
 
-    // Example of conditional logic based on data availability
+    // Example of conditional logic based on enhanced data availability
     if (analysis.existsInActionManager && analysis.existsInDOM) {
         console.log('✅ Layer found in both systems');
+        console.log(`📊 Found ${analysis.totalRanges} text ranges, ${analysis.validRanges} valid`);
+        if (analysis.hasComplexFormatting) {
+            console.log('🎨 Complex formatting detected');
+        }
     } else if (analysis.existsInActionManager) {
         console.log('⚠️ Layer found in ActionManager only');
     } else if (analysis.existsInDOM) {
@@ -126,10 +211,10 @@ export function demonstrateParallelSystems(): void {
 }
 
 /**
- * Example: Complex text scoring algorithm using ActionManager
- * Shows how to extract detailed text properties for analysis
+ * Enhanced text scoring algorithm using LINQ-style operations
+ * Shows sophisticated collection processing with the new enumerable system
  */
-export function performTextScoring(): any[] {
+export function performEnhancedTextScoring(): any[] {
     const layerNames = ['Title', 'Subtitle', 'Body', 'Footer'];
     const scores: any[] = [];
 
@@ -137,81 +222,88 @@ export function performTextScoring(): any[] {
         // Get ActionManager navigator
         const navigator = ActionDescriptorNavigator.forLayerByName(layerName);
         
-        // Get all text style ranges for detailed analysis
+        // Get all text style ranges using enhanced operations
         const textRanges = navigator
             .getObject('textKey')
             .getList('textStyleRange')
-            .getAllWhere(range => range.getInteger('from') >= 0);
+            .whereMatches(range => range.getInteger('from') >= 0)
+            .debug(`Text ranges for ${layerName}`);
 
-        // Score each range
-        textRanges.forEach((range, rangeIndex) => {
-            const textStyle = range.getObject('textStyle');
-            
-            // Extract comprehensive text properties
-            const fontData = {
-                name: textStyle.getString('fontPostScriptName'),
-                size: textStyle.getUnitDouble('sizeKey'),
-                leading: textStyle.getUnitDouble('leading'),
-                tracking: textStyle.getInteger('tracking'),
-                syntheticBold: textStyle.getBoolean('syntheticBold'),
-                syntheticItalic: textStyle.getBoolean('syntheticItalic'),
-                underline: textStyle.getBoolean('underline'),
-                strikethrough: textStyle.getBoolean('strikethrough')
-            };
+        // Enhanced scoring with LINQ-style transformations
+        const rangeScores = textRanges
+            .select((range, rangeIndex) => {
+                const textStyle = range.getObject('textStyle');
+                
+                // Extract comprehensive text properties
+                const fontData = {
+                    name: textStyle.getString('fontPostScriptName'),
+                    size: textStyle.getUnitDouble('sizeKey'),
+                    leading: textStyle.getUnitDouble('leading'),
+                    tracking: textStyle.getInteger('tracking'),
+                    syntheticBold: textStyle.getBoolean('syntheticBold'),
+                    syntheticItalic: textStyle.getBoolean('syntheticItalic'),
+                    underline: textStyle.getBoolean('underline'),
+                    strikethrough: textStyle.getBoolean('strikethrough')
+                };
 
-            // Extract color information
-            const colorObj = textStyle.getObject('color');
-            const colorData = {
-                red: colorObj.getDouble('red'),
-                green: colorObj.getDouble('green'),
-                blue: colorObj.getDouble('blue')
-            };
+                // Extract color information
+                const colorObj = textStyle.getObject('color');
+                const colorData = {
+                    red: colorObj.getDouble('red'),
+                    green: colorObj.getDouble('green'),
+                    blue: colorObj.getDouble('blue')
+                };
 
-            // Calculate score based on properties
-            let score = 0;
-            
-            // Font size scoring
-            if (fontData.size !== SENTINELS.double) {
-                if (fontData.size >= 24) score += 10;      // Large headlines
-                else if (fontData.size >= 16) score += 7;  // Medium headers
-                else if (fontData.size >= 12) score += 5;  // Body text
-                else score += 2;                           // Small text
-            }
+                // Calculate score based on properties
+                let score = 0;
+                
+                // Font size scoring
+                if (fontData.size !== SENTINELS.double) {
+                    if (fontData.size >= 24) score += 10;      // Large headlines
+                    else if (fontData.size >= 16) score += 7;  // Medium headers
+                    else if (fontData.size >= 12) score += 5;  // Body text
+                    else score += 2;                           // Small text
+                }
 
-            // Font weight scoring
-            if (fontData.syntheticBold) score += 5;
+                // Font weight scoring
+                if (fontData.syntheticBold) score += 5;
 
-            // Color contrast scoring (simplified)
-            if (colorData.red !== SENTINELS.double) {
-                const brightness = (colorData.red + colorData.green + colorData.blue) / 3;
-                if (brightness < 0.3) score += 3;  // Dark text (good contrast)
-            }
+                // Color contrast scoring (simplified)
+                if (colorData.red !== SENTINELS.double) {
+                    const brightness = (colorData.red + colorData.green + colorData.blue) / 3;
+                    if (brightness < 0.3) score += 3;  // Dark text (good contrast)
+                }
 
-            // Special formatting scoring
-            if (fontData.underline) score += 2;
-            if (fontData.syntheticItalic) score += 1;
+                // Special formatting scoring
+                if (fontData.underline) score += 2;
+                if (fontData.syntheticItalic) score += 1;
 
-            scores.push({
-                layer: layerName,
-                range: rangeIndex,
-                fontData: fontData,
-                colorData: colorData,
-                score: score,
-                category: score >= 15 ? 'High Impact' : 
-                         score >= 10 ? 'Medium Impact' : 
-                         score >= 5 ? 'Standard' : 'Low Impact'
-            });
-        });
+                return {
+                    layer: layerName,
+                    range: rangeIndex,
+                    fontData: fontData,
+                    colorData: colorData,
+                    score: score,
+                    category: score >= 15 ? 'High Impact' : 
+                             score >= 10 ? 'Medium Impact' : 
+                             score >= 5 ? 'Standard' : 'Low Impact'
+                };
+            })
+            .whereMatches(scoreData => scoreData.score > 0) // Filter out zero scores
+            .debug(`Scores for ${layerName}`)
+            .toResultArray();
+
+        scores.push(...rangeScores);
     });
 
     return scores;
 }
 
 /**
- * Example: Requirements validation using sentinels
- * Shows how sentinel values enable clean validation logic
+ * Enhanced requirements validation using LINQ operations
+ * Shows sophisticated validation with the new enumerable capabilities
  */
-export class TextRequirementValidator {
+export class EnhancedTextRequirementValidator {
     private requirements = {
         minFontSize: 12,  
         requiresBold: true,
@@ -222,30 +314,51 @@ export class TextRequirementValidator {
     validateDocument(): string {
         const issues: string[] = [];
         
-        // Check required layers exist
+        // Enhanced validation using LINQ operations
         this.requirements.requiredLayers.forEach(layerName => {
             const navigator = ActionDescriptorNavigator.forLayerByName(layerName);
+            
             if (navigator.isSentinel) {
                 issues.push(`Missing required layer: ${layerName}`);
             } else {
-                // Validate layer properties
-                const textStyle = navigator
+                // Enhanced layer validation with collection operations
+                const textRanges = navigator
                     .getObject('textKey')
                     .getList('textStyleRange')
-                    .getFirstWhere(range => range.getInteger('from') === 0)
-                    .getObject('textStyle');
+                    .whereMatches(range => range.getInteger('from') >= 0);
 
-                const fontSize = textStyle.getUnitDouble('sizeKey');
-                const isBold = textStyle.getBoolean('syntheticBold');
+                // Check each range for requirements
+                const violations = textRanges
+                    .select(range => {
+                        const textStyle = range.getObject('textStyle');
+                        const fontSize = textStyle.getUnitDouble('sizeKey');
+                        const isBold = textStyle.getBoolean('syntheticBold');
 
-                // Clean validation logic - no null checks needed for primitive values!
-                if (fontSize !== SENTINELS.double && fontSize < this.requirements.minFontSize) {
-                    issues.push(`${layerName}: Font size ${fontSize} below minimum ${this.requirements.minFontSize}`);
-                }
+                        const rangeIssues: string[] = [];
 
-                if (this.requirements.requiresBold && !isBold) {
-                    issues.push(`${layerName}: Bold formatting required but not found`);
-                }
+                        // Clean validation logic - no null checks needed for primitive values!
+                        if (fontSize !== SENTINELS.double && fontSize < this.requirements.minFontSize) {
+                            rangeIssues.push(`Font size ${fontSize} below minimum ${this.requirements.minFontSize}`);
+                        }
+
+                        if (this.requirements.requiresBold && !isBold) {
+                            rangeIssues.push('Bold formatting required but not found');
+                        }
+
+                        return {
+                            range: range,
+                            issues: rangeIssues
+                        };
+                    })
+                    .whereMatches(result => result.issues.length > 0)
+                    .toResultArray();
+
+                // Add violations to issues
+                violations.forEach(violation => {
+                    violation.issues.forEach(issue => {
+                        issues.push(`${layerName}: ${issue}`);
+                    });
+                });
             }
         });
 
@@ -253,124 +366,97 @@ export class TextRequirementValidator {
     }
 }
 
-// ===================================================================
-// ADDITIONAL EXAMPLES - UPDATED: With null check patterns
-// ===================================================================
-
 /**
- * Example: Multi-layer analysis using parallel approach
+ * Enhanced multi-layer analysis with sophisticated LINQ operations
+ * Demonstrates the full power of the consolidated enumerable system
  */
-export function analyzeMultipleLayers(): void {
+export function performAdvancedMultiLayerAnalysis(): void {
     const layerNames = ['Title', 'Subtitle', 'Body', 'Footer'];
 
-    const analysis = layerNames.map(name => {
-        // Get both system representations
-        const navigator = ActionDescriptorNavigator.forLayerByName(name);
-        const domLayer = getDOMLayerByName(name);
+    // Enhanced analysis with sophisticated collection operations
+    const analysis = layerNames
+        .map(name => {
+            // Get both system representations
+            const navigator = ActionDescriptorNavigator.forLayerByName(name);
+            const domLayer = getDOMLayerByName(name);
 
-        // SIMPLIFIED: File operations with null checks
-        const smartObjectFile = navigator.getPath('smartObject');
-        
-        return {
-            name: name,
-            // ActionManager data (fluent, sentinel-safe)
-            font: navigator.getObject('textKey').getString('fontPostScriptName'),
-            size: navigator.getObject('textKey').getUnitDouble('sizeKey'),
-            bounds: navigator.getBounds(),
+            // Enhanced ActionManager analysis
+            const textAnalysis = navigator.hasKey('textKey') ? 
+                navigator
+                    .getObject('textKey')
+                    .getList('textStyleRange')
+                    .whereMatches(range => range.getInteger('from') >= 0)
+                    .select(range => {
+                        const style = range.getObject('textStyle');
+                        return {
+                            font: style.getString('fontPostScriptName'),
+                            size: style.getUnitDouble('sizeKey'),
+                            bold: style.getBoolean('syntheticBold')
+                        };
+                    })
+                    .toResultArray() : [];
 
-            // UPDATED: File handling with null checks
-            hasSmartObject: smartObjectFile !== null,
-            smartObjectExists: smartObjectFile && smartObjectFile.exists,
-            smartObjectPath: smartObjectFile ? smartObjectFile.fsName : 'None',
-
-            // DOM data (direct property access)
-            visible: domLayer ? domLayer.visible : false,
-            opacity: domLayer ? domLayer.opacity : 0,
-            exists: domLayer !== null
-        };
-    });
-
-    // Process results
-    analysis.forEach(layer => {
-        console.log(`Layer: ${layer.name}`);
-        console.log(`  Font: ${layer.font || 'Unknown'}`);
-        console.log(`  Size: ${layer.size !== SENTINELS.double ? layer.size + 'pt' : 'Unknown'}`);
-        console.log(`  Visible: ${layer.visible}`);
-        console.log(`  Smart Object: ${layer.hasSmartObject ? 'Yes' : 'No'}`);
-        console.log(`  Exists in both systems: ${layer.exists && layer.font !== SENTINELS.string}`);
-    });
-}
-
-/**
- * Example: Conditional operations based on system capabilities
- */
-export function conditionalSystemUsage(): void {
-    const layerName = 'ComplexTextLayer';
-
-    // Try ActionManager first for complex text analysis
-    const navigator = ActionDescriptorNavigator.forLayerByName(layerName);
-    const textRanges = navigator
-        .getObject('textKey')
-        .getList('textStyleRange')
-        .getAllWhere(range => range.getInteger('from') >= 0);
-
-    if (textRanges.length > 0) {
-        // ActionManager succeeded - use for detailed text analysis
-        textRanges.forEach((range, index) => {
-            const style = range.getObject('textStyle');
-            console.log(`Range ${index}: Font ${style.getString('fontPostScriptName')}`);
-        });
-    } else {
-        // Fall back to DOM for basic information
-        const domLayer = getDOMLayerByName(layerName);
-        if (domLayer && domLayer.kind === LayerKind.TEXT) {
-            console.log(`Basic info: Font ${(domLayer as any).textItem?.font || 'Unknown'}`);
-        }
-    }
-}
-
-/**
- * Example: File operations with proper null handling
- * Shows the simplified patterns for file handling
- */
-export function demonstrateFileOperations(): void {
-    const layerNames = ['Logo', 'Background', 'SmartObject'];
-
-    layerNames.forEach(layerName => {
-        const navigator = ActionDescriptorNavigator.forLayerByName(layerName);
-        
-        // SIMPLIFIED: File operations with straightforward null checks
-        const linkedFile = navigator.getPath('smartObject');
-        const documentFile = navigator.getPath('documentPath');
-        
-        console.log(`\n=== ${layerName} Layer ===`);
-        
-        // Check for linked files
-        if (linkedFile) {  // Simple null check
-            console.log(`  Linked file: ${linkedFile.name}`);
-            console.log(`  Exists: ${linkedFile.exists}`);
-            console.log(`  Path: ${linkedFile.fsName}`);
+            // File operations with null checks
+            const smartObjectFile = navigator.getPath('smartObject');
             
-            if (linkedFile.exists) {
-                console.log(`  Size: ${linkedFile.length} bytes`);
-            }
-        } else {
-            console.log(`  No linked file found`);
-        }
-        
-        // Check for document references
-        if (documentFile) {  // Simple null check
-            console.log(`  Document file: ${documentFile.name}`);
-        } else {
-            console.log(`  No document file reference`);
-        }
-        
-        // References are handled the same way
-        const layerRef = navigator.getReference('layerReference');
-        if (layerRef) {  // Simple null check
-            console.log(`  Has layer reference: ${layerRef.getDesiredClass()}`);
-        } else {
-            console.log(`  No layer reference found`);
-        }
+            // FIXED: Updated bounds handling for Bounds object
+            const bounds = navigator.getBounds();
+            
+            return {
+                name: name,
+                // Enhanced ActionManager data
+                textRangeCount: textAnalysis.length,
+                fonts: textAnalysis.map(t => t.font).filter((f, i, arr) => arr.indexOf(f) === i),
+                avgFontSize: textAnalysis.length > 0 ? 
+                    textAnalysis.reduce((sum, t) => sum + (t.size !== SENTINELS.double ? t.size : 0), 0) / textAnalysis.length : 0,
+                hasBoldText: textAnalysis.some(t => t.bold),
+                bounds: {
+                    left: bounds.left || 0,
+                    top: bounds.top || 0,
+                    width: bounds.width || 0,
+                    height: bounds.height || 0
+                },
+
+                // File handling with null checks
+                hasSmartObject: smartObjectFile !== null,
+                smartObjectExists: smartObjectFile && smartObjectFile.exists,
+                smartObjectPath: smartObjectFile ? smartObjectFile.fsName : 'None',
+
+                // DOM data (direct property access)
+                visible: domLayer ? domLayer.visible : false,
+                opacity: domLayer ? domLayer.opacity : 0,
+                exists: domLayer !== null,
+                
+                // System availability
+                existsInActionManager: !navigator.isSentinel,
+                hasTextData: textAnalysis.length > 0
+            };
+        })
+        .filter(layer => layer.existsInActionManager || layer.exists); // Only valid layers
+
+    // Enhanced processing and reporting
+    analysis.forEach(layer => {
+        console.log(`\n=== Enhanced Analysis: ${layer.name} ===`);
+        console.log(`  Text Ranges: ${layer.textRangeCount}`);
+        console.log(`  Fonts Used: ${layer.fonts.join(', ') || 'None'}`);
+        console.log(`  Avg Font Size: ${layer.avgFontSize.toFixed(1)}pt`);
+        console.log(`  Has Bold Text: ${layer.hasBoldText ? 'Yes' : 'No'}`);
+        console.log(`  Bounds: ${layer.bounds.width}×${layer.bounds.height} at (${layer.bounds.left}, ${layer.bounds.top})`);
+        console.log(`  Visible: ${layer.visible} (${layer.opacity}% opacity)`);
+        console.log(`  Smart Object: ${layer.hasSmartObject ? 'Yes' : 'No'}`);
+        console.log(`  Systems: AM=${layer.existsInActionManager}, DOM=${layer.exists}`);
     });
+
+    // Summary statistics using enhanced operations
+    const totalRanges = analysis.reduce((sum, layer) => sum + layer.textRangeCount, 0);
+    const uniqueFonts = analysis
+        .flatMap(layer => layer.fonts)
+        .filter((font, index, arr) => arr.indexOf(font) === index);
+    
+    console.log(`\n=== Summary ===`);
+    console.log(`  Total Layers Analyzed: ${analysis.length}`);
+    console.log(`  Total Text Ranges: ${totalRanges}`);
+    console.log(`  Unique Fonts: ${uniqueFonts.length} (${uniqueFonts.join(', ')})`);
+    console.log(`  Layers with Bold Text: ${analysis.filter(l => l.hasBoldText).length}`);
+    console.log(`  Layers with Smart Objects: ${analysis.filter(l => l.hasSmartObject).length}`);
 }

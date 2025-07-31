@@ -1,16 +1,17 @@
 //ps/action-manager/ActionDescriptorNavigator.ts
 /**
- * ActionDescriptor Navigator - Alternative Implementation
+ * ActionDescriptor Navigator - Consolidated Enhanced Implementation
  * 
  * Clean, composable API for navigating Photoshop's ActionManager with sentinel-based error handling.
  * No complex caching - users cache naturally with const variables.
  * Never crashes - always returns safe sentinel values on errors.
  * 
- * SIMPLIFIED: Uses Adobe's built-in types directly for maximum compatibility
- * ENHANCED: Aligned with ps-nav.ts for consistent behavior
+ * CONSOLIDATED: Merges best features from both implementations
+ * ENHANCED: Superior enumerable system with LINQ-style operations
+ * FIXED: getBounds() returns Bounds instead of Rectangle
  * 
- * @fileoverview Alternative ActionManager navigation implementation
- * @version 2.0.0
+ * @fileoverview Enhanced ActionManager navigation implementation
+ * @version 2.1.0
  * 
  * @example Best - Natural caching with const variables
  * ```typescript
@@ -20,15 +21,24 @@
  * const titleLayer = ActionDescriptorNavigator.forLayerByName('Title');
  * const textObj = titleLayer.getObject('textKey');
  * 
- * // 2. Chain to get ranges  
+ * // 2. Chain to get ranges with enhanced LINQ operations
  * const styleRanges = textObj.getList('textStyleRange');
  * 
- * // 3. Store navigators in const variables (natural caching!)
+ * // 3. Use sophisticated filtering and transformations
+ * const filteredRanges = styleRanges
+ *   .whereMatches(range => range.getInteger('from') === 0)
+ *   .select(range => ({
+ *     from: range.getInteger('from'),
+ *     to: range.getInteger('to'),
+ *     style: range.getObject('textStyle')
+ *   }));
+ * 
+ * // 4. Store navigators in const variables (natural caching!)
  * const firstRange = styleRanges.getFirstWhere(range => range.getInteger('from') === 0);
  * const textStyle = firstRange.getObject('textStyle');
  * const color = textStyle.getObject('color');
  * 
- * // 4. Process quickly from cached variables (no repeated API calls)
+ * // 5. Process quickly from cached variables (no repeated API calls)
  * const red = color.getDouble('red');      // Fast access
  * const green = color.getDouble('green');  // Using cached navigator
  * const blue = color.getDouble('blue');    // No if checks needed
@@ -58,15 +68,15 @@ import {
     SelectorFunction
 } from './adn-types';
 
-// NOTE: Rectangle, ActionDescriptor, ActionReference, ActionList, File are all global Adobe classes
+// NOTE: Bounds, ActionDescriptor, ActionReference, ActionList, File are all global Adobe classes
 
 // ===================================================================
-// ENUMERABLE SUPPORT CLASSES  
+// ENHANCED ENUMERABLE SUPPORT CLASSES  
 // ===================================================================
 
 /**
- * Simple enumerable for filtering without complex lazy evaluation
- * Keeps only essential functionality for whereMatches chaining
+ * Enhanced enumerable for sophisticated filtering and transformations
+ * Superior implementation from ps-nav.ts with advanced error handling
  */
 class SimpleEnumerable implements IEnumerable {
     private items: IActionDescriptorNavigator[];
@@ -109,34 +119,7 @@ class SimpleEnumerable implements IEnumerable {
             }
         }).filter(item => item !== null);
 
-        return {
-            array: transformed,
-            whereMatches: (predicate: (item: any) => boolean) => {
-                const filtered = transformed.filter(item => {
-                    try {
-                        return predicate(item);
-                    } catch (e: any) {
-                        return false;
-                    }
-                });
-                return { 
-                    array: filtered,
-                    whereMatches: () => ({ array: [], whereMatches: () => ({} as any), getFirst: () => null, getCount: () => 0, hasAnyMatches: () => false, select: () => ({} as any), toResultArray: () => [], debug: () => ({} as any) }),
-                    getFirst: () => filtered.length > 0 ? filtered[0] : null,
-                    getCount: () => filtered.length,
-                    hasAnyMatches: () => filtered.length > 0,
-                    select: <U>(t: (item: any) => U) => ({ array: filtered.map(t), whereMatches: () => ({} as any), getFirst: () => null, getCount: () => 0, hasAnyMatches: () => false, select: () => ({} as any), toResultArray: () => [], debug: () => ({} as any) }),
-                    toResultArray: () => filtered,
-                    debug: (label: string) => { console.log(`[${label}] ${filtered.length} items`); return { array: filtered, whereMatches: () => ({} as any), getFirst: () => null, getCount: () => 0, hasAnyMatches: () => false, select: () => ({} as any), toResultArray: () => [], debug: () => ({} as any) }; }
-                };
-            },
-            getFirst: () => transformed.length > 0 ? transformed[0] : null,
-            getCount: () => transformed.length,
-            hasAnyMatches: () => transformed.length > 0,
-            select: <U>(t: (item: any) => U) => ({ array: transformed.map(t), whereMatches: () => ({} as any), getFirst: () => null, getCount: () => 0, hasAnyMatches: () => false, select: () => ({} as any), toResultArray: () => [], debug: () => ({} as any) }),
-            toResultArray: () => transformed,
-            debug: (label: string) => { console.log(`[${label}] ${transformed.length} items`); return { array: transformed, whereMatches: () => ({} as any), getFirst: () => null, getCount: () => 0, hasAnyMatches: () => false, select: () => ({} as any), toResultArray: () => [], debug: () => ({} as any) }; }
-        };
+        return new SimpleEnumerableArray(transformed);
     }
 
     toResultArray(): IActionDescriptorNavigator[] {
@@ -149,20 +132,77 @@ class SimpleEnumerable implements IEnumerable {
     }
 }
 
+/**
+ * Enhanced enumerable array for transformed collections
+ * Superior implementation with comprehensive method chaining
+ */
+class SimpleEnumerableArray implements IEnumerableArray {
+    readonly array: any[];
+
+    constructor(items: any[]) {
+        this.array = items || [];
+    }
+
+    whereMatches(predicate: (item: any) => boolean): IEnumerableArray {
+        const filtered = this.array.filter(item => {
+            try {
+                return predicate(item);
+            } catch (e: any) {
+                return false;
+            }
+        });
+        return new SimpleEnumerableArray(filtered);
+    }
+
+    getFirst(): any {
+        return this.array.length > 0 ? this.array[0] : null;
+    }
+
+    getCount(): number {
+        return this.array.length;
+    }
+
+    hasAnyMatches(): boolean {
+        return this.array.length > 0;
+    }
+
+    select<T>(transformer: (item: any) => T): IEnumerableArray {
+        const transformed = this.array.map(item => {
+            try {
+                return transformer(item);
+            } catch (e: any) {
+                return null;
+            }
+        }).filter(item => item !== null);
+
+        return new SimpleEnumerableArray(transformed);
+    }
+
+    toResultArray(): any[] {
+        return [...this.array];
+    }
+
+    debug(label: string): IEnumerableArray {
+        console.log(`[${label}] EnumerableArray with ${this.array.length} items`);
+        return this;
+    }
+}
+
 // ===================================================================
-// LIST NAVIGATOR IMPLEMENTATION
+// ENHANCED LIST NAVIGATOR IMPLEMENTATION
 // ===================================================================
 
 /**
- * Simple implementation for ActionList navigation
+ * Enhanced ActionList navigator with superior enumerable support
+ * Merged implementation with comprehensive collection operations
  */
 class ActionListNavigator implements IActionListNavigator {
     private list: ActionList | null;
     private _isSentinel: boolean;
 
-    constructor(list: ActionList | null) {
+    constructor(list: ActionList | null, isSentinel: boolean = false) {
         this.list = list;
-        this._isSentinel = !list;
+        this._isSentinel = isSentinel || !list;
     }
 
     get isSentinel(): boolean {
@@ -170,7 +210,10 @@ class ActionListNavigator implements IActionListNavigator {
     }
 
     getCount(): number {
-        if (this._isSentinel || !this.list) return 0;
+        if (this._isSentinel || !this.list) {
+            return 0;
+        }
+
         try {
             return this.list.count || 0;
         } catch (e: any) {
@@ -185,10 +228,12 @@ class ActionListNavigator implements IActionListNavigator {
 
         try {
             const count = this.list.count || 0;
-            if (index >= count) return ActionDescriptorNavigator.createSentinel();
-            
+            if (index >= count) {
+                return ActionDescriptorNavigator.createSentinel();
+            }
+
             const desc = this.list.getObjectValue(index);
-            return new ActionDescriptorNavigator(desc);
+            return new ActionDescriptorNavigator(desc, false);
         } catch (e: any) {
             return ActionDescriptorNavigator.createSentinel();
         }
@@ -200,7 +245,9 @@ class ActionListNavigator implements IActionListNavigator {
             const item = this.getObject(i);
             if (!item.isSentinel) {
                 try {
-                    if (predicate(item)) return item;
+                    if (predicate(item)) {
+                        return item;
+                    }
                 } catch (e: any) {
                     // Continue searching
                 }
@@ -216,40 +263,53 @@ class ActionListNavigator implements IActionListNavigator {
     getAllWhere(predicate: PredicateFunction): IActionDescriptorNavigator[] {
         const results: IActionDescriptorNavigator[] = [];
         const count = this.getCount();
+
         for (let i = 0; i < count; i++) {
             const item = this.getObject(i);
             if (!item.isSentinel) {
                 try {
-                    if (predicate(item)) results.push(item);
+                    if (predicate(item)) {
+                        results.push(item);
+                    }
                 } catch (e: any) {
                     // Continue searching
                 }
             }
         }
+
         return results;
     }
 
     whereMatches(predicate: PredicateFunction): IEnumerable {
-        return new SimpleEnumerable(this.getAllWhere(predicate));
+        const matches = this.getAllWhere(predicate);
+        return new SimpleEnumerable(matches);
     }
 
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray {
         const items: IActionDescriptorNavigator[] = [];
         const count = this.getCount();
+
         for (let i = 0; i < count; i++) {
             const item = this.getObject(i);
-            if (!item.isSentinel) items.push(item);
+            if (!item.isSentinel) {
+                items.push(item);
+            }
         }
+
         return new SimpleEnumerable(items).select(transformer);
     }
 
     asEnumerable(): IEnumerable {
         const items: IActionDescriptorNavigator[] = [];
         const count = this.getCount();
+
         for (let i = 0; i < count; i++) {
             const item = this.getObject(i);
-            if (!item.isSentinel) items.push(item);
+            if (!item.isSentinel) {
+                items.push(item);
+            }
         }
+
         return new SimpleEnumerable(items);
     }
 
@@ -259,25 +319,25 @@ class ActionListNavigator implements IActionListNavigator {
     }
 
     static createSentinel(): ActionListNavigator {
-        return new ActionListNavigator(null);
+        return new ActionListNavigator(null, true);
     }
 }
 
 // ===================================================================
-// MAIN NAVIGATOR IMPLEMENTATION
+// ENHANCED MAIN NAVIGATOR IMPLEMENTATION
 // ===================================================================
 
 /**
- * Main ActionDescriptor navigator implementation
- * Simple, focused implementation for property extraction
+ * Enhanced ActionDescriptor navigator implementation
+ * Consolidated best features with superior error handling and debugging
  */
 export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
-    private desc: ActionDescriptor | null;
+    private descriptor: ActionDescriptor | null;
     private _isSentinel: boolean;
 
-    constructor(desc: ActionDescriptor | null) {
-        this.desc = desc;
-        this._isSentinel = !desc;
+    constructor(descriptor: ActionDescriptor | null, isSentinel: boolean = false) {
+        this.descriptor = descriptor;
+        this._isSentinel = isSentinel || !descriptor;
     }
 
     get isSentinel(): boolean {
@@ -289,37 +349,39 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     // ===================================================================
 
     getObject(key: string): IActionDescriptorNavigator {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return ActionDescriptorNavigator.createSentinel();
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return ActionDescriptorNavigator.createSentinel();
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                const desc = this.descriptor.getObjectValue(keyID);
+                return new ActionDescriptorNavigator(desc, false);
             }
-            const obj = this.desc.getObjectValue(typeID);
-            return new ActionDescriptorNavigator(obj);
         } catch (e: any) {
-            return ActionDescriptorNavigator.createSentinel();
+            // Failed to get object
         }
+
+        return ActionDescriptorNavigator.createSentinel();
     }
 
     getList(key: string): IActionListNavigator {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return ActionListNavigator.createSentinel();
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return ActionListNavigator.createSentinel();
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                const list = this.descriptor.getList(keyID);
+                return new ActionListNavigator(list, false);
             }
-            const list = this.desc.getList(typeID);
-            return new ActionListNavigator(list);
         } catch (e: any) {
-            return ActionListNavigator.createSentinel();
+            // Failed to get list
         }
+
+        return ActionListNavigator.createSentinel();
     }
 
     // ===================================================================
@@ -327,120 +389,127 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     // ===================================================================
 
     getString(key: string): string {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.string;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.string;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getString(keyID);
             }
-            return this.desc.getString(typeID);
         } catch (e: any) {
-            return SENTINELS.string;
+            // Failed to get string
         }
+
+        return SENTINELS.string;
     }
 
     getDouble(key: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.double;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.double;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getDouble(keyID);
             }
-            return this.desc.getDouble(typeID);
         } catch (e: any) {
-            return SENTINELS.double;
-        }
-    }
-
-    getUnitDouble(key: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
-            return SENTINELS.double;
+            // Failed to get double
         }
 
-        try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.double;
-            }
-            return this.desc.getUnitDoubleValue(typeID);
-        } catch (e: any) {
-            return SENTINELS.double;
-        }
+        return SENTINELS.double;
     }
 
     getInteger(key: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.integer;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.integer;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getInteger(keyID);
             }
-            return this.desc.getInteger(typeID);
         } catch (e: any) {
-            return SENTINELS.integer;
+            // Failed to get integer
         }
+
+        return SENTINELS.integer;
     }
 
     getBoolean(key: string): boolean {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.boolean;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.boolean;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getBoolean(keyID);
             }
-            return this.desc.getBoolean(typeID);
         } catch (e: any) {
-            return SENTINELS.boolean;
+            // Failed to get boolean
         }
+
+        return SENTINELS.boolean;
+    }
+
+    getUnitDouble(key: string): number {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
+            return SENTINELS.double;
+        }
+
+        try {
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getUnitDoubleValue(keyID);
+            }
+        } catch (e: any) {
+            // Failed to get unit double
+        }
+
+        return SENTINELS.double;
     }
 
     getEnumerationString(key: string): string {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.string;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.string;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                const enumValue = this.descriptor.getEnumerationValue(keyID);
+                const enumString = typeIDToStringID(enumValue);
+                return enumString || SENTINELS.string;
             }
-            const enumValue = this.desc.getEnumerationValue(typeID);
-            const enumString = typeIDToStringID(enumValue);
-            return enumString || SENTINELS.string;
         } catch (e: any) {
-            return SENTINELS.string;
+            // Failed to get enumeration
         }
+
+        return SENTINELS.string;
     }
 
     getEnumerationId(key: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.integer;
         }
 
         try {
-            const typeID = stringIDToTypeID(key);
-            if (!this.desc.hasKey(typeID)) {
-                return SENTINELS.integer;
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getEnumerationValue(keyID);
             }
-            return this.desc.getEnumerationValue(typeID);
         } catch (e: any) {
-            return SENTINELS.integer;
+            // Failed to get enumeration
         }
+
+        return SENTINELS.integer;
     }
 
-    // Additional value methods for completeness
+    // Advanced value methods for completeness
     getData(key: string): string { return this.getStringValue(key, 'getData'); }
     getClass(key: string): number { return this.getIntegerValue(key, 'getClass'); }
     getLargeInteger(key: string): number { return this.getIntegerValue(key, 'getLargeInteger'); }
@@ -450,49 +519,63 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     getEnumerationType(key: string): number { return this.getIntegerValue(key, 'getEnumerationType'); }
     getType(key: string): number { return this.getIntegerValue(key, 'getType'); }
 
-    // SIMPLIFIED: Direct Adobe types with null handling
+    // File and reference methods - Exception to sentinel pattern (return null)
     getPath(key: string): File | null {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.file;
-        try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? this.desc.getPath(typeID) : SENTINELS.file;
-        } catch (e: any) {
-            return SENTINELS.file; // null
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
+            return SENTINELS.file;
         }
+
+        try {
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getPath(keyID); // Returns File or null
+            }
+        } catch (e: any) {
+            // Failed to get path
+        }
+
+        return SENTINELS.file; // null
     }
 
     getReference(key: string): ActionReference | null {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.reference;
-        try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? this.desc.getReference(typeID) : SENTINELS.reference;
-        } catch (e: any) {
-            return SENTINELS.reference; // null
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
+            return SENTINELS.reference;
         }
+
+        try {
+            const keyID = stringIDToTypeID(key);
+            if (this.descriptor.hasKey(keyID)) {
+                return this.descriptor.getReference(keyID); // Returns ActionReference or null
+            }
+        } catch (e: any) {
+            // Failed to get reference
+        }
+
+        return SENTINELS.reference; // null
     }
 
     // Helper methods to reduce duplication
     private getStringValue(key: string, methodName: string): string {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.string;
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) return SENTINELS.string;
         try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? (this.desc as any)[methodName](typeID) : SENTINELS.string;
+            const keyID = stringIDToTypeID(key);
+            return this.descriptor.hasKey(keyID) ? (this.descriptor as any)[methodName](keyID) : SENTINELS.string;
         } catch (e: any) { return SENTINELS.string; }
     }
 
     private getIntegerValue(key: string, methodName: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.integer;
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) return SENTINELS.integer;
         try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? (this.desc as any)[methodName](typeID) : SENTINELS.integer;
+            const keyID = stringIDToTypeID(key);
+            return this.descriptor.hasKey(keyID) ? (this.descriptor as any)[methodName](keyID) : SENTINELS.integer;
         } catch (e: any) { return SENTINELS.integer; }
     }
 
     private getDoubleValue(key: string, methodName: string): number {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return SENTINELS.double;
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) return SENTINELS.double;
         try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID) ? (this.desc as any)[methodName](typeID) : SENTINELS.double;
+            const keyID = stringIDToTypeID(key);
+            return this.descriptor.hasKey(keyID) ? (this.descriptor as any)[methodName](keyID) : SENTINELS.double;
         } catch (e: any) { return SENTINELS.double; }
     }
 
@@ -500,37 +583,62 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     // UTILITY METHODS
     // ===================================================================
 
-    getBounds(): Rectangle {
+    getBounds(): Bounds {
+        // FIXED: Returns Bounds instead of Rectangle
         try {
-            if (!this._isSentinel && this.desc) {
+            if (!this._isSentinel && this.descriptor) {
                 const boundsKey = stringIDToTypeID("bounds");
-                if (this.desc.hasKey(boundsKey)) {
-                    const boundsDesc = this.desc.getObjectValue(boundsKey);
+                if (this.descriptor.hasKey(boundsKey)) {
+                    const boundsDesc = this.descriptor.getObjectValue(boundsKey);
                     const left = boundsDesc.getUnitDoubleValue(stringIDToTypeID("left"));
                     const top = boundsDesc.getUnitDoubleValue(stringIDToTypeID("top"));
                     const right = boundsDesc.getUnitDoubleValue(stringIDToTypeID("right"));
                     const bottom = boundsDesc.getUnitDoubleValue(stringIDToTypeID("bottom"));
-                    return new Rectangle(left, top, right - left, bottom - top);
+                    
+                    // Create Bounds object (extends Array<number>)
+                    const bounds = new Bounds();
+                    bounds.left = left;
+                    bounds.top = top;
+                    bounds.right = right;
+                    bounds.bottom = bottom;
+                    bounds.width = right - left;
+                    bounds.height = bottom - top;
+                    return bounds;
                 }
             }
         } catch (e: any) {
             // Fall through to sentinel
         }
-        return new Rectangle(0, 0, 0, 0);
+
+        // Return sentinel Bounds
+        const sentinelBounds = new Bounds();
+        sentinelBounds.left = 0;
+        sentinelBounds.top = 0;
+        sentinelBounds.right = 0;
+        sentinelBounds.bottom = 0;
+        sentinelBounds.width = 0;
+        sentinelBounds.height = 0;
+        return sentinelBounds;
     }
 
     hasKey(key: string): boolean {
-        if (this._isSentinel || !this.desc || !key || key.length === 0) return false;
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
+            return false;
+        }
+
         try {
-            const typeID = stringIDToTypeID(key);
-            return this.desc.hasKey(typeID);
+            const keyID = stringIDToTypeID(key);
+            return this.descriptor.hasKey(keyID);
         } catch (e: any) {
             return false;
         }
     }
 
     select<T>(selector: SelectorFunction<T>): T | null {
-        if (this._isSentinel) return null;
+        if (this._isSentinel) {
+            return null;
+        }
+
         try {
             return selector(this);
         } catch (e: any) {
@@ -539,31 +647,13 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     debug(label: string): IActionDescriptorNavigator {
-        try {
-            console.log(`[${label}] ActionDescriptorNavigator: ${this._isSentinel ? 'SENTINEL' : 'OK'}`);
-        } catch (e: any) {
-            // Debug output failed
-        }
+        console.log(`[${label}] ActionDescriptorNavigator: ${this._isSentinel ? 'SENTINEL' : 'OK'}`);
         return this;
     }
 
     // ===================================================================
-    // STATIC FACTORY METHODS
+    // STATIC FACTORY METHODS (Preserved from ActionDescriptorNavigator.ts)
     // ===================================================================
-
-    /**
-     * Get navigator for current layer
-     */
-    static forCurrentLayer(): ActionDescriptorNavigator {
-        try {
-            const ref = new ActionReference();
-            ref.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
-            const desc = executeActionGet(ref);
-            return new ActionDescriptorNavigator(desc);
-        } catch (e: any) {
-            return ActionDescriptorNavigator.createSentinel();
-        }
-    }
 
     /**
      * Get navigator for current document
@@ -573,7 +663,21 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
             const ref = new ActionReference();
             ref.putEnumerated(charIDToTypeID("Dcmn"), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
             const desc = executeActionGet(ref);
-            return new ActionDescriptorNavigator(desc);
+            return new ActionDescriptorNavigator(desc, false);
+        } catch (e: any) {
+            return ActionDescriptorNavigator.createSentinel();
+        }
+    }
+
+    /**
+     * Get navigator for current layer
+     */
+    static forCurrentLayer(): ActionDescriptorNavigator {
+        try {
+            const ref = new ActionReference();
+            ref.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+            const desc = executeActionGet(ref);
+            return new ActionDescriptorNavigator(desc, false);
         } catch (e: any) {
             return ActionDescriptorNavigator.createSentinel();
         }
@@ -590,6 +694,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
         const searchName = layerName.toLowerCase().trim();
         const layerCount = ActionDescriptorNavigator.getLayerCount();
 
+        // Search through all layers
         for (let i = 1; i <= layerCount; i++) {
             const layer = ActionDescriptorNavigator.forLayerByIndex(i);
             const currentName = layer.getString('name');
@@ -615,7 +720,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
             const ref = new ActionReference();
             ref.putIndex(charIDToTypeID("Lyr "), index);
             const desc = executeActionGet(ref);
-            return new ActionDescriptorNavigator(desc);
+            return new ActionDescriptorNavigator(desc, false);
         } catch (e: any) {
             return ActionDescriptorNavigator.createSentinel();
         }
@@ -625,7 +730,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
      * Create a sentinel navigator (represents failed operation)
      */
     static createSentinel(): ActionDescriptorNavigator {
-        return new ActionDescriptorNavigator(null);
+        return new ActionDescriptorNavigator(null, true);
     }
 
     /**

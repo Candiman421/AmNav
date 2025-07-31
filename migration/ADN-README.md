@@ -1,880 +1,1214 @@
-# ActionDescriptor Navigator (ADN) - Comprehensive Guide
+# ActionDescriptor Navigator (ADN) v3.0.0 - Complete Guide
 
-## Overview
+## 🏗️ Architecture Overview
 
-ActionDescriptor Navigator provides a **crash-safe, fluent API** for navigating Photoshop's ActionManager with **LINQ-style collection operations**. It solves ActionManager's notorious crash-prone nature while adding sophisticated data extraction capabilities that Adobe's API completely lacks.
+ADN provides a **crash-safe, fluent API** for navigating Photoshop's ActionManager with **full TypeScript generics** and **LINQ-style operations**. The v3.0.0 architecture delivers enterprise-grade type safety while maintaining the framework's core philosophy: **never crash, always return safe values**.
 
-**Key Benefits:**
-- 🛡️ **Never crashes** - Returns sentinel values instead of throwing exceptions
-- 🔗 **Fluent chaining** - Natural, readable navigation patterns  
-- 🎯 **LINQ-style operations** - Advanced filtering and transformations
-- 📦 **Natural caching** - Store navigators in `const` variables for performance
-- 🔄 **Parallel systems** - Works alongside DOM operations when needed
-
----
-
-## Architecture Overview
+### **Framework Layers**
 
 ```
-ActionDescriptor Navigator Architecture
-═══════════════════════════════════════
-
 ┌─────────────────────────────────────────────────────────────┐
-│                    APPLICATION LAYER                        │
+│                    YOUR APPLICATION                         │
 │  ┌─────────────────┐    ┌─────────────────┐                │
-│  │   Your Script   │    │   DOM Layer     │                │
-│  │                 │    │  (getDomLayer)  │                │
+│  │  Fluent Chains  │    │   DOM Access    │                │
+│  │  (Type Safe)    │    │   (Simple)      │                │
 │  └─────────┬───────┘    └─────────┬───────┘                │
 └───────────│────────────────────────│────────────────────────┘
             │                        │
 ┌───────────▼────────────────────────▼────────────────────────┐
-│                     ADN LAYER                               │
+│                    ADN LAYER v3.0.0                        │
 │  ┌─────────────────┐    ┌─────────────────┐                │
-│  │ ActionNav       │    │ Enumerable      │                │
-│  │ • forLayerByName│    │ • whereMatches  │                │
-│  │ • getObject     │    │ • select        │                │
-│  │ • getList       │    │ • debug         │                │
-│  │ • getString     │    │ • toResultArray │                │
+│  │ ActionNavigator │    │ Generic LINQ    │                │
+│  │ • forLayerByName│    │ • select<T>()   │                │
+│  │ • getObject()   │    │ • whereMatches()│                │
+│  │ • getList()     │    │ • toResultArray │                │
 │  └─────────┬───────┘    └─────────┬───────┘                │
 └───────────│────────────────────────│────────────────────────┘
             │                        │
 ┌───────────▼────────────────────────▼────────────────────────┐
 │                   SENTINEL LAYER                           │
 │  ┌─────────────────┐    ┌─────────────────┐                │
-│  │ Error Handling  │    │ Safe Defaults   │                │
-│  │ • Never crash   │    │ • "" (string)   │                │
-│  │ • Try/catch all │    │ • -1 (number)   │                │
-│  │ • Sentinel prop │    │ • false (bool)  │                │
+│  │ Never Crash     │    │ Safe Defaults   │                │
+│  │ • Try/catch all │    │ • "" (string)   │                │
+│  │ • isSentinel    │    │ • -1 (numbers)  │                │
+│  │ • Propagation   │    │ • null (files)  │                │
 │  └─────────┬───────┘    └─────────┬───────┘                │
 └───────────│────────────────────────│────────────────────────┘
             │                        │
 ┌───────────▼────────────────────────▼────────────────────────┐
 │                 ADOBE ACTIONMANAGER                        │
-│  ┌─────────────────┐    ┌─────────────────┐                │
-│  │ executeActionGet│    │ ActionDescriptor│                │
-│  │ stringIDToTypeID│    │ ActionList      │                │
-│  │ ActionReference │    │ (Crash-prone!)  │                │
-│  └─────────────────┘    └─────────────────┘                │
+│             (Crash-prone, but powerful)                    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Data Flow:**
-1. **Application** → Requests data via fluent ADN syntax
-2. **ADN Layer** → Translates to ActionManager calls, applies LINQ operations  
-3. **Sentinel Layer** → Wraps all operations in try/catch, returns safe defaults
-4. **ActionManager** → Adobe's native (crash-prone) API calls
-5. **Results** → Flow back through safe pipeline to application
+### **Core Design Principles**
+
+1. **🛡️ Sentinel Safety**: Operations never crash - failed operations return sentinel values
+2. **🔗 Fluent Chaining**: Natural, readable navigation with full type preservation
+3. **⚡ Natural Caching**: Store navigators in `const` variables for optimal performance
+4. **🎯 Generic Type Safety**: Complete TypeScript inference through complex operations
+5. **📦 Mixed Systems**: Combine ActionManager (complex data) with DOM (simple properties)
 
 ---
 
-## Performance Characteristics
+## 📚 Part 1: Basic Value Extraction
 
-### ⚡ ActionManager Performance Rules
+### **1.1 Single Value Retrieval**
 
-**EXPENSIVE (Minimize these):**
 ```typescript
-// Each of these hits the ActionManager API - EXPENSIVE!
-const layer = ActionDescriptorNavigator.forLayerByName('Title');     // ~1-5ms
-const textObj = layer.getObject('textKey');                          // ~0.5-2ms  
-const rangesList = textObj.getList('textStyleRange');                // ~0.5-2ms
+import { ActionDescriptorNavigator, SENTINELS } from "./action-manager";
+
+// ⚡ PERFORMANCE: ~1-2ms per navigation call
+const layer = ActionDescriptorNavigator.forLayerByName("Title");
+
+// Basic property access (fast once navigator is cached)
+const layerName = layer.getString("name"); // "" if not found
+const opacity = layer.getInteger("opacity"); // -1 if not found
+const visible = layer.getBoolean("visible"); // false if not found
+
+// ✅ GOOD: Values are always safe to use directly
+console.log(`Layer: ${layerName}, Opacity: ${opacity}%`);
+
+// ✅ OPTIONAL: Check for actual data vs sentinels when validation matters
+if (layerName !== SENTINELS.string) {
+  console.log("Found real layer name:", layerName);
+}
 ```
 
-**FAST (Do these freely):**
-```typescript
-// Once you have a navigator, property access is FAST!
-const fontSize = textStyle.getUnitDouble('sizeKey');                 // ~0.01ms
-const fontName = textStyle.getString('fontPostScriptName');          // ~0.01ms
-const isBold = textStyle.getBoolean('syntheticBold');                // ~0.01ms
+### **1.2 Text Properties - Going Deeper**
 
-// LINQ operations work on cached data - FAST!
-const results = ranges.whereMatches(r => r.getInteger('from') > 0)   // ~0.1ms
-    .select(r => r.getObject('textStyle'))                           // ~0.5ms total
-    .toResultArray();                                                // ~0.01ms
+```typescript
+// Navigate into text structure (each getObject() call ~0.5-1ms)
+const textObj = layer.getObject("textKey");
+const textProperties = textObj.getObject("textStyleRange").getObject(0);
+const textStyle = textProperties.getObject("textStyle");
+
+// Extract text formatting values
+const fontName = textStyle.getString("fontPostScriptName"); // "Arial-Bold"
+const fontSize = textStyle.getUnitDouble("sizeKey"); // 24.0
+const isBold = textStyle.getBoolean("syntheticBold"); // true
+const isItalic = textStyle.getBoolean("syntheticItalic"); // false
+
+// ❌ AVOID: Repeated navigation - expensive!
+// const name1 = ActionDescriptorNavigator.forLayerByName('Title').getObject('textKey')...
+// const name2 = ActionDescriptorNavigator.forLayerByName('Title').getObject('textKey')...
 ```
 
-### 🏆 Performance Best Practices
-
-**✅ DO - Cache navigators in const variables:**
-```typescript
-// GOOD - Cache expensive navigation, fast property access
-const titleLayer = ActionDescriptorNavigator.forLayerByName('Title');  // 1ms
-const textObj = titleLayer.getObject('textKey');                       // 1ms
-const styleList = textObj.getList('textStyleRange');                   // 1ms
-
-// Now these are all FAST (already cached)
-const count = styleList.getCount();                                    // 0.01ms
-const firstStyle = styleList.getObject(0).getObject('textStyle');      // 0.01ms
-const fontSize = firstStyle.getUnitDouble('sizeKey');                  // 0.01ms
-```
-
-**❌ DON'T - Repeat expensive navigation:**
-```typescript
-// BAD - Repeats expensive calls (3ms each time!)
-const count = ActionDescriptorNavigator.forLayerByName('Title')
-    .getObject('textKey').getList('textStyleRange').getCount();        // 3ms
-
-const firstFont = ActionDescriptorNavigator.forLayerByName('Title')
-    .getObject('textKey').getList('textStyleRange')
-    .getObject(0).getObject('textStyle').getString('fontPostScriptName'); // 3ms
-
-const firstSize = ActionDescriptorNavigator.forLayerByName('Title')
-    .getObject('textKey').getList('textStyleRange')
-    .getObject(0).getObject('textStyle').getUnitDouble('sizeKey');     // 3ms
-// Total: 9ms instead of 3ms + fast access!
-```
-
----
-
-## Basic Usage Examples
-
-### 1. Simple Layer Information ⚡ (1-2ms)
+### **1.3 Performance Comparison - Single Values**
 
 ```typescript
-import { ActionDescriptorNavigator } from './action-manager/ActionDescriptorNavigator';
-import { SENTINELS } from './action-manager/adn-types';
+// ❌ BAD: Repeated expensive navigation (6-10ms total)
+function getBadTextInfo(layerName: string) {
+  const font = ActionDescriptorNavigator.forLayerByName(layerName) // 2ms
+    .getObject("textKey")
+    .getObject("textStyleRange")
+    .getObject(0)
+    .getObject("textStyle")
+    .getString("fontPostScriptName"); // 2ms
 
-// Basic layer info - single navigation, multiple fast property access
-const layer = ActionDescriptorNavigator.forLayerByName('Title');
+  const size = ActionDescriptorNavigator.forLayerByName(layerName) // 2ms
+    .getObject("textKey")
+    .getObject("textStyleRange")
+    .getObject(0)
+    .getObject("textStyle")
+    .getUnitDouble("sizeKey"); // 2ms
 
-// Fast property extraction (0.01ms each)
-const layerName = layer.getString('name');
-const opacity = layer.getInteger('opacity'); 
-const visible = layer.getBoolean('visible');
-const blendMode = layer.getEnumerationString('mode');
+  return { font, size };
+}
 
-console.log(`Layer: ${layerName}, Opacity: ${opacity}%, Visible: ${visible}, Mode: ${blendMode}`);
-// Performance: ~1ms total (1ms navigation + 0.04ms properties)
-```
+// ✅ GOOD: Cache navigation, batch properties (2-3ms total)
+function getGoodTextInfo(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName); // 2ms
+  const textStyle = layer
+    .getObject("textKey") // 1ms total
+    .getObject("textStyleRange")
+    .getObject(0)
+    .getObject("textStyle");
 
-### 2. Layer Bounds Information ⚡ (1-2ms)
+  // Fast property access from cached navigator
+  const font = textStyle.getString("fontPostScriptName"); // 0.01ms
+  const size = textStyle.getUnitDouble("sizeKey"); // 0.01ms
+  const bold = textStyle.getBoolean("syntheticBold"); // 0.01ms
 
-```typescript
-// Get layer bounds (returns Bounds object)
-const layer = ActionDescriptorNavigator.forLayerByName('Background');
-const bounds = layer.getBounds();
-
-// Extract coordinate values
-const coordinates = {
-    left: bounds.left,
-    top: bounds.top, 
-    right: bounds.right,
-    bottom: bounds.bottom,
-    width: bounds.width,
-    height: bounds.height
-};
-
-console.log('Layer bounds:', coordinates);
-// Performance: ~1ms total
-```
-
-### 3. Basic Text Information ⚡ (2-3ms)
-
-```typescript
-// Navigate to text data - cache the expensive navigation
-const layer = ActionDescriptorNavigator.forLayerByName('Title');      // 1ms
-const textObj = layer.getObject('textKey');                           // 1ms
-
-// Fast property access on cached object
-const textContent = textObj.getString('textKey');
-const antiAlias = textObj.getEnumerationString('antiAlias');
-const textDirection = textObj.getEnumerationString('orientation');
-
-console.log(`Text: "${textContent}", AntiAlias: ${antiAlias}, Direction: ${textDirection}`);
-// Performance: ~2ms total (2ms navigation + 0.03ms properties)
+  return { font, size, bold };
+}
 ```
 
 ---
 
-## Intermediate Examples - Text Style Analysis
+## 📚 Part 2: Collection Operations & LINQ Patterns
 
-### 4. Single Text Style Range ⚡ (3-4ms)
+### **2.1 Basic List Navigation**
 
 ```typescript
-// Navigate to text style data - cache all expensive calls
-const layer = ActionDescriptorNavigator.forLayerByName('Title');         // 1ms
-const textObj = layer.getObject('textKey');                             // 1ms  
-const rangesList = textObj.getList('textStyleRange');                   // 1ms
+// Get text style ranges list (performance: ~1ms)
+const layer = ActionDescriptorNavigator.forLayerByName("Title");
+const textObj = layer.getObject("textKey");
+const styleRanges = textObj.getList("textStyleRange");
 
-// Get first text range and its style
-const firstRange = rangesList.getObject(0);                             // 0.01ms
-const textStyle = firstRange.getObject('textStyle');                    // 0.01ms
+// Basic list information
+const totalRanges = styleRanges.getCount(); // 0 if empty, never -1
+console.log(`Found ${totalRanges} text ranges`);
 
-// Extract comprehensive style properties (all fast)
-const styleData = {
+// ❌ AVOID: Brittle index-based access
+const firstRange = styleRanges.getObject(0); // Returns sentinel if index invalid
+
+// ✅ BETTER: Condition-based access
+const firstRange = styleRanges.getFirstWhere(
+  (range) => range.getInteger("from") >= 0 // Any valid range
+);
+
+// ✅ BEST: Multiple conditions for robustness
+const firstTextRange = styleRanges.getFirstWhere((range) => {
+  const from = range.getInteger("from");
+  const to = range.getInteger("to");
+  return from >= 0 && to > from && to - from > 0; // Valid, non-empty range
+});
+```
+
+### **2.2 Extracting Arrays of Raw Values**
+
+```typescript
+// Extract all font sizes from text ranges
+const layer = ActionDescriptorNavigator.forLayerByName("Title");
+const styleRanges = layer.getObject("textKey").getList("textStyleRange");
+
+// ✅ GOOD: Extract array of single values
+const fontSizes = styleRanges
+  .select((range) => range.getObject("textStyle").getUnitDouble("sizeKey"))
+  .toResultArray() // Returns number[]
+  .filter((size) => size !== SENTINELS.double); // Remove failed extractions
+
+console.log("Font sizes found:", fontSizes); // [12, 18, 24]
+
+// ✅ BETTER: Extract array of raw value objects
+interface RawTextData {
+  from: number;
+  to: number;
+  fontName: string;
+  fontSize: number;
+  isBold: boolean;
+}
+
+const rawTextData = styleRanges
+  .select<RawTextData>((range) => {
+    const style = range.getObject("textStyle");
+    return {
+      from: range.getInteger("from"),
+      to: range.getInteger("to"),
+      fontName: style.getString("fontPostScriptName"),
+      fontSize: style.getUnitDouble("sizeKey"),
+      isBold: style.getBoolean("syntheticBold"),
+    };
+  })
+  .toResultArray(); // TypeScript knows this is RawTextData[]
+
+// Use extracted data (no more ActionManager calls needed)
+rawTextData.forEach((data) => {
+  if (data.fontSize !== SENTINELS.double) {
+    console.log(`${data.fontName}: ${data.fontSize}pt, Bold: ${data.isBold}`);
+  }
+});
+```
+
+### **2.3 Advanced Filtering & Conditions**
+
+```typescript
+// ❌ AVOID: Weak conditions that may fail
+const weakSearch = styleRanges.getFirstWhere(
+  (range) => range.getInteger("from") === 0 // Too specific, brittle
+);
+
+// ✅ GOOD: Multiple fallback conditions
+const betterSearch = styleRanges.getFirstWhere((range) => {
+  const from = range.getInteger("from");
+  const to = range.getInteger("to");
+  const hasValidRange = from >= 0 && to > from;
+  const hasStyle = !range.getObject("textStyle").isSentinel;
+  return hasValidRange && hasStyle;
+});
+
+// ✅ BEST: Robust condition with multiple criteria
+const bestSearch = styleRanges.getFirstWhere((range) => {
+  // Check range validity
+  const from = range.getInteger("from");
+  const to = range.getInteger("to");
+  if (from < 0 || to <= from) return false;
+
+  // Check text style exists and has content
+  const style = range.getObject("textStyle");
+  if (style.isSentinel) return false;
+
+  // Check has meaningful formatting
+  const fontSize = style.getUnitDouble("sizeKey");
+  const fontName = style.getString("fontPostScriptName");
+  return fontSize > 0 && fontName !== SENTINELS.string;
+});
+
+// Filter collections with complex criteria
+const validRanges = styleRanges
+  .whereMatches((range) => {
+    const from = range.getInteger("from");
+    const to = range.getInteger("to");
+    const length = to - from;
+
+    // Only ranges with substantial text
+    return length > 5 && from >= 0;
+  })
+  .debug("Valid text ranges"); // Helpful for debugging
+
+console.log(`Found ${validRanges.getCount()} substantial text ranges`);
+```
+
+---
+
+## 📚 Part 3: Deep Traversal & Caching Strategies
+
+### **3.1 Progressive Depth Navigation**
+
+```typescript
+// ⚡ PERFORMANCE PATTERN: Cache at each navigation level
+const layer = ActionDescriptorNavigator.forLayerByName("Title"); // 2ms
+
+// Cache text-level navigation
+const textObj = layer.getObject("textKey"); // 1ms
+const styleRanges = textObj.getList("textStyleRange"); // 1ms
+
+// Cache range-level navigation
+const firstRange = styleRanges.getFirstWhere(
+  (range) => range.getInteger("to") - range.getInteger("from") > 0
+); // 1ms
+
+// Cache style-level navigation
+const textStyle = firstRange.getObject("textStyle"); // 1ms
+const color = textStyle.getObject("color"); // 1ms
+
+// Fast property access from cached navigators (0.01ms each)
+const red = color.getDouble("red");
+const green = color.getDouble("green");
+const blue = color.getDouble("blue");
+const fontName = textStyle.getString("fontPostScriptName");
+const fontSize = textStyle.getUnitDouble("sizeKey");
+
+// Total: ~7ms vs 25ms+ without caching
+```
+
+### **3.2 Batch Property Extraction**
+
+```typescript
+// ✅ BEST PRACTICE: Extract multiple properties from cached navigators
+function extractCompleteTextInfo(layerName: string) {
+  // Single navigation path (4-5ms total)
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const firstRange = layer
+    .getObject("textKey")
+    .getList("textStyleRange")
+    .getFirstWhere(
+      (range) => range.getInteger("to") > range.getInteger("from")
+    );
+
+  const textStyle = firstRange.getObject("textStyle");
+  const color = textStyle.getObject("color");
+
+  // Batch all property extractions (0.1ms total)
+  return {
+    // Text content
+    rangeFrom: firstRange.getInteger("from"),
+    rangeTo: firstRange.getInteger("to"),
+
     // Font properties
-    font: textStyle.getString('fontPostScriptName'),
-    size: textStyle.getUnitDouble('sizeKey'),
-    leading: textStyle.getUnitDouble('leading'),
-    tracking: textStyle.getInteger('tracking'),
-    
-    // Formatting
-    bold: textStyle.getBoolean('syntheticBold'),
-    italic: textStyle.getBoolean('syntheticItalic'),  
-    underline: textStyle.getBoolean('underline'),
-    strikethrough: textStyle.getBoolean('strikethrough'),
-    
-    // Range info
-    rangeStart: firstRange.getInteger('from'),
-    rangeEnd: firstRange.getInteger('to')
-};
+    fontName: textStyle.getString("fontPostScriptName"),
+    fontSize: textStyle.getUnitDouble("sizeKey"),
+    isBold: textStyle.getBoolean("syntheticBold"),
+    isItalic: textStyle.getBoolean("syntheticItalic"),
 
-console.log('Text style:', styleData);
-// Performance: ~3ms total (3ms navigation + 0.1ms properties)
-```
+    // Color properties
+    red: color.getDouble("red"),
+    green: color.getDouble("green"),
+    blue: color.getDouble("blue"),
 
-### 5. Text Color Information ⚡ (4-5ms)
-
-```typescript
-// Build on previous example - add color extraction
-const layer = ActionDescriptorNavigator.forLayerByName('Title');
-const textObj = layer.getObject('textKey');
-const rangesList = textObj.getList('textStyleRange');
-const firstRange = rangesList.getObject(0);
-const textStyle = firstRange.getObject('textStyle');
-
-// Navigate to color object
-const colorObj = textStyle.getObject('color');                          // 0.01ms
-
-// Extract color values (fast)
-const colorData = {
-    red: colorObj.getDouble('red'),
-    green: colorObj.getDouble('green'), 
-    blue: colorObj.getDouble('blue'),
-    
-    // Alternative: try getting CMYK if available
-    cyan: colorObj.getDouble('cyan'),        // May return SENTINEL if not CMYK
-    magenta: colorObj.getDouble('magenta'),  // May return SENTINEL if not CMYK  
-    yellow: colorObj.getDouble('yellow'),    // May return SENTINEL if not CMYK
-    black: colorObj.getDouble('black')       // May return SENTINEL if not CMYK
-};
-
-// Check what color space we got
-const isRGB = colorData.red !== SENTINELS.double;
-const isCMYK = colorData.cyan !== SENTINELS.double;
-
-console.log(`Color (${isRGB ? 'RGB' : isCMYK ? 'CMYK' : 'Unknown'}):`, colorData);
-// Performance: ~3ms total (same navigation cost, one more object access)
-```
-
-### 6. Multiple Text Ranges - Array Approach 🔄 (3-5ms)
-
-```typescript
-// Cache expensive navigation once
-const layer = ActionDescriptorNavigator.forLayerByName('Title');
-const textObj = layer.getObject('textKey');
-const rangesList = textObj.getList('textStyleRange');
-
-// Get range count and process traditionally
-const rangeCount = rangesList.getCount();                               // 0.01ms
-const allRanges = [];
-
-// Traditional array processing (fast iteration on cached list)
-for (let i = 0; i < rangeCount; i++) {
-    const range = rangesList.getObject(i);                              // 0.01ms each
-    const textStyle = range.getObject('textStyle');                     // 0.01ms each
-    
-    allRanges.push({
-        index: i,
-        from: range.getInteger('from'),
-        to: range.getInteger('to'),
-        length: range.getInteger('to') - range.getInteger('from'),
-        font: textStyle.getString('fontPostScriptName'),
-        size: textStyle.getUnitDouble('sizeKey')
-    });
-}
-
-console.log(`Found ${rangeCount} text ranges:`, allRanges);
-// Performance: ~3ms base + 0.02ms per range (very fast once cached)
-```
-
-### 7. LINQ-Style Text Range Processing 🎯 (3-5ms)
-
-```typescript
-// Same expensive navigation (cache once)
-const layer = ActionDescriptorNavigator.forLayerByName('Title');
-const textObj = layer.getObject('textKey');
-const rangesList = textObj.getList('textStyleRange');
-
-// Use LINQ-style operations on cached data (fast)
-const validRanges = rangesList
-    .whereMatches(range => range.getInteger('from') >= 0)               // Fast filter
-    .debug("Valid ranges");                                             // Debug output
-
-const rangeData = validRanges
-    .select(range => {                                                  // Transform
-        const textStyle = range.getObject('textStyle');
-        return {
-            from: range.getInteger('from'),
-            to: range.getInteger('to'),
-            font: textStyle.getString('fontPostScriptName'),
-            size: textStyle.getUnitDouble('sizeKey'),
-            bold: textStyle.getBoolean('syntheticBold')
-        };
-    })
-    .debug("Transformed data");
-
-// Filter transformed data (in-memory, very fast)
-const largeFonts = rangeData
-    .whereMatches(data => data.size > 16)
-    .toResultArray();
-
-const boldText = rangeData  
-    .whereMatches(data => data.bold === true)
-    .toResultArray();
-
-console.log(`Large fonts (>16pt):`, largeFonts);
-console.log(`Bold text ranges:`, boldText);
-// Performance: ~3ms navigation + 0.1ms LINQ operations
-```
-
----
-
-## Advanced Examples - Complex Data Extraction
-
-### 8. Complete Text Analysis Pipeline 🚀 (5-8ms)
-
-```typescript
-// Single navigation cost, comprehensive analysis
-const layer = ActionDescriptorNavigator.forLayerByName('Title');
-const textObj = layer.getObject('textKey');
-const rangesList = textObj.getList('textStyleRange');
-
-// Comprehensive analysis with LINQ chaining
-const completeAnalysis = rangesList
-    .whereMatches(range => range.getInteger('to') - range.getInteger('from') > 0)  // Non-empty ranges
-    .select(range => {
-        const textStyle = range.getObject('textStyle');
-        const colorObj = textStyle.getObject('color');
-        
-        return {
-            // Range data
-            range: {
-                from: range.getInteger('from'),
-                to: range.getInteger('to'),
-                length: range.getInteger('to') - range.getInteger('from')
-            },
-            
-            // Typography
-            typography: {
-                font: textStyle.getString('fontPostScriptName'),
-                size: textStyle.getUnitDouble('sizeKey'),
-                leading: textStyle.getUnitDouble('leading'),
-                tracking: textStyle.getInteger('tracking'),
-                baselineShift: textStyle.getUnitDouble('baselineShift')
-            },
-            
-            // Formatting  
-            formatting: {
-                bold: textStyle.getBoolean('syntheticBold'),
-                italic: textStyle.getBoolean('syntheticItalic'),
-                underline: textStyle.getBoolean('underline'),
-                strikethrough: textStyle.getBoolean('strikethrough'),
-                allCaps: textStyle.getBoolean('allCaps'),
-                smallCaps: textStyle.getBoolean('smallCaps')
-            },
-            
-            // Color
-            color: {
-                red: colorObj.getDouble('red'),
-                green: colorObj.getDouble('green'),
-                blue: colorObj.getDouble('blue')
-            }
-        };
-    })
-    .debug("Complete analysis data");
-
-// Complex filtering on analyzed data (in-memory)
-const headlineRanges = completeAnalysis
-    .whereMatches(data => data.typography.size >= 24)
-    .toResultArray();
-
-const formattedRanges = completeAnalysis
-    .whereMatches(data => data.formatting.bold || data.formatting.italic)
-    .toResultArray();
-
-const colorfulRanges = completeAnalysis  
-    .whereMatches(data => {
-        const { red, green, blue } = data.color;
-        const brightness = (red + green + blue) / 3;
-        return brightness < 0.8; // Not white/very light
-    })
-    .toResultArray();
-
-console.log('Analysis Summary:');
-console.log(`- Total analyzed ranges: ${completeAnalysis.getCount()}`);
-console.log(`- Headlines (≥24pt): ${headlineRanges.length}`);
-console.log(`- Formatted text: ${formattedRanges.length}`);
-console.log(`- Colored text: ${colorfulRanges.length}`);
-// Performance: ~5-8ms (depends on range count, but very efficient)
-```
-
-### 9. Multi-Layer Text Comparison 📊 (15-30ms)
-
-```typescript
-// Analyze multiple layers efficiently
-const layerNames = ['Title', 'Subtitle', 'Body', 'Footer'];
-const layerAnalysis = [];
-
-layerNames.forEach(layerName => {
-    const layer = ActionDescriptorNavigator.forLayerByName(layerName);    // 1ms each
-    
-    if (!layer.isSentinel && layer.hasKey('textKey')) {
-        const textObj = layer.getObject('textKey');                       // 1ms each
-        const rangesList = textObj.getList('textStyleRange');             // 1ms each
-        
-        // Analyze this layer's text (fast operations on cached data)
-        const rangeAnalysis = rangesList
-            .whereMatches(range => range.getInteger('from') >= 0)
-            .select(range => {
-                const textStyle = range.getObject('textStyle');
-                return {
-                    font: textStyle.getString('fontPostScriptName'),
-                    size: textStyle.getUnitDouble('sizeKey'),
-                    bold: textStyle.getBoolean('syntheticBold')
-                };
-            })
-            .toResultArray();
-        
-        // Aggregate statistics (in-memory operations)
-        const fonts = [...new Set(rangeAnalysis.map(r => r.font))];
-        const sizes = rangeAnalysis.map(r => r.size).filter(s => s !== SENTINELS.double);
-        const avgSize = sizes.length > 0 ? sizes.reduce((a, b) => a + b) / sizes.length : 0;
-        const hasBold = rangeAnalysis.some(r => r.bold);
-        
-        layerAnalysis.push({
-            layer: layerName,
-            ranges: rangeAnalysis.length,
-            fonts: fonts,
-            avgSize: avgSize,
-            minSize: Math.min(...sizes),
-            maxSize: Math.max(...sizes), 
-            hasBold: hasBold
-        });
-    }
-});
-
-// Cross-layer analysis (pure in-memory operations)
-const allFonts = [...new Set(layerAnalysis.flatMap(l => l.fonts))];
-const layersWithBold = layerAnalysis.filter(l => l.hasBold);
-
-console.log('Multi-Layer Analysis:');
-layerAnalysis.forEach(analysis => {
-    console.log(`${analysis.layer}: ${analysis.ranges} ranges, ${analysis.fonts.length} fonts, avg ${analysis.avgSize.toFixed(1)}pt`);
-});
-console.log(`\nSummary: ${allFonts.length} unique fonts, ${layersWithBold.length} layers with bold text`);
-// Performance: ~3ms per layer + minimal in-memory processing = 15-30ms total
-```
-
-### 10. Parallel ActionNav + Dom Approach 🔄 (5-10ms)
-
-```typescript
-import { getDomLayerByName } from './ps';  // Note: Dom not DOM
-
-// Get both representations of the same layer
-const layerName = 'Title';
-const navigator = ActionDescriptorNavigator.forLayerByName(layerName);     // ActionManager (1ms)
-const domLayer = getDomLayerByName(layerName);                             // Dom API (1ms)
-
-// Extract complementary data from both systems
-const actionManagerData = {
-    // Complex text analysis (only available via ActionManager)
-    textRanges: navigator.hasKey('textKey') ? 
-        navigator.getObject('textKey')
-            .getList('textStyleRange')
-            .select(range => {
-                const style = range.getObject('textStyle');
-                return {
-                    font: style.getString('fontPostScriptName'),
-                    size: style.getUnitDouble('sizeKey'),
-                    from: range.getInteger('from'),
-                    to: range.getInteger('to')
-                };
-            })
-            .toResultArray() : [],
-    
-    // Detailed bounds info
-    bounds: navigator.getBounds(),
-    
     // Advanced properties
-    fillOpacity: navigator.getInteger('fillOpacity'),
-    blendMode: navigator.getEnumerationString('mode'),
-    layerEffects: navigator.hasKey('layerEffects')
-};
+    tracking: textStyle.getInteger("tracking"),
+    leading: textStyle.getUnitDouble("leading"),
+    baselineShift: textStyle.getUnitDouble("baselineShift"),
+  };
+}
+```
 
-const domData = {
-    // Simple properties (fast Dom access)
-    visible: domLayer ? domLayer.visible : false,
-    opacity: domLayer ? domLayer.opacity : 0,
-    name: domLayer ? domLayer.name : '',
-    kind: domLayer ? domLayer.kind : null,
-    
-    // Dom-specific features
-    isBackground: domLayer ? domLayer.isBackgroundLayer : false,
-    locked: domLayer ? domLayer.allLocked : false,
-    
-    // Text item access (if text layer)
-    textItem: domLayer && domLayer.kind === LayerKind.TEXT ? {
-        contents: domLayer.textItem.contents,
-        size: domLayer.textItem.size,
-        font: domLayer.textItem.font
-    } : null
-};
+### **3.3 Deep Collection Traversal**
 
-// Combine insights from both systems
-const combinedAnalysis = {
-    layer: layerName,
-    
-    // ActionManager insights (detailed)
-    detailedTextRanges: actionManagerData.textRanges.length,
-    fontsUsed: [...new Set(actionManagerData.textRanges.map(r => r.font))],
-    sizeRange: actionManagerData.textRanges.length > 0 ? {
-        min: Math.min(...actionManagerData.textRanges.map(r => r.size)),
-        max: Math.max(...actionManagerData.textRanges.map(r => r.size))
-    } : null,
-    
-    // Dom insights (simple but reliable)
-    basicVisible: domData.visible,
-    basicOpacity: domData.opacity,
-    basicTextContent: domData.textItem ? domData.textItem.contents : null,
-    
-    // System availability
-    availableInActionManager: !navigator.isSentinel,
-    availableInDom: domLayer !== null,
-    
-    // Combined validation
-    dataConsistency: {
-        nameMatch: actionManagerData.bounds && domData.name ? 
-            navigator.getString('name') === domData.name : null,
-        opacityMatch: actionManagerData.fillOpacity !== SENTINELS.integer && domData.opacity ? 
-            Math.abs(actionManagerData.fillOpacity - domData.opacity) < 1 : null
-    }
-};
+```typescript
+// Extract nested data from all ranges in efficient pattern
+function extractAllTextDetails(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const styleRanges = layer.getObject("textKey").getList("textStyleRange");
 
-console.log('Parallel System Analysis:', combinedAnalysis);
-// Performance: ~5-10ms (both systems accessed efficiently)
+  // Process all ranges with efficient caching
+  const rangeDetails = styleRanges
+    .whereMatches((range) => {
+      const from = range.getInteger("from");
+      const to = range.getInteger("to");
+      return from >= 0 && to > from;
+    })
+    .select((range) => {
+      // Cache navigation within this range
+      const textStyle = range.getObject("textStyle");
+      const color = textStyle.getObject("color");
+
+      // Extract all needed properties at once
+      return {
+        range: {
+          from: range.getInteger("from"),
+          to: range.getInteger("to"),
+        },
+        font: {
+          name: textStyle.getString("fontPostScriptName"),
+          size: textStyle.getUnitDouble("sizeKey"),
+          bold: textStyle.getBoolean("syntheticBold"),
+          italic: textStyle.getBoolean("syntheticItalic"),
+        },
+        color: {
+          red: color.getDouble("red"),
+          green: color.getDouble("green"),
+          blue: color.getDouble("blue"),
+        },
+        formatting: {
+          tracking: textStyle.getInteger("tracking"),
+          leading: textStyle.getUnitDouble("leading"),
+        },
+      };
+    })
+    .toResultArray();
+
+  return rangeDetails; // TypeScript knows complete structure
+}
 ```
 
 ---
 
-## Complex Real-World Scenarios
+## 📚 Part 4: Color Extraction Mastery
 
-### 11. Document-Wide Font Audit 🔍 (50-200ms)
+### **4.1 RGB Color Extraction**
 
 ```typescript
-// Get all layers in document first (expensive but necessary)
-const doc = ActionDescriptorNavigator.forCurrentDocument();
-const layerCount = doc.getInteger('numberOfLayers');
+// Basic RGB color from text
+const layer = ActionDescriptorNavigator.forLayerByName("Title");
+const textStyle = layer
+  .getObject("textKey")
+  .getList("textStyleRange")
+  .getFirstWhere((range) => !range.getObject("textStyle").isSentinel)
+  .getObject("textStyle");
 
-const fontAudit = {
-    totalLayers: layerCount,
-    textLayers: [],
-    allFonts: new Set(),
-    fontUsage: new Map(),
-    issues: []
+const color = textStyle.getObject("color");
+
+// RGB values (0.0 - 1.0 range)
+const red = color.getDouble("red"); // 0.0 - 1.0
+const green = color.getDouble("green"); // 0.0 - 1.0
+const blue = color.getDouble("blue"); // 0.0 - 1.0
+
+// Convert to 0-255 range for typical use
+const rgb255 = {
+  r: Math.round(red * 255), // 0-255
+  g: Math.round(green * 255), // 0-255
+  b: Math.round(blue * 255), // 0-255
 };
 
-// Process each layer (3ms per layer minimum)
-for (let i = 1; i <= layerCount; i++) {
-    try {
-        const layer = ActionDescriptorNavigator.forLayerByIndex(i);      // 1ms each
-        const layerName = layer.getString('name');
-        
-        if (layer.hasKey('textKey')) {
-            const textObj = layer.getObject('textKey');                   // 1ms
-            const rangesList = textObj.getList('textStyleRange');         // 1ms
-            
-            // Extract all fonts from this layer (fast LINQ operations)
-            const layerFonts = rangesList
-                .whereMatches(range => range.getInteger('from') >= 0)
-                .select(range => {
-                    const style = range.getObject('textStyle');
-                    const font = style.getString('fontPostScriptName');
-                    const size = style.getUnitDouble('sizeKey');
-                    return { font, size };
-                })
-                .toResultArray();
-            
-            // Aggregate data (in-memory operations)
-            const uniqueFonts = [...new Set(layerFonts.map(f => f.font))];
-            const sizes = layerFonts.map(f => f.size).filter(s => s !== SENTINELS.double);
-            
-            fontAudit.textLayers.push({
-                name: layerName,
-                fonts: uniqueFonts,
-                ranges: layerFonts.length,
-                avgSize: sizes.length > 0 ? sizes.reduce((a, b) => a + b) / sizes.length : 0
-            });
-            
-            // Update global tracking
-            uniqueFonts.forEach(font => {
-                fontAudit.allFonts.add(font);
-                fontAudit.fontUsage.set(font, (fontAudit.fontUsage.get(font) || 0) + 1);
-            });
-            
-            // Detect potential issues
-            if (uniqueFonts.length > 3) {
-                fontAudit.issues.push(`${layerName}: Too many fonts (${uniqueFonts.length})`);
-            }
-            if (sizes.some(s => s < 8)) {
-                fontAudit.issues.push(`${layerName}: Very small text detected`);
-            }
-        }
-    } catch (e) {
-        fontAudit.issues.push(`Layer ${i}: Could not analyze`);
-    }
+console.log(`RGB: ${rgb255.r}, ${rgb255.g}, ${rgb255.b}`);
+```
+
+### **4.2 CMYK Color Extraction**
+
+```typescript
+// CMYK color extraction from print-oriented documents
+const layer = ActionDescriptorNavigator.forLayerByName("PrintLayer");
+const color = layer
+  .getObject("textKey")
+  .getList("textStyleRange")
+  .getFirstWhere((range) => !range.isSentinel)
+  .getObject("textStyle")
+  .getObject("color");
+
+// Check color mode first
+const colorSpace = color.getString("mode"); // "CMYK", "RGB", "Lab", etc.
+
+if (colorSpace === "CMYK") {
+  const cmyk = {
+    cyan: color.getDouble("cyan"), // 0.0 - 1.0
+    magenta: color.getDouble("magenta"), // 0.0 - 1.0
+    yellow: color.getDouble("yellow"), // 0.0 - 1.0
+    black: color.getDouble("black"), // 0.0 - 1.0
+  };
+
+  // Convert to percentage
+  const cmykPercent = {
+    c: Math.round(cmyk.cyan * 100), // 0-100%
+    m: Math.round(cmyk.magenta * 100), // 0-100%
+    y: Math.round(cmyk.yellow * 100), // 0-100%
+    k: Math.round(cmyk.black * 100), // 0-100%
+  };
+}
+```
+
+### **4.3 Multiple Color Format Extraction**
+
+```typescript
+// Universal color extractor that handles multiple formats
+function extractUniversalColor(colorNavigator: IActionDescriptorNavigator) {
+  const colorSpace = colorNavigator.getString("mode");
+
+  switch (colorSpace) {
+    case "RGB":
+      return {
+        mode: "RGB",
+        values: {
+          red: colorNavigator.getDouble("red"),
+          green: colorNavigator.getDouble("green"),
+          blue: colorNavigator.getDouble("blue"),
+        },
+      };
+
+    case "CMYK":
+      return {
+        mode: "CMYK",
+        values: {
+          cyan: colorNavigator.getDouble("cyan"),
+          magenta: colorNavigator.getDouble("magenta"),
+          yellow: colorNavigator.getDouble("yellow"),
+          black: colorNavigator.getDouble("black"),
+        },
+      };
+
+    case "Lab":
+      return {
+        mode: "Lab",
+        values: {
+          lightness: colorNavigator.getDouble("luminance"),
+          a: colorNavigator.getDouble("a"),
+          b: colorNavigator.getDouble("b"),
+        },
+      };
+
+    default:
+      return {
+        mode: "Unknown",
+        values: {},
+      };
+  }
 }
 
-// Final analysis (pure in-memory)
-const fontReport = {
-    summary: {
-        totalLayers: fontAudit.totalLayers,
-        textLayers: fontAudit.textLayers.length,
-        uniqueFonts: fontAudit.allFonts.size,
-        mostUsedFont: [...fontAudit.fontUsage.entries()]
-            .sort((a, b) => b[1] - a[1])[0]?.[0] || 'None',
-        issues: fontAudit.issues.length
-    },
-    details: {
-        fontUsage: Object.fromEntries(fontAudit.fontUsage),
-        layerDetails: fontAudit.textLayers,
-        issues: fontAudit.issues
-    }
-};
+// Usage with multiple layers
+const layerNames = ["Title", "Subtitle", "Body"];
+const colorInfo = layerNames.map((name) => {
+  const layer = ActionDescriptorNavigator.forLayerByName(name);
+  const color = layer
+    .getObject("textKey")
+    .getList("textStyleRange")
+    .getFirstWhere((range) => !range.isSentinel)
+    .getObject("textStyle")
+    .getObject("color");
 
-console.log('Document Font Audit:', fontReport);
-// Performance: ~3ms per layer = 50-200ms for typical documents (10-50 layers)
-```
-
-### 12. Smart Layer Search with Mixed Data 🎯 (10-50ms)
-
-```typescript
-// Complex search combining ActionManager precision with Dom speed
-function findLayersWithCriteria(criteria: {
-    textContains?: string;
-    fontFamily?: string;
-    minFontSize?: number;
-    hasEffects?: boolean;
-    visible?: boolean;
-}) {
-    const results = [];
-    const doc = ActionDescriptorNavigator.forCurrentDocument();
-    const layerCount = doc.getInteger('numberOfLayers');
-    
-    for (let i = 1; i <= layerCount; i++) {
-        const navigator = ActionDescriptorNavigator.forLayerByIndex(i);    // 1ms each
-        const layerName = navigator.getString('name');
-        
-        // Quick Dom check for basic criteria (fast elimination)
-        if (criteria.visible !== undefined) {
-            const domLayer = getDomLayerByName(layerName);                  // 0.5ms
-            if (domLayer && domLayer.visible !== criteria.visible) {
-                continue; // Skip expensive ActionManager analysis
-            }
-        }
-        
-        let matches = true;
-        const layerData = {
-            name: layerName,
-            matchReasons: []
-        };
-        
-        // ActionManager-based analysis (when needed)
-        if (criteria.hasEffects !== undefined) {
-            const hasEffects = navigator.hasKey('layerEffects');
-            if (hasEffects !== criteria.hasEffects) {
-                matches = false;
-            } else {
-                layerData.matchReasons.push(`Effects: ${hasEffects ? 'Yes' : 'No'}`);
-            }
-        }
-        
-        // Text-based criteria (expensive but precise)
-        if ((criteria.textContains || criteria.fontFamily || criteria.minFontSize) && 
-            navigator.hasKey('textKey')) {
-            
-            const textObj = navigator.getObject('textKey');                 // 1ms
-            
-            // Text content check (if needed)
-            if (criteria.textContains) {
-                const textContent = textObj.getString('textKey');
-                if (!textContent.toLowerCase().includes(criteria.textContains.toLowerCase())) {
-                    matches = false;
-                } else {
-                    layerData.matchReasons.push(`Contains: "${criteria.textContains}"`);
-                }
-            }
-            
-            // Font criteria (requires range analysis)
-            if (criteria.fontFamily || criteria.minFontSize) {
-                const rangesList = textObj.getList('textStyleRange');       // 1ms
-                
-                const styleData = rangesList
-                    .whereMatches(range => range.getInteger('from') >= 0)
-                    .select(range => {
-                        const style = range.getObject('textStyle');
-                        return {
-                            font: style.getString('fontPostScriptName'),
-                            size: style.getUnitDouble('sizeKey')
-                        };
-                    })
-                    .toResultArray();
-                
-                if (criteria.fontFamily) {
-                    const hasFont = styleData.some(s => 
-                        s.font.toLowerCase().includes(criteria.fontFamily.toLowerCase())
-                    );
-                    if (!hasFont) {
-                        matches = false;
-                    } else {
-                        layerData.matchReasons.push(`Font: ${criteria.fontFamily}`);
-                    }
-                }
-                
-                if (criteria.minFontSize) {
-                    const sizes = styleData.map(s => s.size).filter(s => s !== SENTINELS.double);
-                    const maxSize = Math.max(...sizes);
-                    if (maxSize < criteria.minFontSize) {
-                        matches = false;
-                    } else {
-                        layerData.matchReasons.push(`Size: ${maxSize}pt ≥ ${criteria.minFontSize}pt`);
-                    }
-                }
-            }
-        }
-        
-        if (matches) {
-            results.push(layerData);
-        }
-    }
-    
-    return results;
-}
-
-// Usage examples
-const headlineLayers = findLayersWithCriteria({
-    minFontSize: 20,
-    visible: true
+  return {
+    layerName: name,
+    color: extractUniversalColor(color),
+  };
 });
-
-const arialLayers = findLayersWithCriteria({
-    fontFamily: 'Arial',
-    hasEffects: false
-});
-
-const titleLayers = findLayersWithCriteria({
-    textContains: 'title',
-    minFontSize: 16
-});
-
-console.log('Headline layers:', headlineLayers);
-console.log('Arial layers:', arialLayers);  
-console.log('Title layers:', titleLayers);
-// Performance: 2-5ms per layer (with smart elimination)
 ```
 
 ---
 
-## Performance Summary & Guidelines
+## 📚 Part 5: File, Path & Reference Handling (Null Exceptions)
 
-### 🎯 Golden Rules
-
-1. **Cache expensive navigation** - Store navigators in `const` variables
-2. **Use LINQ on cached data** - Filter and transform in-memory
-3. **Combine systems wisely** - Dom for simple checks, ActionManager for complex data
-4. **Batch operations** - Process multiple properties from same navigator
-5. **Profile your usage** - ActionManager calls are the bottleneck
-
-### ⚡ Performance Expectations
-
-| Operation Type | Performance | Notes |
-|---------------|-------------|-------|
-| `forLayerByName()` | 1-2ms | Must search through all layers |
-| `getObject()` | 0.5-1ms | Depends on object complexity |
-| `getList()` | 0.5-1ms | Depends on list size |
-| Property access | 0.01ms | Very fast on cached navigators |
-| LINQ operations | 0.1ms | In-memory processing |
-| Dom access | 0.5ms | Simple property access |
-
-### 🚀 Optimization Patterns
-
-**Best:** Cache navigation, batch properties
-```typescript
-const layer = ActionDescriptorNavigator.forLayerByName('Title');  // 1ms
-const props = {
-    name: layer.getString('name'),           // 0.01ms
-    opacity: layer.getInteger('opacity'),    // 0.01ms 
-    visible: layer.getBoolean('visible')     // 0.01ms
-}; // Total: ~1ms
-```
-
-**Good:** Use LINQ on cached data
-```typescript
-const ranges = textObj.getList('textStyleRange');               // 1ms
-const fonts = ranges.select(r => r.getObject('textStyle')       // 0.1ms total
-    .getString('fontPostScriptName')).toResultArray();
-```
-
-**Avoid:** Repeated navigation
-```typescript
-// BAD - 3ms each call
-const name = ActionDescriptorNavigator.forLayerByName('Title').getString('name');     // 3ms
-const opacity = ActionDescriptorNavigator.forLayerByName('Title').getInteger('opacity'); // 3ms
-```
-
----
-
-## Error Handling & Sentinel Values
-
-ADN never crashes - it returns **sentinel values** when operations fail:
+### **5.1 File Path Operations - The Null Exception**
 
 ```typescript
-import { SENTINELS } from './action-manager/adn-types';
+// ⚠️ IMPORTANT: File operations return null, not sentinels
+const layer = ActionDescriptorNavigator.forLayerByName("SmartObject");
 
-const layer = ActionDescriptorNavigator.forLayerByName('NonExistent');
+// File operations that return null (not sentinels)
+const linkedFile = layer.getPath("smartObject"); // File | null
+const documentPath = layer.getPath("documentPath"); // File | null
 
-// Sentinel checks (optional - values are safe to use directly)
-if (layer.isSentinel) {
-    console.log('Layer not found');
+// ✅ PROPER null checking (cannot chain further)
+if (linkedFile !== null) {
+  console.log("Linked file:", linkedFile.fsName);
+  console.log("File exists:", linkedFile.exists);
+
+  // File operations break the chain - handle separately
+  if (linkedFile.exists) {
+    const fileSize = linkedFile.length;
+    console.log("File size:", fileSize);
+  }
 } else {
-    const name = layer.getString('name');        // Safe even if no name
-    const size = layer.getInteger('fontSize');   // Returns -1 if not found
-    
-    // Check for actual data vs sentinel values
-    if (name !== SENTINELS.string) {
-        console.log('Layer name:', name);
-    }
-    
-    if (size !== SENTINELS.integer) {
-        console.log('Font size:', size);
-    }
+  console.log("No linked file found");
+}
+
+// ❌ CANNOT DO: Fluent chaining breaks here
+// layer.getPath('smartObject').fsName;  // Error if null
+```
+
+### **5.2 Reference Operations**
+
+```typescript
+// Reference operations also return null, not sentinels
+const layer = ActionDescriptorNavigator.forLayerByName("LinkedLayer");
+const layerRef = layer.getReference("layerReference"); // ActionReference | null
+
+if (layerRef !== null) {
+  // ActionReference operations
+  const refClass = layerRef.getDesiredClass();
+  const refForm = layerRef.getForm();
+
+  console.log("Reference class:", refClass);
+  console.log("Reference form:", refForm);
+} else {
+  console.log("No layer reference found");
+}
+
+// Pattern: Extract reference data into regular objects for easier handling
+function extractReferenceInfo(navigator: IActionDescriptorNavigator) {
+  const ref = navigator.getReference("someReference");
+
+  if (ref === null) {
+    return {
+      hasReference: false,
+      className: "",
+      form: -1,
+    };
+  }
+
+  return {
+    hasReference: true,
+    className: ref.getDesiredClass(),
+    form: ref.getForm(),
+    // Note: Reference data extracted, can continue with normal chaining
+  };
 }
 ```
 
-**Sentinel Values:**
-- `SENTINELS.string` = `""` (empty string)
-- `SENTINELS.integer` = `-1`
-- `SENTINELS.double` = `-1`
-- `SENTINELS.boolean` = `false`
-- `SENTINELS.file` = `null`
-- `SENTINELS.reference` = `null`
+### **5.3 Mixed Chaining Patterns**
+
+```typescript
+// Combine fluent chaining with null-handling sections
+function analyzeLayerWithFiles(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+
+  // ✅ Standard fluent chaining (returns sentinels)
+  const textInfo = {
+    name: layer.getString("name"),
+    opacity: layer.getInteger("opacity"),
+    hasText: !layer.getObject("textKey").isSentinel,
+  };
+
+  // ⚠️ File operations section (returns null - handle separately)
+  let fileInfo = {
+    hasLinkedFile: false,
+    fileName: "",
+    fileExists: false,
+  };
+
+  const linkedFile = layer.getPath("smartObject");
+  if (linkedFile !== null) {
+    fileInfo = {
+      hasLinkedFile: true,
+      fileName: linkedFile.name,
+      fileExists: linkedFile.exists,
+    };
+  }
+
+  // ✅ Continue with fluent chaining after null section
+  const styleInfo = layer.getObject("layerEffects").getBoolean("dropShadow");
+
+  return {
+    text: textInfo,
+    file: fileInfo,
+    hasEffects: styleInfo,
+  };
+}
+```
 
 ---
 
-## Best Practices Checklist
+## 📚 Part 6: Parallel DOM & ActionManager Patterns
 
-✅ **DO:**
-- Cache navigators in `const` variables
-- Use LINQ operations on cached data
-- Combine ActionManager + Dom when appropriate  
-- Check for sentinel values when data validation matters
-- Use `.debug("label")` for complex chains
+### **6.1 When to Use Each System**
 
-❌ **DON'T:**
-- Repeat expensive navigation calls
-- Chain too many `.getObject()` calls without caching
-- Ignore performance when processing many layers
-- Assume data exists without sentinel checks (for validation)
+```typescript
+import { getDOMLayerByName } from "./ps";
+
+// ✅ DOM: Fast for simple properties
+const domLayer = getDOMLayerByName("Title");
+const simpleProps = {
+  visible: domLayer?.visible ?? false, // 0.5ms - simple property
+  opacity: domLayer?.opacity ?? 0, // 0.5ms - simple property
+  blendMode: domLayer?.blendMode ?? "normal", // 0.5ms - simple property
+};
+
+// ✅ ActionManager: Required for complex data
+const layer = ActionDescriptorNavigator.forLayerByName("Title");
+const complexProps = {
+  textContent: layer
+    .getObject("textKey") // 2ms - complex navigation
+    .getList("textStyleRange")
+    .select((range) => range.getString("text"))
+    .toResultArray(),
+  fontDetails: layer
+    .getObject("textKey") // 1ms - already cached path
+    .getList("textStyleRange")
+    .select((range) => ({
+      font: range.getObject("textStyle").getString("fontPostScriptName"),
+      size: range.getObject("textStyle").getUnitDouble("sizeKey"),
+    }))
+    .toResultArray(),
+};
+```
+
+### **6.2 Optimal Mixed Approach**
+
+```typescript
+// ✅ BEST: Combine both systems strategically
+function getComprehensiveLayerInfo(layerName: string) {
+  // DOM for simple, fast properties (1-2ms total)
+  const domLayer = getDOMLayerByName(layerName);
+  const domProps = domLayer
+    ? {
+        visible: domLayer.visible,
+        opacity: domLayer.opacity,
+        blendMode: domLayer.blendMode,
+        kind: domLayer.kind,
+        typename: domLayer.typename,
+      }
+    : null;
+
+  // ActionManager for complex data (3-5ms total)
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const actionManagerProps = {
+    bounds: layer.getBounds(),
+    hasText: !layer.getObject("textKey").isSentinel,
+    textRangeCount: layer
+      .getObject("textKey")
+      .getList("textStyleRange")
+      .getCount(),
+    layerEffects: {
+      dropShadow: layer.getObject("layerEffects").getBoolean("dropShadow"),
+      innerShadow: layer.getObject("layerEffects").getBoolean("innerShadow"),
+      outerGlow: layer.getObject("layerEffects").getBoolean("outerGlow"),
+    },
+  };
+
+  return {
+    layerName,
+    existsInDOM: domProps !== null,
+    existsInActionManager: !layer.isSentinel,
+    dom: domProps,
+    actionManager: actionManagerProps,
+    // Combined analysis
+    isCompletelyAccessible: domProps !== null && !layer.isSentinel,
+  };
+}
+```
+
+### **6.3 Performance Comparison - Mixed Systems**
+
+```typescript
+// Performance comparison for different approaches
+
+// ❌ SLOW: ActionManager for everything (8-10ms)
+function slowApproach(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  return {
+    visible: layer.getBoolean("visible"), // 2ms
+    opacity: layer.getInteger("opacity"), // 2ms
+    blendMode: layer.getString("blendMode"), // 2ms
+    hasText: !layer.getObject("textKey").isSentinel, // 2ms
+  };
+}
+
+// ✅ FAST: Mixed approach (3-4ms)
+function fastApproach(layerName: string) {
+  const domLayer = getDOMLayerByName(layerName); // 1ms
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName); // 2ms
+
+  return {
+    // DOM properties (fast)
+    visible: domLayer?.visible ?? false, // 0.01ms
+    opacity: domLayer?.opacity ?? 0, // 0.01ms
+    blendMode: domLayer?.blendMode ?? "normal", // 0.01ms
+
+    // ActionManager properties (when needed)
+    hasText: !layer.getObject("textKey").isSentinel, // 1ms
+    bounds: layer.getBounds(), // 0.5ms
+  };
+}
+```
 
 ---
 
-*This guide covers value extraction with ADN. For data manipulation, see the Photoshop Dom API documentation or ActionManager scripting guides.*
+## 📚 Part 7: Multiple Approaches & Comparisons
+
+### **7.1 Different Ways to Get Font Information**
+
+```typescript
+// Approach 1: Direct index access (brittle)
+function getFontInfo_Brittle(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const style = layer
+    .getObject("textKey")
+    .getList("textStyleRange")
+    .getObject(0) // ❌ Fails if no ranges
+    .getObject("textStyle");
+
+  return style.getString("fontPostScriptName");
+}
+
+// Approach 2: Safe first range (better)
+function getFontInfo_Safe(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const firstRange = layer
+    .getObject("textKey")
+    .getList("textStyleRange")
+    .getFirstWhere((range) => !range.isSentinel); // ✅ Safe fallback
+
+  return firstRange.getObject("textStyle").getString("fontPostScriptName");
+}
+
+// Approach 3: Comprehensive analysis (best)
+function getFontInfo_Comprehensive(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const styleRanges = layer.getObject("textKey").getList("textStyleRange");
+
+  // Get all unique fonts used in layer
+  const allFonts = styleRanges
+    .whereMatches((range) => {
+      const style = range.getObject("textStyle");
+      return (
+        !style.isSentinel &&
+        style.getString("fontPostScriptName") !== SENTINELS.string
+      );
+    })
+    .select((range) =>
+      range.getObject("textStyle").getString("fontPostScriptName")
+    )
+    .toResultArray();
+
+  // Remove duplicates and sentinels
+  const uniqueFonts = [...new Set(allFonts)].filter(
+    (font) => font !== SENTINELS.string
+  );
+
+  return {
+    primaryFont: uniqueFonts[0] || "No font found",
+    allFonts: uniqueFonts,
+    fontCount: uniqueFonts.length,
+  };
+}
+```
+
+### **7.2 Layer Search Strategies**
+
+```typescript
+// Strategy 1: Single layer by exact name
+const exactLayer = ActionDescriptorNavigator.forLayerByName("Title");
+
+// Strategy 2: Multiple fallback names
+function findLayerWithFallbacks(preferredNames: string[]) {
+  for (const name of preferredNames) {
+    const layer = ActionDescriptorNavigator.forLayerByName(name);
+    if (!layer.isSentinel) {
+      return layer;
+    }
+  }
+  return ActionDescriptorNavigator.createSentinel();
+}
+
+const titleLayer = findLayerWithFallbacks([
+  "Title",
+  "Header",
+  "MainTitle",
+  "title",
+]);
+
+// Strategy 3: Pattern-based search through all layers
+function findLayersByPattern(pattern: RegExp) {
+  const results = [];
+  const doc = ActionDescriptorNavigator.forCurrentDocument();
+  const layerCount = doc.getInteger("numberOfLayers");
+
+  for (let i = 1; i <= layerCount; i++) {
+    const layer = ActionDescriptorNavigator.forLayerByIndex(i);
+    const name = layer.getString("name");
+
+    if (name !== SENTINELS.string && pattern.test(name)) {
+      results.push({
+        layer: layer,
+        name: name,
+        index: i,
+      });
+    }
+  }
+
+  return results;
+}
+
+const titleLayers = findLayersByPattern(/title|header|heading/i);
+```
+
+### **7.3 Color Extraction Comparison**
+
+```typescript
+// Method 1: First range color only
+function getFirstRangeColor(layerName: string) {
+  const color = ActionDescriptorNavigator.forLayerByName(layerName)
+    .getObject("textKey")
+    .getList("textStyleRange")
+    .getFirstWhere((range) => !range.isSentinel)
+    .getObject("textStyle")
+    .getObject("color");
+
+  return {
+    red: color.getDouble("red"),
+    green: color.getDouble("green"),
+    blue: color.getDouble("blue"),
+  };
+}
+
+// Method 2: All unique colors
+function getAllUniqueColors(layerName: string) {
+  const styleRanges = ActionDescriptorNavigator.forLayerByName(layerName)
+    .getObject("textKey")
+    .getList("textStyleRange");
+
+  const allColors = styleRanges
+    .whereMatches(
+      (range) => !range.getObject("textStyle").getObject("color").isSentinel
+    )
+    .select((range) => {
+      const color = range.getObject("textStyle").getObject("color");
+      return {
+        red: color.getDouble("red"),
+        green: color.getDouble("green"),
+        blue: color.getDouble("blue"),
+      };
+    })
+    .toResultArray();
+
+  // Remove duplicate colors
+  const uniqueColors = allColors.filter(
+    (color, index, array) =>
+      array.findIndex(
+        (c) =>
+          c.red === color.red &&
+          c.green === color.green &&
+          c.blue === color.blue
+      ) === index
+  );
+
+  return uniqueColors;
+}
+
+// Method 3: Dominant color analysis
+function getDominantColor(layerName: string) {
+  const styleRanges = ActionDescriptorNavigator.forLayerByName(layerName)
+    .getObject("textKey")
+    .getList("textStyleRange");
+
+  const colorUsage = new Map<
+    string,
+    { color: any; count: number; totalChars: number }
+  >();
+
+  styleRanges.toResultArray().forEach((range) => {
+    const from = range.getInteger("from");
+    const to = range.getInteger("to");
+    const charCount = to - from;
+
+    const color = range.getObject("textStyle").getObject("color");
+    const colorKey = `${color.getDouble("red")},${color.getDouble(
+      "green"
+    )},${color.getDouble("blue")}`;
+
+    if (colorUsage.has(colorKey)) {
+      const usage = colorUsage.get(colorKey)!;
+      usage.count++;
+      usage.totalChars += charCount;
+    } else {
+      colorUsage.set(colorKey, {
+        color: {
+          red: color.getDouble("red"),
+          green: color.getDouble("green"),
+          blue: color.getDouble("blue"),
+        },
+        count: 1,
+        totalChars: charCount,
+      });
+    }
+  });
+
+  // Find most used color by character count
+  let dominantColor = null;
+  let maxChars = 0;
+
+  for (const usage of colorUsage.values()) {
+    if (usage.totalChars > maxChars) {
+      maxChars = usage.totalChars;
+      dominantColor = usage.color;
+    }
+  }
+
+  return dominantColor;
+}
+```
+
+---
+
+## 📚 Part 8: Advanced Caching & Performance Patterns
+
+### **8.1 Multi-Level Caching Strategy**
+
+```typescript
+// ✅ OPTIMAL: Cache at multiple levels for complex operations
+function analyzeComplexDocument() {
+  // Level 1: Document-level cache
+  const doc = ActionDescriptorNavigator.forCurrentDocument(); // 1ms
+  const layerCount = doc.getInteger("numberOfLayers");
+
+  const results = [];
+
+  for (let i = 1; i <= layerCount; i++) {
+    // Level 2: Layer-level cache
+    const layer = ActionDescriptorNavigator.forLayerByIndex(i); // 1ms per layer
+    const layerName = layer.getString("name");
+
+    if (layerName === SENTINELS.string) continue;
+
+    // Level 3: Text object cache (if text layer)
+    const textObj = layer.getObject("textKey");
+    if (!textObj.isSentinel) {
+      // Level 4: Range collection cache
+      const styleRanges = textObj.getList("textStyleRange"); // 1ms
+      const rangeCount = styleRanges.getCount();
+
+      if (rangeCount > 0) {
+        // Level 5: Individual range cache for processing
+        const textDetails = styleRanges
+          .whereMatches(
+            (range) => range.getInteger("to") > range.getInteger("from")
+          )
+          .select((range) => {
+            // Level 6: Style object cache within range processing
+            const style = range.getObject("textStyle"); // Cached per range
+            const color = style.getObject("color"); // Cached per style
+
+            // Fast property extraction from cached objects
+            return {
+              rangeLength: range.getInteger("to") - range.getInteger("from"),
+              font: style.getString("fontPostScriptName"),
+              size: style.getUnitDouble("sizeKey"),
+              color: {
+                red: color.getDouble("red"),
+                green: color.getDouble("green"),
+                blue: color.getDouble("blue"),
+              },
+            };
+          })
+          .toResultArray();
+
+        results.push({
+          layerName,
+          index: i,
+          textRanges: textDetails,
+        });
+      }
+    }
+  }
+
+  return results;
+}
+```
+
+### **8.2 Selective Caching for Performance**
+
+```typescript
+// Cache only what you need for the specific operation
+function getEfficientLayerSummary(layerNames: string[]) {
+  return layerNames.map((name) => {
+    // Cache layer navigator
+    const layer = ActionDescriptorNavigator.forLayerByName(name); // 2ms per layer
+
+    if (layer.isSentinel) {
+      return { layerName: name, exists: false };
+    }
+
+    // Decision point: Only dive deeper if layer has text
+    const textObj = layer.getObject("textKey"); // 1ms
+    if (textObj.isSentinel) {
+      return {
+        layerName: name,
+        exists: true,
+        hasText: false,
+        basicProps: {
+          opacity: layer.getInteger("opacity"),
+          visible: layer.getBoolean("visible"),
+        },
+      };
+    }
+
+    // Text exists - cache range access for further analysis
+    const styleRanges = textObj.getList("textStyleRange"); // 1ms
+    const firstRange = styleRanges.getFirstWhere(
+      (range) => range.getInteger("to") > range.getInteger("from")
+    );
+
+    if (firstRange.isSentinel) {
+      return {
+        layerName: name,
+        exists: true,
+        hasText: true,
+        hasValidRanges: false,
+      };
+    }
+
+    // Valid text found - cache style access for properties
+    const firstStyle = firstRange.getObject("textStyle"); // 0.5ms
+
+    return {
+      layerName: name,
+      exists: true,
+      hasText: true,
+      hasValidRanges: true,
+      textSample: {
+        fontName: firstStyle.getString("fontPostScriptName"),
+        fontSize: firstStyle.getUnitDouble("sizeKey"),
+        rangeLength:
+          firstRange.getInteger("to") - firstRange.getInteger("from"),
+      },
+    };
+  });
+}
+```
+
+### **8.3 Avoid Over-Caching**
+
+```typescript
+// ❌ BAD: Unnecessary caching for simple operations
+function overCachedExample(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const textObj = layer.getObject("textKey"); // Unnecessary if just checking existence
+  const styleRanges = textObj.getList("textStyleRange"); // Unnecessary if just checking count
+  const firstRange = styleRanges.getObject(0); // Unnecessary if just checking count
+
+  return styleRanges.getCount(); // Could have been done at styleRanges level
+}
+
+// ✅ GOOD: Minimal caching for the actual need
+function efficientExample(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  return layer.getObject("textKey").getList("textStyleRange").getCount(); // Direct path
+}
+
+// ✅ BETTER: Cache only when doing multiple operations
+function smartCachingExample(layerName: string) {
+  const layer = ActionDescriptorNavigator.forLayerByName(layerName);
+  const styleRanges = layer.getObject("textKey").getList("textStyleRange"); // Cache because used twice
+
+  return {
+    rangeCount: styleRanges.getCount(), // Use cached navigator
+    hasValidRanges: styleRanges.hasAnyMatches(), // Use cached navigator
+  };
+}
+```
+
+---
+
+## 📚 Part 9: Best Practices Summary
+
+### **🎯 Core Principles**
+
+1. **Cache Navigation, Not Values**: Store navigators in `const` variables, extract values as needed
+2. **Sentinels are Safe**: All values can be used directly; check sentinels only for validation
+3. **Files Break Chains**: Handle `null` returns from file/path operations separately
+4. **Mix Systems Wisely**: DOM for simple properties, ActionManager for complex data
+5. **Robust Conditions**: Use multiple criteria instead of brittle exact matches
+
+### **⚡ Performance Guidelines**
+
+| Operation          | Cost    | Best Practice                                  |
+| ------------------ | ------- | ---------------------------------------------- |
+| `forLayerByName()` | 1-2ms   | Cache the navigator                            |
+| `getObject()`      | 0.5-1ms | Chain multiple gets, cache end result          |
+| `getList()`        | 0.5-1ms | Cache for multiple operations                  |
+| Property access    | 0.01ms  | Extract all needed props from cached navigator |
+| LINQ operations    | 0.1ms   | Use freely on cached collections               |
+| DOM access         | 0.5ms   | Use for simple properties only                 |
+
+### **🔄 Fluent Chaining Patterns**
+
+```typescript
+// ✅ EXCELLENT: Natural caching with comprehensive extraction
+const layer = ActionDescriptorNavigator.forLayerByName("Title"); // Cache layer
+const textRanges = layer.getObject("textKey").getList("textStyleRange"); // Cache ranges
+
+const analysis = textRanges
+  .whereMatches((range) => range.getInteger("to") > range.getInteger("from"))
+  .select<TextAnalysis>((range) => {
+    const style = range.getObject("textStyle"); // Cache style per range
+    const color = style.getObject("color"); // Cache color per style
+
+    return {
+      // Extract all needed properties at once
+      range: { from: range.getInteger("from"), to: range.getInteger("to") },
+      font: {
+        name: style.getString("fontPostScriptName"),
+        size: style.getUnitDouble("sizeKey"),
+      },
+      color: {
+        red: color.getDouble("red"),
+        green: color.getDouble("green"),
+        blue: color.getDouble("blue"),
+      },
+      format: {
+        bold: style.getBoolean("syntheticBold"),
+        italic: style.getBoolean("syntheticItalic"),
+      },
+    };
+  })
+  .toResultArray();
+
+// Use extracted data - no more ActionManager calls needed
+analysis.forEach((item) => {
+  console.log(
+    `${item.font.name} ${item.font.size}pt: RGB(${item.color.red}, ${item.color.green}, ${item.color.blue})`
+  );
+});
+```
+
+### **⚠️ Common Anti-Patterns to Avoid**
+
+```typescript
+// ❌ AVOID: Repeated navigation
+const font1 = ActionDescriptorNavigator.forLayerByName('Title').getObject('textKey')...
+const font2 = ActionDescriptorNavigator.forLayerByName('Title').getObject('textKey')...
+
+// ❌ AVOID: Brittle index access
+const firstRange = styleRanges.getObject(0);  // Fails if no ranges
+
+// ❌ AVOID: Weak conditions
+const range = styleRanges.getFirstWhere(r => r.getInteger('from') === 0);  // Too specific
+
+// ❌ AVOID: ActionManager for simple properties
+const visible = layer.getBoolean('visible');  // Use DOM instead
+
+// ❌ AVOID: Trying to chain after null returns
+const file = layer.getPath('file').fsName;  // Crashes if getPath() returns null
+```
+
+### **🎉 Framework Mastery**
+
+With ADN v3.0.0, you have:
+
+- **🛡️ Crash-proof operations** with intelligent sentinel handling
+- **🔗 Fluent chaining** with full TypeScript type safety
+- **⚡ Performance optimization** through natural caching patterns
+- **🎯 Precision extraction** of any Photoshop data structure
+- **🔄 Flexible approaches** for different scenarios and requirements
+
+The framework scales from simple single-value extraction to complex multi-layer analysis while maintaining consistency, performance, and type safety throughout your application.

@@ -1,53 +1,45 @@
 //ps/action-manager/ActionDescriptorNavigator.ts
 /**
- * ActionDescriptor Navigator - Consolidated Enhanced Implementation
+ * ActionDescriptor Navigator - Production Ready Implementation
  * 
- * Clean, composable API for navigating Photoshop's ActionManager with sentinel-based error handling.
- * No complex caching - users cache naturally with const variables.
+ * Clean, composable API for navigating Photoshop's ActionManager with sentinel-based 
+ * error handling and complete type safety through all operations.
  * Never crashes - always returns safe sentinel values on errors.
  * 
- * CONSOLIDATED: Merges best features from both implementations
- * ENHANCED: Superior enumerable system with LINQ-style operations
- * FIXED: getBounds() returns Bounds instead of Rectangle
- * FIXED: SelectorFunction now supports index parameter
+ * ENHANCED: Full generic type system for production TypeScript usage
+ * FIXED: Consistent sentinel behavior - no null returns except file/path
+ * IMPROVED: Type preservation through complex LINQ operations
+ * OPTIMIZED: Consistent API patterns and error handling
  * 
- * @fileoverview Enhanced ActionManager navigation implementation
- * @version 2.1.1
+ * @fileoverview Production-ready ActionManager navigation with full type safety
+ * @version 3.0.0
  * 
- * @example Best - Natural caching with const variables
+ * @example Enhanced - Natural caching with full type safety
  * ```typescript
  * import { ActionDescriptorNavigator } from './action-manager/ActionDescriptorNavigator';
  * 
- * // 1. Travel down hierarchy to focus scope - target specific layers
+ * // 1. Travel down hierarchy with type safety
  * const titleLayer = ActionDescriptorNavigator.forLayerByName('Title');
  * const textObj = titleLayer.getObject('textKey');
  * 
- * // 2. Chain to get ranges with enhanced LINQ operations
+ * // 2. Chain with full generic support
  * const styleRanges = textObj.getList('textStyleRange');
  * 
- * // 3. Use sophisticated filtering and transformations with index support
- * const filteredRanges = styleRanges
- *   .whereMatches(range => range.getInteger('from') === 0)
- *   .select((range, index) => ({
- *     from: range.getInteger('from'),
- *     to: range.getInteger('to'),
- *     index: index,
- *     style: range.getObject('textStyle')
- *   }));
+ * // 3. Complex transformations with preserved typing
+ * interface FontInfo { name: string; size: number; index: number; }
+ * const fontData = styleRanges
+ *   .select<FontInfo>((range, index) => ({
+ *     name: range.getObject('textStyle').getString('fontPostScriptName'),
+ *     size: range.getObject('textStyle').getUnitDouble('sizeKey'),
+ *     index: index || 0
+ *   }))
+ *   .whereMatches(font => font.size > 12)
+ *   .toResultArray(); // TypeScript knows this is FontInfo[]
  * 
- * // 4. Store navigators in const variables (natural caching!)
- * const firstRange = styleRanges.getFirstWhere(range => range.getInteger('from') === 0);
- * const textStyle = firstRange.getObject('textStyle');
- * const color = textStyle.getObject('color');
- * 
- * // 5. Process quickly from cached variables (no repeated API calls)
- * const red = color.getDouble('red');      // Fast access
- * const green = color.getDouble('green');  // Using cached navigator
- * const blue = color.getDouble('blue');    // No if checks needed
- * const fontSize = textStyle.getUnitDouble('sizeKey');
- * const fontName = textStyle.getString('fontPostScriptName');
- * 
- * // Never crashes - always safe values (sentinels on error)
+ * // 4. No type assertions needed - full inference
+ * fontData.forEach(font => {
+ *   console.log(font.name, font.size); // All properly typed
+ * });
  * ```
  */
 
@@ -59,33 +51,43 @@ import {
     typeIDToStringID
 } from '../ps';
 
-// Import simplified types and constants
+// Import enhanced types and constants
 import {
     SENTINELS,
+    ISentinel,
     IActionDescriptorNavigator,
     IActionListNavigator,
     IEnumerable,
     IEnumerableArray,
     PredicateFunction,
-    SelectorFunction
+    SelectorFunction,
+    TransformedPredicateFunction,
+    TransformerFunction,
+    IDebugInfo,
+    IEnhancedDebuggable,
+    isSentinel
 } from './adn-types';
 
 // NOTE: Bounds, ActionDescriptor, ActionReference, ActionList, File are all global Adobe classes
 
 // ===================================================================
-// ENHANCED ENUMERABLE SUPPORT CLASSES  
+// ENHANCED ENUMERABLE SUPPORT CLASSES WITH FULL GENERICS
 // ===================================================================
 
 /**
  * Enhanced enumerable for sophisticated filtering and transformations
- * Superior implementation from ps-nav.ts with advanced error handling
- * FIXED: select() now passes index parameter
+ * ENHANCED: Consistent sentinel behavior throughout all operations
+ * FIXED: Proper type preservation and error handling
  */
-class SimpleEnumerable implements IEnumerable {
+class SimpleEnumerable implements IEnumerable, IEnhancedDebuggable {
     private items: IActionDescriptorNavigator[];
 
     constructor(items: IActionDescriptorNavigator[]) {
         this.items = items || [];
+    }
+
+    get isSentinel(): boolean {
+        return false; // Enumerables are never sentinels themselves
     }
 
     whereMatches(predicate: PredicateFunction): IEnumerable {
@@ -101,6 +103,7 @@ class SimpleEnumerable implements IEnumerable {
     }
 
     getFirst(): IActionDescriptorNavigator {
+        // FIXED: Always return sentinel, never null
         return this.items.length > 0 ? this.items[0] : ActionDescriptorNavigator.createSentinel();
     }
 
@@ -112,18 +115,23 @@ class SimpleEnumerable implements IEnumerable {
         return this.items.length;
     }
 
-    select<T>(transformer: SelectorFunction<T>): IEnumerableArray {
-        const transformed = this.items.map((item, index) => {
-            if (item.isSentinel) return null;
-            try {
-                // FIXED: Now passes index parameter
-                return transformer(item, index);
-            } catch (e: any) {
-                return null;
-            }
-        }).filter(item => item !== null);
+    select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T> {
+        const transformed: T[] = [];
 
-        return new SimpleEnumerableArray(transformed);
+        this.items.forEach((item, index) => {
+            if (!item.isSentinel) {
+                try {
+                    const result = transformer(item, index);
+                    if (result !== null && result !== undefined) {
+                        transformed.push(result);
+                    }
+                } catch (e: any) {
+                    // Skip items that fail transformation
+                }
+            }
+        });
+
+        return new SimpleEnumerableArray<T>(transformed);
     }
 
     toResultArray(): IActionDescriptorNavigator[] {
@@ -134,21 +142,36 @@ class SimpleEnumerable implements IEnumerable {
         console.log(`[${label}] Enumerable with ${this.items.length} items`);
         return this;
     }
+
+    getDebugInfo(label: string): IDebugInfo {
+        return {
+            label,
+            type: 'SimpleEnumerable',
+            isSentinel: this.isSentinel,
+            itemCount: this.items.length,
+            chainDepth: 1
+        };
+    }
 }
 
 /**
  * Enhanced enumerable array for transformed collections
- * Superior implementation with comprehensive method chaining
- * FIXED: select() now passes index parameter
+ * FULLY GENERIC: Maintains complete type information through all operations
+ * ENHANCED: Proper error handling and sentinel behavior
  */
-class SimpleEnumerableArray implements IEnumerableArray {
-    readonly array: any[];
+class SimpleEnumerableArray<T = any> implements IEnumerableArray<T>, IEnhancedDebuggable {
+    readonly array: T[];
 
-    constructor(items: any[]) {
-        this.array = items || [];
+    constructor(items: T[]) {
+        // ENHANCED: Proper input validation and type safety
+        this.array = Array.isArray(items) ? items.filter(item => item !== null && item !== undefined) : [];
     }
 
-    whereMatches(predicate: (item: any) => boolean): IEnumerableArray {
+    get isSentinel(): boolean {
+        return false; // EnumerableArrays are never sentinels themselves
+    }
+
+    whereMatches(predicate: TransformedPredicateFunction<T>): IEnumerableArray<T> {
         const filtered = this.array.filter(item => {
             try {
                 return predicate(item);
@@ -156,10 +179,11 @@ class SimpleEnumerableArray implements IEnumerableArray {
                 return false;
             }
         });
-        return new SimpleEnumerableArray(filtered);
+        return new SimpleEnumerableArray<T>(filtered);
     }
 
-    getFirst(): any {
+    getFirst(): T | null {
+        // EXCEPTION: Transformed arrays can return null for empty state
         return this.array.length > 0 ? this.array[0] : null;
     }
 
@@ -171,26 +195,41 @@ class SimpleEnumerableArray implements IEnumerableArray {
         return this.array.length > 0;
     }
 
-    select<T>(transformer: (item: any, index?: number) => T): IEnumerableArray {
-        const transformed = this.array.map((item, index) => {
-            try {
-                // FIXED: Now passes index parameter
-                return transformer(item, index);
-            } catch (e: any) {
-                return null;
-            }
-        }).filter(item => item !== null);
+    select<U>(transformer: TransformerFunction<T, U>): IEnumerableArray<U> {
+        const transformed: U[] = [];
 
-        return new SimpleEnumerableArray(transformed);
+        this.array.forEach((item, index) => {
+            try {
+                const result = transformer(item, index);
+                if (result !== null && result !== undefined) {
+                    transformed.push(result);
+                }
+            } catch (e: any) {
+                // Skip items that fail transformation
+            }
+        });
+
+        return new SimpleEnumerableArray<U>(transformed);
     }
 
-    toResultArray(): any[] {
+    toResultArray(): T[] {
         return [...this.array];
     }
 
-    debug(label: string): IEnumerableArray {
-        console.log(`[${label}] EnumerableArray with ${this.array.length} items`);
+    debug(label: string): IEnumerableArray<T> {
+        console.log(`[${label}] EnumerableArray<${typeof this.array[0]}> with ${this.array.length} items`);
         return this;
+    }
+
+    getDebugInfo(label: string): IDebugInfo {
+        return {
+            label,
+            type: 'SimpleEnumerableArray',
+            isSentinel: this.isSentinel,
+            itemCount: this.array.length,
+            arrayType: this.array.length > 0 ? typeof this.array[0] : 'unknown',
+            chainDepth: 1
+        };
     }
 }
 
@@ -200,9 +239,10 @@ class SimpleEnumerableArray implements IEnumerableArray {
 
 /**
  * Enhanced ActionList navigator with superior enumerable support
- * Merged implementation with comprehensive collection operations
+ * ENHANCED: Full generic support and consistent sentinel behavior
+ * FIXED: Added missing IEnhancedDebuggable implementation
  */
-class ActionListNavigator implements IActionListNavigator {
+class ActionListNavigator implements IActionListNavigator, IEnhancedDebuggable {
     private list: ActionList | null;
     private _isSentinel: boolean;
 
@@ -217,7 +257,7 @@ class ActionListNavigator implements IActionListNavigator {
 
     getCount(): number {
         if (this._isSentinel || !this.list) {
-            return 0;
+            return 0; // CORRECT: 0 items is valid state, -1 would be error
         }
 
         try {
@@ -233,20 +273,20 @@ class ActionListNavigator implements IActionListNavigator {
         }
 
         try {
-            const count = this.list.count || 0;
-            if (index >= count) {
-                return ActionDescriptorNavigator.createSentinel();
+            if (index < this.getCount()) {
+                const desc = this.list.getObjectValue(index);
+                return new ActionDescriptorNavigator(desc, false);
             }
-
-            const desc = this.list.getObjectValue(index);
-            return new ActionDescriptorNavigator(desc, false);
         } catch (e: any) {
-            return ActionDescriptorNavigator.createSentinel();
+            // Failed to get object
         }
+
+        return ActionDescriptorNavigator.createSentinel();
     }
 
     getFirstWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
         const count = this.getCount();
+
         for (let i = 0; i < count; i++) {
             const item = this.getObject(i);
             if (!item.isSentinel) {
@@ -259,11 +299,20 @@ class ActionListNavigator implements IActionListNavigator {
                 }
             }
         }
+
+        // FIXED: Return sentinel, never null
         return ActionDescriptorNavigator.createSentinel();
     }
 
     getSingleWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
-        return this.getFirstWhere(predicate);
+        const matches = this.getAllWhere(predicate);
+
+        if (matches.length === 1) {
+            return matches[0];
+        }
+
+        // Return sentinel for no matches or multiple matches
+        return ActionDescriptorNavigator.createSentinel();
     }
 
     getAllWhere(predicate: PredicateFunction): IActionDescriptorNavigator[] {
@@ -291,7 +340,7 @@ class ActionListNavigator implements IActionListNavigator {
         return new SimpleEnumerable(matches);
     }
 
-    select<T>(transformer: SelectorFunction<T>): IEnumerableArray {
+    select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T> {
         const items: IActionDescriptorNavigator[] = [];
         const count = this.getCount();
 
@@ -324,6 +373,16 @@ class ActionListNavigator implements IActionListNavigator {
         return this;
     }
 
+    getDebugInfo(label: string): IDebugInfo {
+        return {
+            label,
+            type: 'ActionListNavigator',
+            isSentinel: this.isSentinel,
+            itemCount: this.getCount(),
+            chainDepth: 1
+        };
+    }
+
     static createSentinel(): ActionListNavigator {
         return new ActionListNavigator(null, true);
     }
@@ -335,9 +394,9 @@ class ActionListNavigator implements IActionListNavigator {
 
 /**
  * Enhanced ActionDescriptor navigator implementation
- * Consolidated best features with superior error handling and debugging
+ * ENHANCED: Full type safety, consistent sentinel behavior, optimized performance
  */
-export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
+export class ActionDescriptorNavigator implements IActionDescriptorNavigator, IEnhancedDebuggable {
     private descriptor: ActionDescriptor | null;
     private _isSentinel: boolean;
 
@@ -391,58 +450,19 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     // ===================================================================
-    // VALUE EXTRACTION METHODS
+    // VALUE EXTRACTION METHODS - ENHANCED ERROR HANDLING
     // ===================================================================
 
     getString(key: string): string {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return SENTINELS.string;
-        }
-
-        try {
-            const keyID = stringIDToTypeID(key);
-            if (this.descriptor.hasKey(keyID)) {
-                return this.descriptor.getString(keyID);
-            }
-        } catch (e: any) {
-            // Failed to get string
-        }
-
-        return SENTINELS.string;
-    }
-
-    getDouble(key: string): number {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return SENTINELS.double;
-        }
-
-        try {
-            const keyID = stringIDToTypeID(key);
-            if (this.descriptor.hasKey(keyID)) {
-                return this.descriptor.getDouble(keyID);
-            }
-        } catch (e: any) {
-            // Failed to get double
-        }
-
-        return SENTINELS.double;
+        return this.getStringValue(key, 'getString');
     }
 
     getInteger(key: string): number {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return SENTINELS.integer;
-        }
+        return this.getIntegerValue(key, 'getInteger');
+    }
 
-        try {
-            const keyID = stringIDToTypeID(key);
-            if (this.descriptor.hasKey(keyID)) {
-                return this.descriptor.getInteger(keyID);
-            }
-        } catch (e: any) {
-            // Failed to get integer
-        }
-
-        return SENTINELS.integer;
+    getDouble(key: string): number {
+        return this.getDoubleValue(key, 'getDouble');
     }
 
     getBoolean(key: string): boolean {
@@ -463,20 +483,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     getUnitDouble(key: string): number {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return SENTINELS.double;
-        }
-
-        try {
-            const keyID = stringIDToTypeID(key);
-            if (this.descriptor.hasKey(keyID)) {
-                return this.descriptor.getUnitDoubleValue(keyID);
-            }
-        } catch (e: any) {
-            // Failed to get unit double
-        }
-
-        return SENTINELS.double;
+        return this.getDoubleValue(key, 'getUnitDoubleValue');
     }
 
     getEnumerationString(key: string): string {
@@ -499,20 +506,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     getEnumerationId(key: string): number {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return SENTINELS.integer;
-        }
-
-        try {
-            const keyID = stringIDToTypeID(key);
-            if (this.descriptor.hasKey(keyID)) {
-                return this.descriptor.getEnumerationValue(keyID);
-            }
-        } catch (e: any) {
-            // Failed to get enumeration
-        }
-
-        return SENTINELS.integer;
+        return this.getIntegerValue(key, 'getEnumerationValue');
     }
 
     // Advanced value methods for completeness
@@ -525,7 +519,10 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     getEnumerationType(key: string): number { return this.getIntegerValue(key, 'getEnumerationType'); }
     getType(key: string): number { return this.getIntegerValue(key, 'getType'); }
 
-    // File and reference methods - Exception to sentinel pattern (return null)
+    // ===================================================================
+    // FILE AND REFERENCE METHODS - EXCEPTION TO SENTINEL PATTERN
+    // ===================================================================
+
     getPath(key: string): File | null {
         if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
             return SENTINELS.file;
@@ -560,7 +557,84 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
         return SENTINELS.reference; // null
     }
 
-    // Helper methods to reduce duplication
+    // ===================================================================
+    // UTILITY METHODS
+    // ===================================================================
+
+    getBounds(): Bounds {
+        if (this._isSentinel || !this.descriptor) {
+            // FIXED: Return object literal that conforms to Bounds interface
+            return { left: 0, top: 0, right: 0, bottom: 0 } as Bounds;
+        }
+
+        try {
+            const boundsKey = stringIDToTypeID("bounds");
+            if (this.descriptor.hasKey(boundsKey)) {
+                const boundsDesc = this.descriptor.getObjectValue(boundsKey);
+                const left = boundsDesc.getUnitDoubleValue(stringIDToTypeID("left"));
+                const top = boundsDesc.getUnitDoubleValue(stringIDToTypeID("top"));
+                const right = boundsDesc.getUnitDoubleValue(stringIDToTypeID("right"));
+                const bottom = boundsDesc.getUnitDoubleValue(stringIDToTypeID("bottom"));
+
+                // FIXED: Return object literal instead of new Bounds()
+                return {
+                    left: left,
+                    top: top,
+                    right: right,
+                    bottom: bottom
+                } as Bounds;
+            }
+        } catch (e: any) {
+            // Fall through to sentinel
+        }
+
+        // Return sentinel bounds
+        return { left: 0, top: 0, right: 0, bottom: 0 } as Bounds;
+    }
+
+    hasKey(key: string): boolean {
+        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
+            return false;
+        }
+
+        try {
+            const keyID = stringIDToTypeID(key);
+            return this.descriptor.hasKey(keyID);
+        } catch (e: any) {
+            return false;
+        }
+    }
+
+    select<T>(selector: SelectorFunction<T>): T | null {
+        if (this._isSentinel) {
+            return null;
+        }
+
+        try {
+            return selector(this, 0);
+        } catch (e: any) {
+            return null;
+        }
+    }
+
+    debug(label: string): IActionDescriptorNavigator {
+        console.log(`[${label}] ActionDescriptorNavigator: ${this._isSentinel ? 'SENTINEL' : 'OK'}`);
+        return this;
+    }
+
+    getDebugInfo(label: string): IDebugInfo {
+        return {
+            label,
+            type: 'ActionDescriptorNavigator',
+            isSentinel: this.isSentinel,
+            chainDepth: 1
+        };
+    }
+
+    // ===================================================================
+    // HELPER METHODS - CONSISTENT ERROR HANDLING
+    // ===================================================================
+
     private getStringValue(key: string, methodName: string): string {
         if (this._isSentinel || !this.descriptor || !key || key.length === 0) return SENTINELS.string;
         try {
@@ -586,80 +660,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     // ===================================================================
-    // UTILITY METHODS
-    // ===================================================================
-
-    getBounds(): Bounds {
-        // FIXED: Returns Bounds instead of Rectangle
-        try {
-            if (!this._isSentinel && this.descriptor) {
-                const boundsKey = stringIDToTypeID("bounds");
-                if (this.descriptor.hasKey(boundsKey)) {
-                    const boundsDesc = this.descriptor.getObjectValue(boundsKey);
-                    const left = boundsDesc.getUnitDoubleValue(stringIDToTypeID("left"));
-                    const top = boundsDesc.getUnitDoubleValue(stringIDToTypeID("top"));
-                    const right = boundsDesc.getUnitDoubleValue(stringIDToTypeID("right"));
-                    const bottom = boundsDesc.getUnitDoubleValue(stringIDToTypeID("bottom"));
-                    
-                    // Create Bounds object (extends Array<number>)
-                    const bounds = new Bounds();
-                    bounds.left = left;
-                    bounds.top = top;
-                    bounds.right = right;
-                    bounds.bottom = bottom;
-                    bounds.width = right - left;
-                    bounds.height = bottom - top;
-                    return bounds;
-                }
-            }
-        } catch (e: any) {
-            // Fall through to sentinel
-        }
-
-        // Return sentinel Bounds
-        const sentinelBounds = new Bounds();
-        sentinelBounds.left = 0;
-        sentinelBounds.top = 0;
-        sentinelBounds.right = 0;
-        sentinelBounds.bottom = 0;
-        sentinelBounds.width = 0;
-        sentinelBounds.height = 0;
-        return sentinelBounds;
-    }
-
-    hasKey(key: string): boolean {
-        if (this._isSentinel || !this.descriptor || !key || key.length === 0) {
-            return false;
-        }
-
-        try {
-            const keyID = stringIDToTypeID(key);
-            return this.descriptor.hasKey(keyID);
-        } catch (e: any) {
-            return false;
-        }
-    }
-
-    select<T>(selector: SelectorFunction<T>): T | null {
-        if (this._isSentinel) {
-            return null;
-        }
-
-        try {
-            // Individual navigator select doesn't have an index context
-            return selector(this, 0);
-        } catch (e: any) {
-            return null;
-        }
-    }
-
-    debug(label: string): IActionDescriptorNavigator {
-        console.log(`[${label}] ActionDescriptorNavigator: ${this._isSentinel ? 'SENTINEL' : 'OK'}`);
-        return this;
-    }
-
-    // ===================================================================
-    // STATIC FACTORY METHODS (Preserved from ActionDescriptorNavigator.ts)
+    // STATIC FACTORY METHODS
     // ===================================================================
 
     /**
@@ -734,24 +735,24 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
     }
 
     /**
-     * Create a sentinel navigator (represents failed operation)
-     */
-    static createSentinel(): ActionDescriptorNavigator {
-        return new ActionDescriptorNavigator(null, true);
-    }
-
-    /**
-     * Get total number of layers in the current document
+     * Get total layer count - FIXED: Consistent API usage
      */
     private static getLayerCount(): number {
         try {
             const ref = new ActionReference();
-            ref.putProperty(stringIDToTypeID("property"), stringIDToTypeID("numberOfLayers"));
-            ref.putEnumerated(charIDToTypeID('Dcmn'), charIDToTypeID('Ordn'), charIDToTypeID('Trgt'));
-            const count = executeActionGet(ref).getInteger(stringIDToTypeID("numberOfLayers"));
-            return (count > 0) ? count : 0;
+            ref.putProperty(charIDToTypeID("Prpr"), charIDToTypeID("NmbL"));
+            ref.putEnumerated(charIDToTypeID("Dcmn"), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+            const desc = executeActionGet(ref);
+            return desc.getInteger(charIDToTypeID("NmbL"));
         } catch (e: any) {
-            return 0;
+            return 0; // CORRECT: 0 layers is valid state, -1 would indicate failed operation
         }
+    }
+
+    /**
+     * Create a sentinel navigator
+     */
+    static createSentinel(): ActionDescriptorNavigator {
+        return new ActionDescriptorNavigator(null, true);
     }
 }

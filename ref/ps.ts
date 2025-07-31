@@ -55,6 +55,22 @@ export function getActiveDocument(): Document | null {
   return null;
 }
 
+/**
+ * Gets a DOM layer by name safely - ENHANCED for parallel systems support
+ * @param layerName Name of the layer to find
+ * @returns Layer object or null if not found
+ */
+export function getDOMLayerByName(layerName: string): Layer | null {
+  const doc = getActiveDocument();
+  if (!doc) return null;
+  
+  try {
+    return doc.layers.getByName(layerName);
+  } catch {
+    return null; // Layer not found
+  }
+}
+
 export function saveAndGetIntializeData(doc: Document, value?: any): (any | null) | void {
   let _sourceKey = "source";
   if (value) {

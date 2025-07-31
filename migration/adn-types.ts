@@ -40,7 +40,7 @@ const SENTINEL_FILE: File = {
     relativeURI: "",
     type: "",
 
-    // Essential methods (no-ops for sentinel)
+    // Essential methods (no-ops for sentinel) - using correct Adobe method names
     changePath: () => false,
     close: () => false,
     copy: () => false,
@@ -48,14 +48,14 @@ const SENTINEL_FILE: File = {
     execute: () => false,
     getRelativeURI: () => "",
     open: () => false,
-    openDialog: () => null,
+    openDlg: () => null,        // Correct Adobe method name
     read: () => "",
     readch: () => "",
     readln: () => "",
     remove: () => false,
     rename: () => false,
     resolve: () => null,
-    saveDialog: () => null,
+    saveDlg: () => null,        // Correct Adobe method name
     seek: () => false,
     tell: () => 0,
     write: () => false,

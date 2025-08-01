@@ -64,7 +64,7 @@ export const SENTINELS = {
 
 ```typescript
 // ✅ STANDARD PATTERN: No null checks needed
-const layer = ActionDescriptorNavigator.getCurrentLayerByName('NonExistent');
+const layer = ActionDescriptorNavigator.forLayerByName('NonExistent');
 const name = layer.getString('name');          // Returns "" (never null)
 const opacity = layer.getInteger('opacity');   // Returns -1 (never null)
 const visible = layer.getBoolean('visible');   // Returns false (never null)
@@ -78,7 +78,7 @@ const hasValidOpacity = opacity !== SENTINELS.integer;
 
 ```typescript
 // ⚠️ EXCEPTION: File operations may return null
-const layer = ActionDescriptorNavigator.getCurrentLayerByName('SmartObject');
+const layer = ActionDescriptorNavigator.forLayerByName('SmartObject');
 const fileRef = layer.getFile('fileReference');  // May return null
 const layerRef = layer.getReference('layerReference');  // May return null
 
@@ -113,7 +113,7 @@ if (aliasFile !== null) {
 ```typescript
 // Simple inline extraction for straightforward cases
 function quickLayerInfo(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     
     // Direct inline access - no intermediate variables
     console.log('Layer:', layer.getString('name'));
@@ -133,7 +133,7 @@ function quickLayerInfo(layerName: string) {
 ```typescript
 // Cache expensive navigation paths
 function cachedLayerInfo(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const textObj = layer.getObject('textKey');  // Cache navigation
     const styleRanges = textObj.getList('textStyleRange');  // Cache list
     const firstStyle = styleRanges.getFirst().getObject('textStyle');  // Cache style
@@ -153,7 +153,7 @@ function cachedLayerInfo(layerName: string) {
 ```typescript
 // Extract multiple values into variables
 function destructuredExtraction(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     
     // Extract basic properties
     const name = layer.getString('name');
@@ -188,7 +188,7 @@ function destructuredExtraction(layerName: string) {
 // Leverage both systems simultaneously
 function parallelExtraction(layerName: string) {
     // ActionManager: Complex properties
-    const adnLayer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const adnLayer = ActionDescriptorNavigator.forLayerByName(layerName);
     
     // DOM: Simple properties (faster for basic data)
     const domLayer = getDomLayerByName(layerName);  // May return null
@@ -258,7 +258,7 @@ ActionManager lists behave differently from JavaScript arrays:
 ### getFirst() vs getAll() vs whereMatches() Performance
 
 ```typescript
-const layer = ActionDescriptorNavigator.getCurrentLayerByName('Complex Text');
+const layer = ActionDescriptorNavigator.forLayerByName('Complex Text');
 const styleRanges = layer.getObject('textKey').getList('textStyleRange');
 
 // ✅ MOST EFFICIENT: getFirst() - Single API call
@@ -287,7 +287,7 @@ allRanges.forEach(range => {
 ```typescript
 // Based on complex-text_updated01.layers.xml with multiple text ranges
 function demonstratePerformanceDifferences() {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName('Title Layer');
+    const layer = ActionDescriptorNavigator.forLayerByName('Title Layer');
     const styleRanges = layer.getObject('textKey').getList('textStyleRange');
     const rangeCount = styleRanges.getCount();  // 1 API call
     
@@ -330,7 +330,7 @@ function demonstratePerformanceDifferences() {
 ```typescript
 // Understanding ActionManager object references
 function exploreActionManagerMemory() {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName('Sample Layer');
+    const layer = ActionDescriptorNavigator.forLayerByName('Sample Layer');
     
     // Getting an object returns a REFERENCE, not the data
     const textObj = layer.getObject('textKey');  // 1 API call - gets reference
@@ -408,7 +408,7 @@ function memoryVsApiTradeoffs() {
 ```typescript
 // Complex function that returns nested data
 function extractComplexData(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const textObj = layer.getObject('textKey');
     const styleRanges = textObj.getList('textStyleRange');
     
@@ -491,7 +491,7 @@ console.log('Unique fonts:', uniqueFontNames);
 ```typescript
 // Function returning different collection types
 function getCollectionData(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const styleRanges = layer.getObject('textKey').getList('textStyleRange');
     
     return {
@@ -576,7 +576,7 @@ console.log('Fonts by size category:', Object.keys(fontsBySize).map(cat =>
 ```typescript
 // Working directly in existing function context
 // Based on simple-title_updated01.layers.xml
-const layer = ActionDescriptorNavigator.getCurrentLayerByName('Sample Title');
+const layer = ActionDescriptorNavigator.forLayerByName('Sample Title');
 const domLayer = getDomLayerByName('Sample Title');
 
 // Direct extraction without intermediate functions
@@ -612,7 +612,7 @@ const layerData = {
 };
 
 // Progressive building
-const layer = ActionDescriptorNavigator.getCurrentLayerByName('Header Text');
+const layer = ActionDescriptorNavigator.forLayerByName('Header Text');
 
 // Fill identification section
 layerData.identification.name = layer.getString('name');
@@ -647,7 +647,7 @@ const layerNames = ['Header Text', 'Body Text', 'Footer Text'];
 const results = [];
 
 layerNames.forEach(layerName => {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const domLayer = getDomLayerByName(layerName);
     
     // Parallel extraction per layer
@@ -684,7 +684,7 @@ results.forEach(result => {
 ```typescript
 // Extract different data based on layer characteristics
 function conditionalExtraction(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const domLayer = getDomLayerByName(layerName);
     
     // Base extraction
@@ -745,7 +745,7 @@ function conditionalExtraction(layerName: string) {
 ```typescript
 // Based on XML: Single layer "Sample Title" with "Hello World" text, Arial 48pt
 function analyzeSimpleTitle() {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName('Sample Title');
+    const layer = ActionDescriptorNavigator.forLayerByName('Sample Title');
     
     // Extract according to XML structure
     const analysis = {
@@ -811,7 +811,7 @@ function analyzeComplexTextDocument() {
     const layers = ['Title Layer', 'Subtitle Layer'];
     
     return layers.map(layerName => {
-        const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+        const layer = ActionDescriptorNavigator.forLayerByName(layerName);
         const textObj = layer.getObject('textKey');
         const styleRanges = textObj.getList('textStyleRange');
         
@@ -902,7 +902,7 @@ function analyzeMultiLayerBounds() {
     const layerNames = ['Header Text', 'Body Text', 'Footer Text'];
     
     const boundsAnalysis = layerNames.map(layerName => {
-        const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+        const layer = ActionDescriptorNavigator.forLayerByName(layerName);
         const domLayer = getDomLayerByName(layerName);
         
         // Extract bounds from both ADN and DOM for comparison
@@ -1005,7 +1005,7 @@ console.log('Document height span:', bottomMostLayer.adnBounds.bottom - topMostL
 ```typescript
 // Based on XML showing multiple TextStyleRange objects in a list
 function processMultipleTextRanges(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);
     const styleRanges = layer.getObject('textKey').getList('textStyleRange');
     const rangeCount = styleRanges.getCount();
     
@@ -1086,7 +1086,7 @@ Object.keys(listResults.fontGroups).forEach(fontName => {
 ```typescript
 // Handle complex list scenarios from XML dumps
 function handleComplexListScenarios() {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName('Multi-Style Layer');
+    const layer = ActionDescriptorNavigator.forLayerByName('Multi-Style Layer');
     
     // ✅ SCENARIO 1: Empty or invalid lists
     const styleRanges = layer.getObject('textKey').getList('textStyleRange');
@@ -1192,10 +1192,10 @@ if (complexResults.hasRanges) {
 ```typescript
 // ❌ INEFFICIENT: Repeated navigation (15+ API calls)
 function inefficientExtraction(layerName: string) {
-    const name = ActionDescriptorNavigator.getCurrentLayerByName(layerName).getString('name');
-    const opacity = ActionDescriptorNavigator.getCurrentLayerByName(layerName).getInteger('opacity');
-    const text = ActionDescriptorNavigator.getCurrentLayerByName(layerName).getObject('textKey').getString('textKey');
-    const fontSize = ActionDescriptorNavigator.getCurrentLayerByName(layerName)
+    const name = ActionDescriptorNavigator.forLayerByName(layerName).getString('name');
+    const opacity = ActionDescriptorNavigator.forLayerByName(layerName).getInteger('opacity');
+    const text = ActionDescriptorNavigator.forLayerByName(layerName).getObject('textKey').getString('textKey');
+    const fontSize = ActionDescriptorNavigator.forLayerByName(layerName)
                                              .getObject('textKey')
                                              .getList('textStyleRange')
                                              .getFirst()
@@ -1205,7 +1205,7 @@ function inefficientExtraction(layerName: string) {
 
 // ✅ EFFICIENT: Cached navigation (6 API calls)
 function efficientExtraction(layerName: string) {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName(layerName);  // 1 call
+    const layer = ActionDescriptorNavigator.forLayerByName(layerName);  // 1 call
     const textObj = layer.getObject('textKey');  // 1 call
     const firstStyle = textObj.getList('textStyleRange').getFirst().getObject('textStyle');  // 3 calls
     
@@ -1225,7 +1225,7 @@ function performanceComparison(layerNames: string[]) {
     
     // ❌ LESS EFFICIENT: Process each layer individually
     const individualResults = layerNames.map(name => {
-        const layer = ActionDescriptorNavigator.getCurrentLayerByName(name);
+        const layer = ActionDescriptorNavigator.forLayerByName(name);
         return {
             name: layer.getString('name'),
             opacity: layer.getInteger('opacity'),
@@ -1240,7 +1240,7 @@ function performanceComparison(layerNames: string[]) {
     // ✅ MORE EFFICIENT: Batch process with cached operations
     const batchResults = [];
     layerNames.forEach(name => {
-        const layer = ActionDescriptorNavigator.getCurrentLayerByName(name);
+        const layer = ActionDescriptorNavigator.forLayerByName(name);
         const textObj = layer.getObject('textKey');  // Cache text object
         
         // Multiple extractions from cached objects
@@ -1264,7 +1264,7 @@ function performanceComparison(layerNames: string[]) {
 ```typescript
 // Optimize collection processing based on use case
 function optimizedCollectionProcessing() {
-    const layer = ActionDescriptorNavigator.getCurrentLayerByName('Text Layer');
+    const layer = ActionDescriptorNavigator.forLayerByName('Text Layer');
     const styleRanges = layer.getObject('textKey').getList('textStyleRange');
     
     // ✅ CASE 1: Need only first valid item
@@ -1303,7 +1303,7 @@ function optimizedCollectionProcessing() {
 
 1. **Use sentinel comparisons** - Never check for null/undefined except file/reference operations
 2. **Cache navigation paths** - Store expensive object references in variables  
-3. **Prefer getCurrentLayerByName** - More explicit than generic layer access
+3. **Prefer forLayerByName** - More explicit than generic layer access
 4. **Parallel DOM/ActionManager** - Use DOM for simple properties, ActionManager for complex
 5. **Avoid brittle index access** - Use predicates instead of `.getIndex(0)`
 6. **Choose appropriate collection methods** - `.getFirst()` vs `.toResultArray()` based on needs

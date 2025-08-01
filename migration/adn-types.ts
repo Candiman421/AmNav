@@ -172,7 +172,7 @@ export interface IEnumerableArray<T = any> extends ISentinel {
     whereMatches(predicate: TransformedPredicateFunction<T>): IEnumerableArray<T>;
     
     // Access operations - follow sentinel pattern except where null makes sense
-    getFirst(): T | null;  // Can return null for empty arrays of transformed data
+    // getFirst(): T | null;  // Can return null for empty arrays of transformed data
     getCount(): number;
     hasAnyMatches(): boolean;
     

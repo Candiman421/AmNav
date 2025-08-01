@@ -170,10 +170,10 @@ class SimpleEnumerableArray<T = any> implements IEnumerableArray<T> {
         return new SimpleEnumerableArray<T>(filtered);
     }
 
-    getFirst(): T | null {
-        // EXCEPTION: Transformed arrays can return null for empty state
-        return this.array.length > 0 ? this.array[0] : null;
-    }
+    // getFirst(): T | null {
+    //     // EXCEPTION: Transformed arrays can return null for empty state
+    //     return this.array.length > 0 ? this.array[0] : null;
+    // }
 
     getCount(): number {
         return this.array.length;

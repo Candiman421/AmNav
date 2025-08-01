@@ -72,34 +72,49 @@ export class Item4_3_10 extends ItemOd4Base {
         const titleTextObj = titleLayer.getObject('textKey');
         const warpObj = titleTextObj.getObject('warp');
 
+        // Find first textStyle with matching fontName
+        const matchingTextStyles = titleTextObj
+          .getList('textStyleRange')
+          .selectWhere(
+            range => {
+              const textStyle = range.getObject('textStyle');
+              const color = textStyle.getObject('color');
 
-        const targetProperties = titleTextObj
-            .getList('textStyleRange')
-            .select(range => {
-              const textStyleObj = textStyleRangeList.getObject('textStyle');
-              const colorObj = textStyleObj.getObject('color');
+              return {
+                fontName: textStyle.getString('fontName'),
+                fontSize: textStyle.getUnitDouble('impliedFontSize'),
+                fontCaps: textStyle.getEnumerationString('fontCaps'),
+                horizontalScale: textStyle.getDouble('horizontalScale'),
+                verticalScale: textStyle.getDouble('verticalScale'),
+                fillColorRed: color.getDouble('red'),
+                fillColorGreen: color.getDouble('green'),
+                fillColorBlue: color.getDouble('blue')
+              };
+            },
+            style => style.fontName === magic.fontName && style.fontName !== SENTINELS.string
+          )
+          .toResultArray();
 
-              return{
-                fontName: textStyleObj.getString('fontName'),
-                impliedFontSize: textStyleObj.getUnitDouble('impliedFontSize')
-              }
+        // If match found, use its values
+        if (matchingTextStyles.length > 0) {
+          const textStyleMatch = matchingTextStyles[0];
 
-            })
-        const textStyleRangeList = titleTextObj
+          answers.fontName = textStyleMatch.fontName;
+          answers.fontSize = textStyleMatch.fontSize;
+          answers.fontCaps = textStyleMatch.fontCaps;
+          answers.horizontalScale = textStyleMatch.horizontalScale;
+          answers.verticalScale = textStyleMatch.verticalScale;
+          answers.fillColorRed = textStyleMatch.fillColorRed;
+          answers.fillColorGreen = textStyleMatch.fillColorGreen;
+          answers.fillColorBlue = textStyleMatch.fillColorBlue;
+        }
+
+        // Warp properties
         answers.warpStyle = warpObj.getEnumerationString('warpStyle');
         answers.warpValue = warpObj.getDouble('warpValue');
 
-        answers.fontName = textStyleObj.getString('fontName');
-        answers.fontSize = textStyleObj.getUnitDouble('impliedFontSize');
-        answers.fontCaps = textStyleObj.getEnumerationString('fontCaps');
-        answers.horizontalScale = textStyleObj.getDouble('horizontalScale');
-        answers.verticalScale = textStyleObj.getDouble('verticalScale');
-
-        answers.fillColorRed = colorObj.getDouble('red');
-        answers.fillColorGreen = colorObj.getDouble('green');
-        answers.fillColorBlue = colorObj.getDouble('blue');
-
-        const subtitleLayer = ActionDescriptorNavigator.forLayerByName(magic.lightHouseTours);
+        // Layer positioning
+        const subtitleLayer = ActionDescriptorNavigator.forLayerByName(magic.lighthouseTours);
         const titleLayerBounds = titleLayer.getBounds();
         const subtitleLayerBounds = subtitleLayer.getBounds();
 
@@ -107,7 +122,7 @@ export class Item4_3_10 extends ItemOd4Base {
         answers.titleBoundsBottom = titleLayerBounds.bottom;
       }
     } catch (e) {
-
+      // Error handling - answers remain as sentinel values
     } finally {
       return answers;
     }

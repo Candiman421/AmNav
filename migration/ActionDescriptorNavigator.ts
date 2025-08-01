@@ -330,47 +330,6 @@ class ActionListNavigator implements IActionListNavigator {
         return new SimpleEnumerable(items).select(transformer);
     }
 
-    // ✅ ADD THIS NEW METHOD IMPLEMENTATION:
-    /**
-     * Combines selection and filtering in a single operation for improved performance.
-     * This method is more efficient than chaining .select().whereMatches() because it
-     * applies the predicate immediately after each transformation, avoiding intermediate
-     * array creation for items that won't pass the filter.
-     * 
-     * @template T The type of objects created by the selector function
-     * @param selector Function that extracts/transforms properties from each ActionDescriptorNavigator
-     * @param predicate Function that tests each transformed object against filter criteria
-     * @returns IEnumerableArray<T> containing only matching transformed objects
-     * 
-     * @example
-     * ```typescript
-     * // Efficient text style filtering
-     * const expectedFont = "Arial";
-     * const expectedSize = 24;
-     * 
-     * const perfectMatches = textLayer.getObject('textKey')
-     *     .getList('textStyleRange')
-     *     .selectWhere(
-     *         range => {
-     *             const textStyle = range.getObject('textStyle');
-     *             return {
-     *                 fontName: textStyle.getString('fontName'),
-     *                 fontSize: textStyle.getUnitDouble('impliedFontSize'),
-     *                 range: `${range.getInteger('from')}-${range.getInteger('to')}`
-     *             };
-     *         },
-     *         style => {
-     *             const validFont = style.fontName === expectedFont;
-     *             const validSize = Math.abs(style.fontSize - expectedSize) < 0.1;
-     *             const notSentinel = style.fontName !== SENTINELS.string;
-     *             return validFont && validSize && notSentinel;
-     *         }
-     *     );
-     * 
-     * const results = perfectMatches.toResultArray();
-     * console.log(`Found ${results.length} perfect text style matches`);
-     * ```
-     */
     selectWhere<T>(selector: SelectorFunction<T>, predicate: TransformedPredicateFunction<T>): IEnumerableArray<T> {
         const matchingItems: T[] = [];
         const count = this.getCount();

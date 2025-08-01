@@ -14,7 +14,7 @@ export const expectedResults = {
             color: { red: 255, green: 0, blue: 0 }  // From your XML
         }
     },
-    "simple-title": {
+    "simple-title": { 
         hasTextKey: true,
         textStyleRangeCount: 1,
         firstRange: {

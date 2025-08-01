@@ -115,7 +115,7 @@ class SimpleEnumerable implements IEnumerable {
 
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T> {
         const transformed: T[] = [];
-        
+
         this.items.forEach((item, index) => {
             if (!item.isSentinel) {
                 try {
@@ -185,7 +185,7 @@ class SimpleEnumerableArray<T = any> implements IEnumerableArray<T> {
 
     select<U>(transformer: TransformerFunction<T, U>): IEnumerableArray<U> {
         const transformed: U[] = [];
-        
+
         this.array.forEach((item, index) => {
             try {
                 const result = transformer(item, index);
@@ -282,7 +282,7 @@ class ActionListNavigator implements IActionListNavigator {
 
     getSingleWhere(predicate: PredicateFunction): IActionDescriptorNavigator {
         const matches = this.getAllWhere(predicate);
-        
+
         if (matches.length === 1) {
             return matches[0];
         }
@@ -328,6 +328,87 @@ class ActionListNavigator implements IActionListNavigator {
         }
 
         return new SimpleEnumerable(items).select(transformer);
+    }
+
+    // ✅ ADD THIS NEW METHOD IMPLEMENTATION:
+    /**
+     * Combines selection and filtering in a single operation for improved performance.
+     * This method is more efficient than chaining .select().whereMatches() because it
+     * applies the predicate immediately after each transformation, avoiding intermediate
+     * array creation for items that won't pass the filter.
+     * 
+     * @template T The type of objects created by the selector function
+     * @param selector Function that extracts/transforms properties from each ActionDescriptorNavigator
+     * @param predicate Function that tests each transformed object against filter criteria
+     * @returns IEnumerableArray<T> containing only matching transformed objects
+     * 
+     * @example
+     * ```typescript
+     * // Efficient text style filtering
+     * const expectedFont = "Arial";
+     * const expectedSize = 24;
+     * 
+     * const perfectMatches = textLayer.getObject('textKey')
+     *     .getList('textStyleRange')
+     *     .selectWhere(
+     *         range => {
+     *             const textStyle = range.getObject('textStyle');
+     *             return {
+     *                 fontName: textStyle.getString('fontName'),
+     *                 fontSize: textStyle.getUnitDouble('impliedFontSize'),
+     *                 range: `${range.getInteger('from')}-${range.getInteger('to')}`
+     *             };
+     *         },
+     *         style => {
+     *             const validFont = style.fontName === expectedFont;
+     *             const validSize = Math.abs(style.fontSize - expectedSize) < 0.1;
+     *             const notSentinel = style.fontName !== SENTINELS.string;
+     *             return validFont && validSize && notSentinel;
+     *         }
+     *     );
+     * 
+     * const results = perfectMatches.toResultArray();
+     * console.log(`Found ${results.length} perfect text style matches`);
+     * ```
+     */
+    selectWhere<T>(selector: SelectorFunction<T>, predicate: TransformedPredicateFunction<T>): IEnumerableArray<T> {
+        const matchingItems: T[] = [];
+        const count = this.getCount();
+
+        // Early return for sentinel lists
+        if (this._isSentinel || !this.list) {
+            return new SimpleEnumerableArray<T>(matchingItems);
+        }
+
+        for (let i = 0; i < count; i++) {
+            const item = this.getObject(i);
+
+            // Skip sentinel items
+            if (!item.isSentinel) {
+                try {
+                    // Apply selector to transform the item
+                    const transformedItem = selector(item, i);
+
+                    // Only proceed if transformation was successful
+                    if (transformedItem !== null && transformedItem !== undefined) {
+                        try {
+                            // Apply predicate to test the transformed item
+                            if (predicate(transformedItem)) {
+                                matchingItems.push(transformedItem);
+                            }
+                        } catch (predicateError: any) {
+                            // Predicate failed - skip this item
+                            // This is expected behavior for items that don't match criteria
+                        }
+                    }
+                } catch (selectorError: any) {
+                    // Selector failed - skip this item
+                    // This maintains the sentinel pattern of safe chaining
+                }
+            }
+        }
+
+        return new SimpleEnumerableArray<T>(matchingItems);
     }
 
     asEnumerable(): IEnumerable {
@@ -541,7 +622,7 @@ export class ActionDescriptorNavigator implements IActionDescriptorNavigator {
                 const top = boundsDesc.getUnitDoubleValue(stringIDToTypeID("top"));
                 const right = boundsDesc.getUnitDoubleValue(stringIDToTypeID("right"));
                 const bottom = boundsDesc.getUnitDoubleValue(stringIDToTypeID("bottom"));
-                
+
                 // FIXED: Return object literal instead of new Bounds()
                 return {
                     left: left,

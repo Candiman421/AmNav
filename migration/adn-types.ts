@@ -132,6 +132,78 @@ export interface IActionListNavigator extends ISentinel {
     whereMatches(predicate: PredicateFunction): IEnumerable;
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T>;
 
+    // ✅ ADD THIS NEW METHOD:
+    /**
+     * Combines selection and filtering in a single operation for improved performance and readability.
+     * Transforms each item in the list using the selector function, then immediately filters
+     * the results using the predicate function, returning only items that match the criteria.
+     * 
+     * @template T The type of objects to be created by the selector function
+     * @param selector Function that transforms each ActionDescriptorNavigator into type T
+     * @param predicate Function that tests each transformed object against filter criteria
+     * @returns IEnumerableArray<T> containing only the transformed objects that pass the predicate
+     * 
+     * @example
+     * ```typescript
+     * // Find textStyles with specific font and size
+     * const matchingStyles = layer.getObject('textKey')
+     *     .getList('textStyleRange')
+     *     .selectWhere(
+     *         // Selector: Extract properties of interest
+     *         range => {
+     *             const textStyle = range.getObject('textStyle');
+     *             const color = textStyle.getObject('color');
+     *             return {
+     *                 fontName: textStyle.getString('fontName'),
+     *                 fontSize: textStyle.getUnitDouble('impliedFontSize'),
+     *                 fillColorRed: color.getDouble('red'),
+     *                 from: range.getInteger('from'),
+     *                 to: range.getInteger('to')
+     *             };
+     *         },
+     *         // Predicate: Filter for matching criteria
+     *         style => {
+     *             return style.fontName === "Arial" &&
+     *                    Math.abs(style.fontSize - 24) < 0.1 &&
+     *                    style.fillColorRed > 200 &&
+     *                    style.fontName !== SENTINELS.string;
+     *         }
+     *     )
+     *     .toResultArray();
+     * 
+     * // Result: Array of objects with only Arial, ~24pt, reddish styles
+     * if (matchingStyles.length > 0) {
+     *     console.log(`Found ${matchingStyles.length} matching text styles`);
+     *     const firstMatch = matchingStyles[0];
+     *     console.log(`Using font: ${firstMatch.fontName} at ${firstMatch.fontSize}pt`);
+     * }
+     * ```
+     * 
+     * @example
+     * ```typescript
+     * // Find layers with specific bounds and opacity
+     * const suitableLayers = document.getList('layers')
+     *     .selectWhere(
+     *         layer => ({
+     *             name: layer.getString('name'),
+     *             opacity: layer.getInteger('opacity'),
+     *             width: layer.getObject('bounds').getUnitDouble('width'),
+     *             height: layer.getObject('bounds').getUnitDouble('height')
+     *         }),
+     *         layer => {
+     *             const hasValidBounds = layer.width > 100 && layer.height > 100;
+     *             const hasGoodOpacity = layer.opacity >= 80;
+     *             const hasValidName = layer.name !== SENTINELS.string && layer.name.length > 0;
+     *             return hasValidBounds && hasGoodOpacity && hasValidName;
+     *         }
+     *     )
+     *     .toResultArray();
+     * ```
+     * 
+     * @since 3.1.0
+     */
+    selectWhere<T>(selector: SelectorFunction<T>, predicate: TransformedPredicateFunction<T>): IEnumerableArray<T>;
+
     // Basic access - returns sentinels on failure
     getObject(index: number): IActionDescriptorNavigator;
     asEnumerable(): IEnumerable;
@@ -145,15 +217,15 @@ export interface IActionListNavigator extends ISentinel {
 export interface IEnumerable extends ISentinel {
     // Filtering operations
     whereMatches(predicate: PredicateFunction): IEnumerable;
-    
+
     // Access operations - return sentinels, never null
     getFirst(): IActionDescriptorNavigator;
     hasAnyMatches(): boolean;
     getCount(): number;
-    
+
     // Transformation operations with full generic support
     select<T>(transformer: SelectorFunction<T>): IEnumerableArray<T>;
-    
+
     // Materialization operations
     toResultArray(): IActionDescriptorNavigator[];
     debug(label: string): IEnumerable;
@@ -167,18 +239,18 @@ export interface IEnumerable extends ISentinel {
 export interface IEnumerableArray<T = any> extends ISentinel {
     /** Direct access to the underlying typed array */
     readonly array: T[];
-    
+
     // Filtering operations with proper typing
     whereMatches(predicate: TransformedPredicateFunction<T>): IEnumerableArray<T>;
-    
+
     // Access operations - follow sentinel pattern except where null makes sense
     // getFirst(): T | null;  // Can return null for empty arrays of transformed data
     getCount(): number;
     hasAnyMatches(): boolean;
-    
+
     // Transformation operations with full generic support
     select<U>(transformer: TransformerFunction<T, U>): IEnumerableArray<U>;
-    
+
     // Materialization operations
     toResultArray(): T[];
     debug(label: string): IEnumerableArray<T>;

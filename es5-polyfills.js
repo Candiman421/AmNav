@@ -188,7 +188,7 @@ function isNumber(obj) {
  * ```
  */
 if (!Array.isArray) {
-    Array.isArray = function(arg) {
+    Array.isArray = function (arg) {
         return Object.prototype.toString.call(arg) === '[object Array]';
     };
 }
@@ -223,15 +223,15 @@ if (!Array.isArray) {
  * ```
  */
 if (!Array.prototype.slice) {
-    Array.prototype.slice = function(start, end) {
+    Array.prototype.slice = function (start, end) {
         var result = [];
         var len = this.length >>> 0;
-        
+
         start = parseInt(start) || 0;
         if (start < 0) {
             start = Math.max(0, len + start);
         }
-        
+
         if (end === undefined) {
             end = len;
         } else {
@@ -241,13 +241,13 @@ if (!Array.prototype.slice) {
             }
         }
         end = Math.min(end, len);
-        
+
         for (var i = start; i < end; i++) {
             if (i in this) {
                 result[result.length] = this[i];
             }
         }
-        
+
         return result;
     };
 }
@@ -276,7 +276,7 @@ if (!Array.prototype.slice) {
  * ```
  */
 if (!Array.prototype.push) {
-    Array.prototype.push = function() {
+    Array.prototype.push = function () {
         for (var i = 0; i < arguments.length; i++) {
             this[this.length] = arguments[i];
         }
@@ -300,7 +300,7 @@ if (!Array.prototype.push) {
  * ```
  */
 if (!Array.prototype.pop) {
-    Array.prototype.pop = function() {
+    Array.prototype.pop = function () {
         if (this.length === 0) {
             return undefined;
         }
@@ -316,7 +316,7 @@ if (!Array.prototype.pop) {
  * @returns {*} The removed element from the array; undefined if the array is empty
  */
 if (!Array.prototype.shift) {
-    Array.prototype.shift = function() {
+    Array.prototype.shift = function () {
         if (this.length === 0) {
             return undefined;
         }
@@ -336,20 +336,20 @@ if (!Array.prototype.shift) {
  * @returns {number} The new length of the array
  */
 if (!Array.prototype.unshift) {
-    Array.prototype.unshift = function() {
+    Array.prototype.unshift = function () {
         var argLen = arguments.length;
         if (argLen === 0) {
             return this.length;
         }
-        
+
         for (var i = this.length - 1; i >= 0; i--) {
             this[i + argLen] = this[i];
         }
-        
+
         for (var j = 0; j < argLen; j++) {
             this[j] = arguments[j];
         }
-        
+
         return this.length;
     };
 }
@@ -379,15 +379,15 @@ if (!Array.prototype.unshift) {
  * ```
  */
 if (!Array.prototype.join) {
-    Array.prototype.join = function(separator) {
+    Array.prototype.join = function (separator) {
         if (separator === undefined) {
             separator = ',';
         }
-        
+
         if (this.length === 0) {
             return '';
         }
-        
+
         var result = '';
         for (var i = 0; i < this.length; i++) {
             if (i > 0) {
@@ -422,16 +422,16 @@ if (!Array.prototype.join) {
  * ```
  */
 if (!Array.prototype.concat) {
-    Array.prototype.concat = function() {
+    Array.prototype.concat = function () {
         var result = [];
         var resultLength = 0;
-        
+
         for (var i = 0; i < this.length; i++) {
             if (i in this) {
                 result[resultLength++] = this[i];
             }
         }
-        
+
         for (var j = 0; j < arguments.length; j++) {
             var arg = arguments[j];
             if (Array.isArray && Array.isArray(arg)) {
@@ -444,7 +444,7 @@ if (!Array.prototype.concat) {
                 result[resultLength++] = arg;
             }
         }
-        
+
         return result;
     };
 }
@@ -466,16 +466,16 @@ if (!Array.prototype.concat) {
  * ```
  */
 if (!Array.prototype.reverse) {
-    Array.prototype.reverse = function() {
+    Array.prototype.reverse = function () {
         var len = this.length;
         var middle = Math.floor(len / 2);
-        
+
         for (var i = 0; i < middle; i++) {
             var temp = this[i];
             this[i] = this[len - 1 - i];
             this[len - 1 - i] = temp;
         }
-        
+
         return this;
     };
 }
@@ -513,11 +513,11 @@ if (!Array.prototype.reverse) {
  * ```
  */
 if (!Array.prototype.sort) {
-    Array.prototype.sort = function(compareFn) {
+    Array.prototype.sort = function (compareFn) {
         var len = this.length;
-        
+
         if (!isFunction(compareFn)) {
-            compareFn = function(a, b) {
+            compareFn = function (a, b) {
                 var aStr = String(a);
                 var bStr = String(b);
                 if (aStr < bStr) return -1;
@@ -525,7 +525,7 @@ if (!Array.prototype.sort) {
                 return 0;
             };
         }
-        
+
         // Simple bubble sort (sufficient for ExtendScript)
         for (var i = 0; i < len - 1; i++) {
             for (var j = 0; j < len - 1 - i; j++) {
@@ -536,7 +536,7 @@ if (!Array.prototype.sort) {
                 }
             }
         }
-        
+
         return this;
     };
 }
@@ -569,31 +569,31 @@ if (!Array.prototype.sort) {
  * ```
  */
 if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function(searchElement, fromIndex) {
+    Array.prototype.indexOf = function (searchElement, fromIndex) {
         if (this === null || this === undefined) {
             throw new TypeError('"this" is null or not defined');
         }
-        
+
         var o = Object(this);
         var len = parseInt(o.length) || 0;
-        
+
         if (len === 0) {
             return -1;
         }
-        
+
         var n = parseInt(fromIndex) || 0;
         if (n >= len) {
             return -1;
         }
-        
+
         var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
-        
+
         for (; k < len; k++) {
             if (k in o && o[k] === searchElement) {
                 return k;
             }
         }
-        
+
         return -1;
     };
 }
@@ -606,36 +606,36 @@ if (!Array.prototype.indexOf) {
  * @returns {number} The last index of the element in the array; -1 if not found
  */
 if (!Array.prototype.lastIndexOf) {
-    Array.prototype.lastIndexOf = function(searchElement, fromIndex) {
+    Array.prototype.lastIndexOf = function (searchElement, fromIndex) {
         if (this === null || this === undefined) {
             throw new TypeError('"this" is null or not defined');
         }
-        
+
         var t = Object(this);
         var len = parseInt(t.length) || 0;
-        
+
         if (len === 0) {
             return -1;
         }
-        
+
         var n = len - 1;
         if (arguments.length > 1) {
             n = parseInt(fromIndex);
             if (n !== n) {
                 n = 0;
-            } else if (n !== 0 && n !== (1/0) && n !== -(1/0)) {
+            } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
                 n = (n > 0 || -1) * Math.floor(Math.abs(n));
             }
         }
-        
+
         var k = n >= 0 ? Math.min(n, len - 1) : len - Math.abs(n);
-        
+
         for (; k >= 0; k--) {
             if (k in t && t[k] === searchElement) {
                 return k;
             }
         }
-        
+
         return -1;
     };
 }
@@ -685,23 +685,23 @@ if (!Array.prototype.lastIndexOf) {
  * ```
  */
 if (!Array.prototype.forEach) {
-    Array.prototype.forEach = function(callback, thisArg) {
+    Array.prototype.forEach = function (callback, thisArg) {
         if (this === null || this === undefined) {
             throw new TypeError('this is null or not defined');
         }
-        
+
         var O = Object(this);
         var len = parseInt(O.length) || 0;
-        
+
         if (!isFunction(callback)) {
             throw new TypeError(callback + ' is not a function');
         }
-        
+
         var T;
         if (arguments.length > 1) {
             T = thisArg;
         }
-        
+
         var k = 0;
         while (k < len) {
             if (k in O) {
@@ -763,33 +763,33 @@ if (!Array.prototype.forEach) {
  * ```
  */
 if (!Array.prototype.map) {
-    Array.prototype.map = function(callback, thisArg) {
+    Array.prototype.map = function (callback, thisArg) {
         if (this === null || this === undefined) {
             throw new TypeError('this is null or not defined');
         }
-        
+
         var O = Object(this);
         var len = parseInt(O.length) || 0;
-        
+
         if (!isFunction(callback)) {
             throw new TypeError(callback + ' is not a function');
         }
-        
+
         var T;
         if (arguments.length > 1) {
             T = thisArg;
         }
-        
+
         var A = new Array(len);
         var k = 0;
-        
+
         while (k < len) {
             if (k in O) {
                 A[k] = callback.call(T, O[k], k, O);
             }
             k++;
         }
-        
+
         return A;
     };
 }
@@ -845,18 +845,18 @@ if (!Array.prototype.map) {
  * ```
  */
 if (!Array.prototype.filter) {
-    Array.prototype.filter = function(callback, thisArg) {
+    Array.prototype.filter = function (callback, thisArg) {
         if (this === null || this === undefined) {
             throw new TypeError();
         }
-        
+
         var t = Object(this);
         var len = t.length >>> 0;
-        
+
         if (!isFunction(callback)) {
             throw new TypeError();
         }
-        
+
         var res = [];
         for (var i = 0; i < len; i++) {
             if (i in t) {
@@ -866,7 +866,7 @@ if (!Array.prototype.filter) {
                 }
             }
         }
-        
+
         return res;
     };
 }
@@ -900,23 +900,23 @@ if (!Array.prototype.filter) {
  * ```
  */
 if (!Array.prototype.every) {
-    Array.prototype.every = function(callbackfn, thisArg) {
+    Array.prototype.every = function (callbackfn, thisArg) {
         if (this === null || this === undefined) {
             throw new TypeError('this is null or not defined');
         }
-        
+
         var O = Object(this);
         var len = parseInt(O.length) || 0;
-        
+
         if (!isFunction(callbackfn)) {
             throw new TypeError();
         }
-        
+
         var T;
         if (arguments.length > 1) {
             T = thisArg;
         }
-        
+
         var k = 0;
         while (k < len) {
             if (k in O) {
@@ -927,7 +927,7 @@ if (!Array.prototype.every) {
             }
             k++;
         }
-        
+
         return true;
     };
 }
@@ -968,24 +968,24 @@ if (!Array.prototype.every) {
  * ```
  */
 if (!Array.prototype.some) {
-    Array.prototype.some = function(callback, thisArg) {
+    Array.prototype.some = function (callback, thisArg) {
         if (this === null || this === undefined) {
             throw new TypeError('Array.prototype.some called on null or undefined');
         }
-        
+
         if (!isFunction(callback)) {
             throw new TypeError();
         }
-        
+
         var t = Object(this);
         var len = t.length >>> 0;
-        
+
         for (var i = 0; i < len; i++) {
             if (i in t && callback.call(thisArg, t[i], i, t)) {
                 return true;
             }
         }
-        
+
         return false;
     };
 }
@@ -1046,20 +1046,20 @@ if (!Array.prototype.some) {
  * ```
  */
 if (!Array.prototype.reduce) {
-    Array.prototype.reduce = function(callback, initialValue) {
+    Array.prototype.reduce = function (callback, initialValue) {
         if (this === null || this === undefined) {
             throw new TypeError('Array.prototype.reduce called on null or undefined');
         }
-        
+
         if (!isFunction(callback)) {
             throw new TypeError(callback + ' is not a function');
         }
-        
+
         var o = Object(this);
         var len = o.length >>> 0;
         var k = 0;
         var value;
-        
+
         if (arguments.length >= 2) {
             value = initialValue;
         } else {
@@ -1071,14 +1071,14 @@ if (!Array.prototype.reduce) {
             }
             value = o[k++];
         }
-        
+
         while (k < len) {
             if (k in o) {
                 value = callback(value, o[k], k, o);
             }
             k++;
         }
-        
+
         return value;
     };
 }
@@ -1091,20 +1091,20 @@ if (!Array.prototype.reduce) {
  * @returns {*} The value that results from the reduction
  */
 if (!Array.prototype.reduceRight) {
-    Array.prototype.reduceRight = function(callback, initialValue) {
+    Array.prototype.reduceRight = function (callback, initialValue) {
         if (this === null || this === undefined) {
             throw new TypeError('Array.prototype.reduceRight called on null or undefined');
         }
-        
+
         if (!isFunction(callback)) {
             throw new TypeError(callback + ' is not a function');
         }
-        
+
         var t = Object(this);
         var len = parseInt(t.length) || 0;
         var k = len - 1;
         var value;
-        
+
         if (arguments.length >= 2) {
             value = initialValue;
         } else {
@@ -1116,13 +1116,13 @@ if (!Array.prototype.reduceRight) {
             }
             value = t[k--];
         }
-        
+
         for (; k >= 0; k--) {
             if (k in t) {
                 value = callback(value, t[k], k, t);
             }
         }
-        
+
         return value;
     };
 }
@@ -1150,7 +1150,7 @@ if (!Array.prototype.reduceRight) {
  * ```
  */
 if (!String.prototype.trim) {
-    String.prototype.trim = function() {
+    String.prototype.trim = function () {
         return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
     };
 }
@@ -1195,35 +1195,35 @@ if (!String.prototype.trim) {
  * ```
  */
 if (!String.prototype.split) {
-    String.prototype.split = function(separator, limit) {
+    String.prototype.split = function (separator, limit) {
         if (separator === undefined) {
             return [String(this)];
         }
-        
+
         var result = [];
         var str = String(this);
         var sep = String(separator);
-        
+
         if (sep === '') {
             for (var i = 0; i < str.length && (limit === undefined || result.length < limit); i++) {
                 result.push(str.charAt(i));
             }
             return result;
         }
-        
+
         var start = 0;
         var index = str.indexOf(sep);
-        
+
         while (index !== -1 && (limit === undefined || result.length < limit - 1)) {
             result.push(str.substring(start, index));
             start = index + sep.length;
             index = str.indexOf(sep, start);
         }
-        
+
         if (limit === undefined || result.length < limit) {
             result.push(str.substring(start));
         }
-        
+
         return result;
     };
 }
@@ -1235,7 +1235,7 @@ if (!String.prototype.split) {
  * @returns {string} The character at the specified index
  */
 if (!String.prototype.charAt) {
-    String.prototype.charAt = function(index) {
+    String.prototype.charAt = function (index) {
         var str = String(this);
         var i = parseInt(index) || 0;
         if (i < 0 || i >= str.length) {
@@ -1253,14 +1253,14 @@ if (!String.prototype.charAt) {
  * @returns {string} A new string containing the specified part of the given string
  */
 if (!String.prototype.substring) {
-    String.prototype.substring = function(start, end) {
+    String.prototype.substring = function (start, end) {
         var str = String(this);
         var len = str.length;
-        
+
         start = parseInt(start) || 0;
         if (start < 0) start = 0;
         if (start > len) start = len;
-        
+
         if (end === undefined) {
             end = len;
         } else {
@@ -1268,13 +1268,13 @@ if (!String.prototype.substring) {
             if (end < 0) end = 0;
             if (end > len) end = len;
         }
-        
+
         if (start > end) {
             var temp = start;
             start = end;
             end = temp;
         }
-        
+
         var result = '';
         for (var i = start; i < end; i++) {
             result += str.charAt(i);
@@ -1302,16 +1302,16 @@ if (!String.prototype.substring) {
  * ```
  */
 if (!String.prototype.replace) {
-    String.prototype.replace = function(searchValue, replaceValue) {
+    String.prototype.replace = function (searchValue, replaceValue) {
         var str = String(this);
         var search = String(searchValue);
         var replace = String(replaceValue);
-        
+
         var index = str.indexOf(search);
         if (index === -1) {
             return str;
         }
-        
+
         return str.substring(0, index) + replace + str.substring(index + search.length);
     };
 }
@@ -1337,8 +1337,8 @@ if (!String.prototype.replace) {
  * ```
  */
 if (!String.prototype.toLowerCase) {
-    String.prototype.toLowerCase = function() {
-        return this.replace(/[A-Z]/g, function(match) {
+    String.prototype.toLowerCase = function () {
+        return this.replace(/[A-Z]/g, function (match) {
             return String.fromCharCode(match.charCodeAt(0) + 32);
         });
     };
@@ -1350,8 +1350,8 @@ if (!String.prototype.toLowerCase) {
  * @returns {string} The calling string value converted to upper case
  */
 if (!String.prototype.toUpperCase) {
-    String.prototype.toUpperCase = function() {
-        return this.replace(/[a-z]/g, function(match) {
+    String.prototype.toUpperCase = function () {
+        return this.replace(/[a-z]/g, function (match) {
             return String.fromCharCode(match.charCodeAt(0) - 32);
         });
     };
@@ -1388,11 +1388,11 @@ if (!String.prototype.toUpperCase) {
  * ```
  */
 if (!String.prototype.includes) {
-    String.prototype.includes = function(search, start) {
+    String.prototype.includes = function (search, start) {
         if (typeof start !== 'number') {
             start = 0;
         }
-        
+
         if (start + search.length > this.length) {
             return false;
         } else {
@@ -1459,30 +1459,30 @@ if (!String.prototype.includes) {
  * ```
  */
 if (!Object.keys) {
-    Object.keys = (function() {
+    Object.keys = (function () {
         var hasOwnProperty = Object.prototype.hasOwnProperty;
-        var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
+        var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
         var dontEnums = [
             'toString', 'toLocaleString', 'valueOf', 'hasOwnProperty',
             'isPrototypeOf', 'propertyIsEnumerable', 'constructor'
         ];
         var dontEnumsLength = dontEnums.length;
 
-        return function(obj) {
+        return function (obj) {
             if (!isObject(obj) && !isFunction(obj)) {
                 throw new TypeError('Object.keys called on non-object');
             }
-            
+
             var result = [];
             var prop;
             var i;
-            
+
             for (prop in obj) {
                 if (hasOwnProperty.call(obj, prop)) {
                     result.push(prop);
                 }
             }
-            
+
             if (hasDontEnumBug) {
                 for (i = 0; i < dontEnumsLength; i++) {
                     if (hasOwnProperty.call(obj, dontEnums[i])) {
@@ -1490,10 +1490,80 @@ if (!Object.keys) {
                     }
                 }
             }
-            
+
             return result;
         };
     }());
+}
+
+// =============================================================================
+// OBJECT PROPERTY METHODS - Essential for modern property definitions
+// =============================================================================
+
+/**
+ * Define a property on an object, or modify an existing property
+ * 
+ * @param {Object} obj - The object on which to define the property
+ * @param {string} prop - The name of the property to be defined or modified
+ * @param {Object} descriptor - The descriptor for the property being defined or modified
+ * @returns {Object} The object that was passed to the function
+ * 
+ * @example ActionManager - Property definition for sentinels
+ * ```javascript
+ * Object.defineProperty(SimpleEnumerable.prototype, "isSentinel", {
+ *     get: function () {
+ *         return false;
+ *     },
+ *     enumerable: false,
+ *     configurable: true
+ * });
+ * ```
+ */
+if (!Object.defineProperty) {
+    Object.defineProperty = function (obj, prop, descriptor) {
+        if (!isObject(obj) && !isFunction(obj)) {
+            throw new TypeError('Object.defineProperty called on non-object');
+        }
+
+        // Handle getter/setter properties
+        if (descriptor.get || descriptor.set) {
+            // ExtendScript doesn't support true getters/setters, so we approximate
+            if (descriptor.get) {
+                // For getter-only properties, just set the value once
+                obj[prop] = descriptor.get.call(obj);
+            }
+            // Note: Setters are not fully supported in ES3, ignored for compatibility
+        }
+        // Handle regular value properties  
+        else if ('value' in descriptor) {
+            obj[prop] = descriptor.value;
+        }
+
+        return obj;
+    };
+}
+
+/**
+ * Define multiple properties on an object
+ * 
+ * @param {Object} obj - The object on which to define properties
+ * @param {Object} properties - An object of property descriptors
+ * @returns {Object} The object that was passed to the function
+ */
+if (!Object.defineProperties) {
+    Object.defineProperties = function (obj, properties) {
+        if (!isObject(obj) && !isFunction(obj)) {
+            throw new TypeError('Object.defineProperties called on non-object');
+        }
+
+        var keys = Object.keys(properties);
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            Object.defineProperty(obj, key, properties[key]);
+        }
+
+        return obj;
+    };
 }
 
 // =============================================================================
@@ -1534,26 +1604,26 @@ if (!Object.keys) {
  * ```
  */
 if (!Function.prototype.bind) {
-    Function.prototype.bind = function(oThis) {
+    Function.prototype.bind = function (oThis) {
         if (!isFunction(this)) {
             throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
         }
-        
+
         var aArgs = Array.prototype.slice.call(arguments, 1);
         var fToBind = this;
-        var fNOP = function() {};
-        var fBound = function() {
+        var fNOP = function () { };
+        var fBound = function () {
             return fToBind.apply(
                 this instanceof fNOP ? this : oThis,
                 aArgs.concat(Array.prototype.slice.call(arguments))
             );
         };
-        
+
         if (this.prototype) {
             fNOP.prototype = this.prototype;
         }
         fBound.prototype = new fNOP();
-        
+
         return fBound;
     };
 }
@@ -1569,7 +1639,7 @@ if (!Function.prototype.bind) {
  * @returns {number} The largest of the given numbers
  */
 if (!Math.max) {
-    Math.max = function() {
+    Math.max = function () {
         var max = -Infinity;
         for (var i = 0; i < arguments.length; i++) {
             var val = Number(arguments[i]);
@@ -1587,7 +1657,7 @@ if (!Math.max) {
  * @returns {number} The smallest of the given numbers
  */
 if (!Math.min) {
-    Math.min = function() {
+    Math.min = function () {
         var min = Infinity;
         for (var i = 0; i < arguments.length; i++) {
             var val = Number(arguments[i]);
@@ -1623,7 +1693,7 @@ if (!Math.min) {
  * ```
  */
 if (!Date.now) {
-    Date.now = function() {
+    Date.now = function () {
         return new Date().getTime();
     };
 }
@@ -1636,7 +1706,7 @@ if (!Date.now) {
  * Verify that all essential polyfills are available
  * This runs automatically when the script is included
  */
-(function() {
+(function () {
     var requiredMethods = [
         'Array.isArray',
         'Array.prototype.slice',
@@ -1652,17 +1722,19 @@ if (!Date.now) {
         'String.prototype.split',
         'String.prototype.includes',
         'Object.keys',
+        'Object.defineProperty',        // Add this line
+        'Object.defineProperties',      // Add this line
         'Function.prototype.bind',
         'Date.now'
     ];
-    
+
     var missing = [];
-    
+
     for (var i = 0; i < requiredMethods.length; i++) {
         var method = requiredMethods[i];
         var parts = method.split('.');
         var obj = this;
-        
+
         for (var j = 0; j < parts.length; j++) {
             if (parts[j] === 'prototype') {
                 obj = obj.prototype;
@@ -1671,12 +1743,12 @@ if (!Date.now) {
                 if (!obj) break;
             }
         }
-        
+
         if (!obj) {
             missing.push(method);
         }
     }
-    
+
     if (missing.length > 0 && typeof $ !== 'undefined' && $ && $.writeln) {
         $.writeln('ExtendScript Polyfills: Missing methods after polyfill load: ' + missing.join(', '));
     } else if (missing.length === 0 && typeof $ !== 'undefined' && $ && $.writeln) {
